@@ -1,50 +1,50 @@
 /*********************************************************************************************************************
-* TC264 Opensourec Library ¼´£¨TC264 ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈý·½¿ªÔ´¿â
-* Copyright (c) 2022 SEEKFREE Öð·É¿Æ¼¼
+* TC264 Opensourec Library å³ï¼ˆTC264 å¼€æºåº“ï¼‰æ˜¯ä¸€ä¸ªåŸºäºŽå®˜æ–¹ SDK æŽ¥å£çš„ç¬¬ä¸‰æ–¹å¼€æºåº“
+* Copyright (c) 2022 SEEKFREE é€é£žç§‘æŠ€
 *
-* ±¾ÎÄ¼þÊÇ TC264 ¿ªÔ´¿âµÄÒ»²¿·Ö
+* æœ¬æ–‡ä»¶æ˜¯ TC264 å¼€æºåº“çš„ä¸€éƒ¨åˆ†
 *
-* TC264 ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼þ
-* Äú¿ÉÒÔ¸ù¾Ý×ÔÓÉÈí¼þ»ù½ð»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ðí¿ÉÖ¤£©µÄÌõ¿î
-* ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØÐÂ·¢²¼ºÍ/»òÐÞ¸ÄËü
+* TC264 å¼€æºåº“ æ˜¯å…è´¹è½¯ä»¶
+* æ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GPLï¼ˆGNU General Public Licenseï¼Œå³ GNUé€šç”¨å…¬å…±è®¸å¯è¯ï¼‰çš„æ¡æ¬¾
+* å³ GPL çš„ç¬¬3ç‰ˆï¼ˆå³ GPL3.0ï¼‰æˆ–ï¼ˆæ‚¨é€‰æ‹©çš„ï¼‰ä»»ä½•åŽæ¥çš„ç‰ˆæœ¬ï¼Œé‡æ–°å‘å¸ƒå’Œ/æˆ–ä¿®æ”¹å®ƒ
 *
-* ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
-* ÉõÖÁÃ»ÓÐÒþº¬µÄÊÊÏúÐÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
-* ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+* æœ¬å¼€æºåº“çš„å‘å¸ƒæ˜¯å¸Œæœ›å®ƒèƒ½å‘æŒ¥ä½œç”¨ï¼Œä½†å¹¶æœªå¯¹å…¶ä½œä»»ä½•çš„ä¿è¯
+* ç”šè‡³æ²¡æœ‰éšå«çš„é€‚é”€æ€§æˆ–é€‚åˆç‰¹å®šç”¨é€”çš„ä¿è¯
+* æ›´å¤šç»†èŠ‚è¯·å‚è§ GPL
 *
-* ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·Ý GPL µÄ¸±±¾
-* Èç¹ûÃ»ÓÐ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+* æ‚¨åº”è¯¥åœ¨æ”¶åˆ°æœ¬å¼€æºåº“çš„åŒæ—¶æ”¶åˆ°ä¸€ä»½ GPL çš„å‰¯æœ¬
+* å¦‚æžœæ²¡æœ‰ï¼Œè¯·å‚é˜…<https://www.gnu.org/licenses/>
 *
-* ¶îÍâ×¢Ã÷£º
-* ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ðí¿ÉÖ¤Ð­Òé ÒÔÉÏÐí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
-* Ðí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼þ¼ÐÏÂµÄ GPL3_permission_statement.txt ÎÄ¼þÖÐ
-* Ðí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼þ¼ÐÏÂ ¼´¸ÃÎÄ¼þ¼ÐÏÂµÄ LICENSE ÎÄ¼þ
-* »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò µ«ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+* é¢å¤–æ³¨æ˜Žï¼š
+* æœ¬å¼€æºåº“ä½¿ç”¨ GPL3.0 å¼€æºè®¸å¯è¯åè®® ä»¥ä¸Šè®¸å¯ç”³æ˜Žä¸ºè¯‘æ–‡ç‰ˆæœ¬
+* è®¸å¯ç”³æ˜Žè‹±æ–‡ç‰ˆåœ¨ libraries/doc æ–‡ä»¶å¤¹ä¸‹çš„ GPL3_permission_statement.txt æ–‡ä»¶ä¸­
+* è®¸å¯è¯å‰¯æœ¬åœ¨ libraries æ–‡ä»¶å¤¹ä¸‹ å³è¯¥æ–‡ä»¶å¤¹ä¸‹çš„ LICENSE æ–‡ä»¶
+* æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åº ä½†ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žï¼ˆå³æœ¬å£°æ˜Žï¼‰
 *
-* ÎÄ¼þÃû³Æ          zf_device_ips114
-* ¹«Ë¾Ãû³Æ          ³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
-* °æ±¾ÐÅÏ¢          ²é¿´ libraries/doc ÎÄ¼þ¼ÐÄÚ version ÎÄ¼þ °æ±¾ËµÃ÷
-* ¿ª·¢»·¾³          ADS v1.8.0
-* ÊÊÓÃÆ½Ì¨          TC264D
-* µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+* æ–‡ä»¶åç§°          zf_device_ips114
+* å…¬å¸åç§°          æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+* ç‰ˆæœ¬ä¿¡æ¯          æŸ¥çœ‹ libraries/doc æ–‡ä»¶å¤¹å†… version æ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
+* å¼€å‘çŽ¯å¢ƒ          ADS v1.8.0
+* é€‚ç”¨å¹³å°          TC264D
+* åº—é“ºé“¾æŽ¥          https://seekfree.taobao.com/
 *
-* ÐÞ¸Ä¼ÇÂ¼
-* ÈÕÆÚ              ×÷Õß                ±¸×¢
+* ä¿®æ”¹è®°å½•
+* æ—¥æœŸ              ä½œè€…                å¤‡æ³¨
 * 2022-09-15       pudding            first version
 ********************************************************************************************************************/
 /********************************************************************************************************************
-* ½ÓÏß¶¨Òå£º
+* æŽ¥çº¿å®šä¹‰ï¼š
 *                  ------------------------------------
-*                  Ä£¿é¹Ü½Å              µ¥Æ¬»ú¹Ü½Å
-*                  SCL                 ²é¿´ zf_device_ips114.h ÖÐ IPS114_SCL_PIN ºê¶¨Òå
-*                  SDA                 ²é¿´ zf_device_ips114.h ÖÐ IPS114_SDA_PIN ºê¶¨Òå
-*                  RST                 ²é¿´ zf_device_ips114.h ÖÐ IPS114_RST_PIN ºê¶¨Òå
-*                  DC                  ²é¿´ zf_device_ips114.h ÖÐ IPS114_DC_PIN ºê¶¨Òå
-*                  CS                  ²é¿´ zf_device_ips114.h ÖÐ IPS114_CS_PIN ºê¶¨Òå
-*                  BLK                 ²é¿´ zf_device_ips114.h ÖÐ IPS114_BLK_PIN ºê¶¨Òå
-*                  VCC                 3 .3VµçÔ´
-*                  GND                 µçÔ´µØ
-*                  ×î´ó·Ö±æÂÊ 135 * 240
+*                  æ¨¡å—ç®¡è„š              å•ç‰‡æœºç®¡è„š
+*                  SCL                 æŸ¥çœ‹ zf_device_ips114.h ä¸­ IPS114_SCL_PIN å®å®šä¹‰
+*                  SDA                 æŸ¥çœ‹ zf_device_ips114.h ä¸­ IPS114_SDA_PIN å®å®šä¹‰
+*                  RST                 æŸ¥çœ‹ zf_device_ips114.h ä¸­ IPS114_RST_PIN å®å®šä¹‰
+*                  DC                  æŸ¥çœ‹ zf_device_ips114.h ä¸­ IPS114_DC_PIN å®å®šä¹‰
+*                  CS                  æŸ¥çœ‹ zf_device_ips114.h ä¸­ IPS114_CS_PIN å®å®šä¹‰
+*                  BLK                 æŸ¥çœ‹ zf_device_ips114.h ä¸­ IPS114_BLK_PIN å®å®šä¹‰
+*                  VCC                 3 .3Vç”µæº
+*                  GND                 ç”µæºåœ°
+*                  æœ€å¤§åˆ†è¾¨çŽ‡ 135 * 240
 *                  ------------------------------------
 ********************************************************************************************************************/
 
@@ -67,48 +67,48 @@ static uint8                    ips114_y_max        = 135;
 #if IPS114_USE_SOFT_SPI
 static soft_spi_info_struct             ips114_spi;
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 SPI Ð´ 8bit Êý¾Ý
-// ²ÎÊýËµÃ÷     data            Êý¾Ý
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_write_8bit_data(dat);
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿µ÷ÓÃ
+// å‡½æ•°ç®€ä»‹     IPS114 SPI å†™ 8bit æ•°æ®
+// å‚æ•°è¯´æ˜Ž     data            æ•°æ®
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_write_8bit_data(dat);
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 #define ips114_write_8bit_data(data)    (soft_spi_write_8bit(&ips114_spi, (data)))
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 SPI Ð´ 16bit Êý¾Ý
-// ²ÎÊýËµÃ÷     data            Êý¾Ý
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_write_16bit_data(x1 + 52);
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿µ÷ÓÃ
+// å‡½æ•°ç®€ä»‹     IPS114 SPI å†™ 16bit æ•°æ®
+// å‚æ•°è¯´æ˜Ž     data            æ•°æ®
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_write_16bit_data(x1 + 52);
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 #define ips114_write_16bit_data(data)   (soft_spi_write_16bit(&ips114_spi, (data)))
 #else
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 SPI Ð´ 8bit Êý¾Ý
-// ²ÎÊýËµÃ÷     data            Êý¾Ý
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_write_8bit_data(dat);
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿µ÷ÓÃ
+// å‡½æ•°ç®€ä»‹     IPS114 SPI å†™ 8bit æ•°æ®
+// å‚æ•°è¯´æ˜Ž     data            æ•°æ®
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_write_8bit_data(dat);
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 #define ips114_write_8bit_data(data)    (spi_write_8bit(IPS114_SPI, (data)))
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 SPI Ð´ 16bit Êý¾Ý
-// ²ÎÊýËµÃ÷     data            Êý¾Ý
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_write_16bit_data(x1 + 52);
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿µ÷ÓÃ
+// å‡½æ•°ç®€ä»‹     IPS114 SPI å†™ 16bit æ•°æ®
+// å‚æ•°è¯´æ˜Ž     data            æ•°æ®
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_write_16bit_data(x1 + 52);
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 #define ips114_write_16bit_data(data)   (spi_write_16bit(IPS114_SPI, (data)))
 #endif
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     Ð´ÃüÁî
-// ²ÎÊýËµÃ÷     dat             Êý¾Ý
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_write_index(0x2a);
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿µ÷ÓÃ
+// å‡½æ•°ç®€ä»‹     å†™å‘½ä»¤
+// å‚æ•°è¯´æ˜Ž     dat             æ•°æ®
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_write_index(0x2a);
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 static void ips114_write_index (const uint8 dat)
 {
@@ -118,20 +118,20 @@ static void ips114_write_index (const uint8 dat)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     ÉèÖÃÏÔÊ¾ÇøÓò
-// ²ÎÊýËµÃ÷     x1              ÆðÊ¼xÖá×ø±ê
-// ²ÎÊýËµÃ÷     y1              ÆðÊ¼yÖá×ø±ê
-// ²ÎÊýËµÃ÷     x2              ½áÊøxÖá×ø±ê
-// ²ÎÊýËµÃ÷     y2              ½áÊøyÖá×ø±ê
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_set_region(0, 0, ips114_x_max - 1, ips114_y_max - 1);
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿µ÷ÓÃ
+// å‡½æ•°ç®€ä»‹     è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ
+// å‚æ•°è¯´æ˜Ž     x1              èµ·å§‹xè½´åæ ‡
+// å‚æ•°è¯´æ˜Ž     y1              èµ·å§‹yè½´åæ ‡
+// å‚æ•°è¯´æ˜Ž     x2              ç»“æŸxè½´åæ ‡
+// å‚æ•°è¯´æ˜Ž     y2              ç»“æŸyè½´åæ ‡
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_set_region(0, 0, ips114_x_max - 1, ips114_y_max - 1);
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨è°ƒç”¨
 //-------------------------------------------------------------------------------------------------------------------
 static void ips114_set_region (const uint16 x1, const uint16 y1, const uint16 x2, const uint16 y2)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
-    // ¼ì²éÒ»ÏÂÄãµÄÏÔÊ¾µ÷ÓÃµÄº¯Êý ×Ô¼º¼ÆËãÒ»ÏÂÄÄÀï³¬¹ýÁËÆÁÄ»ÏÔÊ¾·¶Î§
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
+    // æ£€æŸ¥ä¸€ä¸‹ä½ çš„æ˜¾ç¤ºè°ƒç”¨çš„å‡½æ•° è‡ªå·±è®¡ç®—ä¸€ä¸‹å“ªé‡Œè¶…è¿‡äº†å±å¹•æ˜¾ç¤ºèŒƒå›´
     zf_assert(x1 < ips114_x_max);
     zf_assert(y1 < ips114_y_max);
     zf_assert(x2 < ips114_x_max);
@@ -139,52 +139,52 @@ static void ips114_set_region (const uint16 x1, const uint16 y1, const uint16 x2
 
     if(ips114_display_dir == IPS114_PORTAIT)
     {
-        ips114_write_index(0x2a);                                               // ÁÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2a);                                               // åˆ—åœ°å€è®¾ç½®
         ips114_write_16bit_data(x1 + 52);
         ips114_write_16bit_data(x2 + 52);
-        ips114_write_index(0x2b);                                               // ÐÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2b);                                               // è¡Œåœ°å€è®¾ç½®
         ips114_write_16bit_data(y1 + 40);
         ips114_write_16bit_data(y2 + 40);
-        ips114_write_index(0x2c);                                               // ´¢´æÆ÷Ð´
+        ips114_write_index(0x2c);                                               // å‚¨å­˜å™¨å†™
     }
     else if(ips114_display_dir == IPS114_PORTAIT_180)
     {
-        ips114_write_index(0x2a);                                               // ÁÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2a);                                               // åˆ—åœ°å€è®¾ç½®
         ips114_write_16bit_data(x1 + 53);
         ips114_write_16bit_data(x2 + 53);
-        ips114_write_index(0x2b);                                               // ÐÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2b);                                               // è¡Œåœ°å€è®¾ç½®
         ips114_write_16bit_data(y1 + 40);
         ips114_write_16bit_data(y2 + 40);
-        ips114_write_index(0x2c);                                               // ´¢´æÆ÷Ð´
+        ips114_write_index(0x2c);                                               // å‚¨å­˜å™¨å†™
     }
     else if(ips114_display_dir == IPS114_CROSSWISE)
     {
-        ips114_write_index(0x2a);                                               // ÁÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2a);                                               // åˆ—åœ°å€è®¾ç½®
         ips114_write_16bit_data(x1 + 40);
         ips114_write_16bit_data(x2 + 40);
-        ips114_write_index(0x2b);                                               // ÐÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2b);                                               // è¡Œåœ°å€è®¾ç½®
         ips114_write_16bit_data(y1 + 53);
         ips114_write_16bit_data(y2 + 53);
-        ips114_write_index(0x2c);                                               // ´¢´æÆ÷Ð´
+        ips114_write_index(0x2c);                                               // å‚¨å­˜å™¨å†™
     }
     else
     {
-        ips114_write_index(0x2a);                                               // ÁÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2a);                                               // åˆ—åœ°å€è®¾ç½®
         ips114_write_16bit_data(x1 + 40);
         ips114_write_16bit_data(x2 + 40);
-        ips114_write_index(0x2b);                                               // ÐÐµØÖ·ÉèÖÃ
+        ips114_write_index(0x2b);                                               // è¡Œåœ°å€è®¾ç½®
         ips114_write_16bit_data(y1 + 52);
         ips114_write_16bit_data(y2 + 52);
-        ips114_write_index(0x2c);                                               // ´¢´æÆ÷Ð´
+        ips114_write_index(0x2c);                                               // å‚¨å­˜å™¨å†™
     }
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     1.14´ç IPS Òº¾§ÏÔÊ¾DEBUGÐÅÏ¢³õÊ¼»¯
-// ²ÎÊýËµÃ÷     void
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_debug_init();
-// ±¸×¢ÐÅÏ¢     ÄÚ²¿Ê¹ÓÃ
+// å‡½æ•°ç®€ä»‹     1.14å¯¸ IPS æ¶²æ™¶æ˜¾ç¤ºDEBUGä¿¡æ¯åˆå§‹åŒ–
+// å‚æ•°è¯´æ˜Ž     void
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_debug_init();
+// å¤‡æ³¨ä¿¡æ¯     å†…éƒ¨ä½¿ç”¨
 //-------------------------------------------------------------------------------------------------------------------
 static void ips114_debug_init (void)
 {
@@ -206,7 +206,7 @@ static void ips114_debug_init (void)
             info.font_y_size = 16;
             break;
         case IPS114_16X16_FONT:
-            // ÔÝ²»Ö§³Ö
+            // æš‚ä¸æ”¯æŒ
             break;
     }
     info.output_screen = ips114_show_string;
@@ -216,11 +216,11 @@ static void ips114_debug_init (void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÇåÆÁº¯Êý
-// ²ÎÊýËµÃ÷     void
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_clear();
-// ±¸×¢ÐÅÏ¢     ½«ÆÁÄ»Çå¿Õ³É±³¾°ÑÕÉ«
+// å‡½æ•°ç®€ä»‹     IPS114 æ¸…å±å‡½æ•°
+// å‚æ•°è¯´æ˜Ž     void
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_clear();
+// å¤‡æ³¨ä¿¡æ¯     å°†å±å¹•æ¸…ç©ºæˆèƒŒæ™¯é¢œè‰²
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_clear (void)
 {
@@ -236,11 +236,11 @@ void ips114_clear (void)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÆÁÄ»Ìî³äº¯Êý
-// ²ÎÊýËµÃ÷     color           ÑÕÉ«¸ñÊ½ RGB565 »òÕß¿ÉÒÔÊ¹ÓÃ zf_common_font.h ÄÚ rgb565_color_enum Ã¶¾ÙÖµ»òÕß×ÔÐÐÐ´Èë
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_full(RGB565_BLACK);
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 å±å¹•å¡«å……å‡½æ•°
+// å‚æ•°è¯´æ˜Ž     color           é¢œè‰²æ ¼å¼ RGB565 æˆ–è€…å¯ä»¥ä½¿ç”¨ zf_common_font.h å†… rgb565_color_enum æžšä¸¾å€¼æˆ–è€…è‡ªè¡Œå†™å…¥
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_full(RGB565_BLACK);
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_full (const uint16 color)
 {
@@ -256,11 +256,11 @@ void ips114_full (const uint16 color)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     ÉèÖÃÏÔÊ¾·½Ïò
-// ²ÎÊýËµÃ÷     dir             ÏÔÊ¾·½Ïò  ²ÎÕÕ zf_device_ips114.h ÄÚ ips114_dir_enum Ã¶¾ÙÌå¶¨Òå
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_set_dir(IPS114_CROSSWISE);
-// ±¸×¢ÐÅÏ¢     Õâ¸öº¯ÊýÖ»ÓÐÔÚ³õÊ¼»¯ÆÁÄ»Ö®Ç°µ÷ÓÃ²ÅÉúÐ§
+// å‡½æ•°ç®€ä»‹     è®¾ç½®æ˜¾ç¤ºæ–¹å‘
+// å‚æ•°è¯´æ˜Ž     dir             æ˜¾ç¤ºæ–¹å‘  å‚ç…§ zf_device_ips114.h å†… ips114_dir_enum æžšä¸¾ä½“å®šä¹‰
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_set_dir(IPS114_CROSSWISE);
+// å¤‡æ³¨ä¿¡æ¯     è¿™ä¸ªå‡½æ•°åªæœ‰åœ¨åˆå§‹åŒ–å±å¹•ä¹‹å‰è°ƒç”¨æ‰ç”Ÿæ•ˆ
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_set_dir (ips114_dir_enum dir)
 {
@@ -278,11 +278,11 @@ void ips114_set_dir (ips114_dir_enum dir)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     ÉèÖÃÏÔÊ¾×ÖÌå
-// ²ÎÊýËµÃ÷     dir             ÏÔÊ¾·½Ïò  ²ÎÕÕ zf_device_ips114.h ÄÚ ips114_font_size_enum Ã¶¾ÙÌå¶¨Òå
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_set_font(IPS114_8x16_FONT);
-// ±¸×¢ÐÅÏ¢     ×ÖÌå¿ÉÒÔËæÊ±×ÔÓÉÉèÖÃ ÉèÖÃºóÉúÐ§ ºóÐøÏÔÊ¾¾ÍÊÇÐÂµÄ×ÖÌå´óÐ¡
+// å‡½æ•°ç®€ä»‹     è®¾ç½®æ˜¾ç¤ºå­—ä½“
+// å‚æ•°è¯´æ˜Ž     dir             æ˜¾ç¤ºæ–¹å‘  å‚ç…§ zf_device_ips114.h å†… ips114_font_size_enum æžšä¸¾ä½“å®šä¹‰
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_set_font(IPS114_8x16_FONT);
+// å¤‡æ³¨ä¿¡æ¯     å­—ä½“å¯ä»¥éšæ—¶è‡ªç”±è®¾ç½® è®¾ç½®åŽç”Ÿæ•ˆ åŽç»­æ˜¾ç¤ºå°±æ˜¯æ–°çš„å­—ä½“å¤§å°
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_set_font (ips114_font_size_enum font)
 {
@@ -290,12 +290,12 @@ void ips114_set_font (ips114_font_size_enum font)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     ÉèÖÃÏÔÊ¾ÑÕÉ«
-// ²ÎÊýËµÃ÷     pen             ÑÕÉ«¸ñÊ½ RGB565 »òÕß¿ÉÒÔÊ¹ÓÃ zf_common_font.h ÄÚ rgb565_color_enum Ã¶¾ÙÖµ»òÕß×ÔÐÐÐ´Èë
-// ²ÎÊýËµÃ÷     bgcolor         ÑÕÉ«¸ñÊ½ RGB565 »òÕß¿ÉÒÔÊ¹ÓÃ zf_common_font.h ÄÚ rgb565_color_enum Ã¶¾ÙÖµ»òÕß×ÔÐÐÐ´Èë
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_set_color(RGB565_WHITE, RGB565_BLACK);
-// ±¸×¢ÐÅÏ¢     ×ÖÌåÑÕÉ«ºÍ±³¾°ÑÕÉ«Ò²¿ÉÒÔËæÊ±×ÔÓÉÉèÖÃ ÉèÖÃºóÉúÐ§
+// å‡½æ•°ç®€ä»‹     è®¾ç½®æ˜¾ç¤ºé¢œè‰²
+// å‚æ•°è¯´æ˜Ž     pen             é¢œè‰²æ ¼å¼ RGB565 æˆ–è€…å¯ä»¥ä½¿ç”¨ zf_common_font.h å†… rgb565_color_enum æžšä¸¾å€¼æˆ–è€…è‡ªè¡Œå†™å…¥
+// å‚æ•°è¯´æ˜Ž     bgcolor         é¢œè‰²æ ¼å¼ RGB565 æˆ–è€…å¯ä»¥ä½¿ç”¨ zf_common_font.h å†… rgb565_color_enum æžšä¸¾å€¼æˆ–è€…è‡ªè¡Œå†™å…¥
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_set_color(RGB565_WHITE, RGB565_BLACK);
+// å¤‡æ³¨ä¿¡æ¯     å­—ä½“é¢œè‰²å’ŒèƒŒæ™¯é¢œè‰²ä¹Ÿå¯ä»¥éšæ—¶è‡ªç”±è®¾ç½® è®¾ç½®åŽç”Ÿæ•ˆ
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_set_color (const uint16 pen, const uint16 bgcolor)
 {
@@ -304,18 +304,18 @@ void ips114_set_color (const uint16 pen, const uint16 bgcolor)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 »­µã
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     color           ÑÕÉ«¸ñÊ½ RGB565 »òÕß¿ÉÒÔÊ¹ÓÃ zf_common_font.h ÄÚ rgb565_color_enum Ã¶¾ÙÖµ»òÕß×ÔÐÐÐ´Èë
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_draw_point(0, 0, RGB565_RED);            // ×ø±ê 0,0 »­Ò»¸öºìÉ«µÄµã
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 ç”»ç‚¹
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     color           é¢œè‰²æ ¼å¼ RGB565 æˆ–è€…å¯ä»¥ä½¿ç”¨ zf_common_font.h å†… rgb565_color_enum æžšä¸¾å€¼æˆ–è€…è‡ªè¡Œå†™å…¥
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_draw_point(0, 0, RGB565_RED);            // åæ ‡ 0,0 ç”»ä¸€ä¸ªçº¢è‰²çš„ç‚¹
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_draw_point (uint16 x, uint16 y, const uint16 color)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
 
@@ -326,20 +326,20 @@ void ips114_draw_point (uint16 x, uint16 y, const uint16 color)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 »­Ïß
-// ²ÎÊýËµÃ÷     x_start         ×ø±êx·½ÏòµÄÆðµã
-// ²ÎÊýËµÃ÷     y_start         ×ø±êy·½ÏòµÄÆðµã
-// ²ÎÊýËµÃ÷     x_end           ×ø±êx·½ÏòµÄÖÕµã
-// ²ÎÊýËµÃ÷     y_end           ×ø±êy·½ÏòµÄÖÕµã
-// ²ÎÊýËµÃ÷     color           ÑÕÉ«¸ñÊ½ RGB565 »òÕß¿ÉÒÔÊ¹ÓÃ zf_common_font.h ÄÚ rgb565_color_enum Ã¶¾ÙÖµ»òÕß×ÔÐÐÐ´Èë
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_draw_line(0, 0, 10, 10, RGB565_RED);     // ×ø±ê 0,0 µ½ 10,10 »­Ò»ÌõºìÉ«µÄÏß
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 ç”»çº¿
+// å‚æ•°è¯´æ˜Ž     x_start         åæ ‡xæ–¹å‘çš„èµ·ç‚¹
+// å‚æ•°è¯´æ˜Ž     y_start         åæ ‡yæ–¹å‘çš„èµ·ç‚¹
+// å‚æ•°è¯´æ˜Ž     x_end           åæ ‡xæ–¹å‘çš„ç»ˆç‚¹
+// å‚æ•°è¯´æ˜Ž     y_end           åæ ‡yæ–¹å‘çš„ç»ˆç‚¹
+// å‚æ•°è¯´æ˜Ž     color           é¢œè‰²æ ¼å¼ RGB565 æˆ–è€…å¯ä»¥ä½¿ç”¨ zf_common_font.h å†… rgb565_color_enum æžšä¸¾å€¼æˆ–è€…è‡ªè¡Œå†™å…¥
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_draw_line(0, 0, 10, 10, RGB565_RED);     // åæ ‡ 0,0 åˆ° 10,10 ç”»ä¸€æ¡çº¢è‰²çš„çº¿
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_draw_line (uint16 x_start, uint16 y_start, uint16 x_end, uint16 y_end, const uint16 color)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x_start < ips114_x_max);
     zf_assert(y_start < ips114_y_max);
     zf_assert(x_end < ips114_x_max);
@@ -388,18 +388,18 @@ void ips114_draw_line (uint16 x_start, uint16 y_start, uint16 x_end, uint16 y_en
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾×Ö·û
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     dat             ÐèÒªÏÔÊ¾µÄ×Ö·û
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_char(0, 0, 'x');                    // ×ø±ê 0,0 Ð´Ò»¸ö×Ö·û x
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤ºå­—ç¬¦
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     dat             éœ€è¦æ˜¾ç¤ºçš„å­—ç¬¦
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_char(0, 0, 'x');                    // åæ ‡ 0,0 å†™ä¸€ä¸ªå­—ç¬¦ x
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_char (uint16 x, uint16 y, const char dat)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
 
@@ -412,7 +412,7 @@ void ips114_show_char (uint16 x, uint16 y, const char dat)
             for(i = 0; i < 6; i ++)
             {
                 ips114_set_region(x + i, y, x + i, y + 8);
-                // ¼õ 32 ÒòÎªÊÇÈ¡Ä£ÊÇ´Ó¿Õ¸ñ¿ªÊ¼È¡µÃ ¿Õ¸ñÔÚ ascii ÖÐÐòºÅÊÇ 32
+                // å‡ 32 å› ä¸ºæ˜¯å–æ¨¡æ˜¯ä»Žç©ºæ ¼å¼€å§‹å–å¾— ç©ºæ ¼åœ¨ ascii ä¸­åºå·æ˜¯ 32
                 uint8 temp_top = ascii_font_6x8[dat - 32][i];
                 for(j = 0; j < 8; j ++)
                 {
@@ -432,7 +432,7 @@ void ips114_show_char (uint16 x, uint16 y, const char dat)
             for(i = 0; i < 8; i ++)
             {
                 ips114_set_region(x + i, y, x + i, y + 15);
-                // ¼õ 32 ÒòÎªÊÇÈ¡Ä£ÊÇ´Ó¿Õ¸ñ¿ªÊ¼È¡µÃ ¿Õ¸ñÔÚ ascii ÖÐÐòºÅÊÇ 32
+                // å‡ 32 å› ä¸ºæ˜¯å–æ¨¡æ˜¯ä»Žç©ºæ ¼å¼€å§‹å–å¾— ç©ºæ ¼åœ¨ ascii ä¸­åºå·æ˜¯ 32
                 uint8 temp_top = ascii_font_8x16[dat - 32][i];
                 uint8 temp_bottom = ascii_font_8x16[dat - 32][i + 8];
                 for(j = 0; j < 8; j ++)
@@ -462,25 +462,25 @@ void ips114_show_char (uint16 x, uint16 y, const char dat)
             }
             break;
         case IPS114_16X16_FONT:
-            // ÔÝ²»Ö§³Ö
+            // æš‚ä¸æ”¯æŒ
             break;
     }
     IPS114_CS(1);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾×Ö·û´®
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     dat             ÐèÒªÏÔÊ¾µÄ×Ö·û´®
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_string(0, 0, "seekfree");
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤ºå­—ç¬¦ä¸²
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     dat             éœ€è¦æ˜¾ç¤ºçš„å­—ç¬¦ä¸²
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_string(0, 0, "seekfree");
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_string (uint16 x, uint16 y, const char dat[])
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
 
@@ -498,26 +498,26 @@ void ips114_show_string (uint16 x, uint16 y, const char dat[])
                 j ++;
                 break;
             case IPS114_16X16_FONT:
-                // ÔÝ²»Ö§³Ö
+                // æš‚ä¸æ”¯æŒ
                 break;
         }
     }
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾32Î»ÓÐ·ûºÅ (È¥³ýÕûÊý²¿·ÖÎÞÐ§µÄ0)
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     dat             ÐèÒªÏÔÊ¾µÄ±äÁ¿ Êý¾ÝÀàÐÍ int32
-// ²ÎÊýËµÃ÷     num             ÐèÒªÏÔÊ¾µÄÎ»Êý ×î¸ß10Î»  ²»°üº¬Õý¸ººÅ
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_int(0, 0, x, 3);                    // x ¿ÉÒÔÎª int32 int16 int8 ÀàÐÍ
-// ±¸×¢ÐÅÏ¢     ¸ºÊý»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕýÊýÏÔÊ¾Ò»¸ö¿Õ¸ñ
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤º32ä½æœ‰ç¬¦å· (åŽ»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     dat             éœ€è¦æ˜¾ç¤ºçš„å˜é‡ æ•°æ®ç±»åž‹ int32
+// å‚æ•°è¯´æ˜Ž     num             éœ€è¦æ˜¾ç¤ºçš„ä½æ•° æœ€é«˜10ä½  ä¸åŒ…å«æ­£è´Ÿå·
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_int(0, 0, x, 3);                    // x å¯ä»¥ä¸º int32 int16 int8 ç±»åž‹
+// å¤‡æ³¨ä¿¡æ¯     è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_int (uint16 x, uint16 y, const int32 dat, uint8 num)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(num > 0);
@@ -543,19 +543,19 @@ void ips114_show_int (uint16 x, uint16 y, const int32 dat, uint8 num)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾32Î»ÎÞ·ûºÅ (È¥³ýÕûÊý²¿·ÖÎÞÐ§µÄ0)
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     dat             ÐèÒªÏÔÊ¾µÄ±äÁ¿ Êý¾ÝÀàÐÍ uint32
-// ²ÎÊýËµÃ÷     num             ÐèÒªÏÔÊ¾µÄÎ»Êý ×î¸ß10Î»  ²»°üº¬Õý¸ººÅ
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_uint(0, 0, x, 3);                   // x ¿ÉÒÔÎª uint32 uint16 uint8 ÀàÐÍ
-// ±¸×¢ÐÅÏ¢     ¸ºÊý»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕýÊýÏÔÊ¾Ò»¸ö¿Õ¸ñ
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤º32ä½æ— ç¬¦å· (åŽ»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     dat             éœ€è¦æ˜¾ç¤ºçš„å˜é‡ æ•°æ®ç±»åž‹ uint32
+// å‚æ•°è¯´æ˜Ž     num             éœ€è¦æ˜¾ç¤ºçš„ä½æ•° æœ€é«˜10ä½  ä¸åŒ…å«æ­£è´Ÿå·
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_uint(0, 0, x, 3);                   // x å¯ä»¥ä¸º uint32 uint16 uint8 ç±»åž‹
+// å¤‡æ³¨ä¿¡æ¯     è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_uint (uint16 x, uint16 y, const uint32 dat, uint8 num)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(num > 0);
@@ -580,23 +580,23 @@ void ips114_show_uint (uint16 x, uint16 y, const uint32 dat, uint8 num)
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾¸¡µãÊý (È¥³ýÕûÊý²¿·ÖÎÞÐ§µÄ0)
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     dat             ÐèÒªÏÔÊ¾µÄ±äÁ¿ Êý¾ÝÀàÐÍ float »ò double
-// ²ÎÊýËµÃ÷     num             ÕûÊýÎ»ÏÔÊ¾³¤¶È   ×î¸ß8Î»
-// ²ÎÊýËµÃ÷     pointnum        Ð¡ÊýÎ»ÏÔÊ¾³¤¶È   ×î¸ß6Î»
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_float(0, 0, x, 2, 3);               // ÏÔÊ¾¸¡µãÊý ÕûÊýÏÔÊ¾ 2 Î» Ð¡ÊýÏÔÊ¾ 3 Î»
-// ±¸×¢ÐÅÏ¢     ÌØ±ð×¢Òâµ±·¢ÏÖÐ¡Êý²¿·ÖÏÔÊ¾µÄÖµÓëÄãÐ´ÈëµÄÖµ²»Ò»ÑùµÄÊ±ºò£¬
-//              ¿ÉÄÜÊÇÓÉÓÚ¸¡µãÊý¾«¶È¶ªÊ§ÎÊÌâµ¼ÖÂµÄ£¬Õâ²¢²»ÊÇÏÔÊ¾º¯ÊýµÄÎÊÌâ£¬
-//              ÓÐ¹ØÎÊÌâµÄÏêÇé£¬Çë×ÔÐÐ°Ù¶ÈÑ§Ï°   ¸¡µãÊý¾«¶È¶ªÊ§ÎÊÌâ¡£
-//              ¸ºÊý»áÏÔÊ¾Ò»¸ö ¡®-¡¯ºÅ   ÕýÊýÏÔÊ¾Ò»¸ö¿Õ¸ñ
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤ºæµ®ç‚¹æ•° (åŽ»é™¤æ•´æ•°éƒ¨åˆ†æ— æ•ˆçš„0)
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     dat             éœ€è¦æ˜¾ç¤ºçš„å˜é‡ æ•°æ®ç±»åž‹ float æˆ– double
+// å‚æ•°è¯´æ˜Ž     num             æ•´æ•°ä½æ˜¾ç¤ºé•¿åº¦   æœ€é«˜8ä½
+// å‚æ•°è¯´æ˜Ž     pointnum        å°æ•°ä½æ˜¾ç¤ºé•¿åº¦   æœ€é«˜6ä½
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_float(0, 0, x, 2, 3);               // æ˜¾ç¤ºæµ®ç‚¹æ•° æ•´æ•°æ˜¾ç¤º 2 ä½ å°æ•°æ˜¾ç¤º 3 ä½
+// å¤‡æ³¨ä¿¡æ¯     ç‰¹åˆ«æ³¨æ„å½“å‘çŽ°å°æ•°éƒ¨åˆ†æ˜¾ç¤ºçš„å€¼ä¸Žä½ å†™å…¥çš„å€¼ä¸ä¸€æ ·çš„æ—¶å€™ï¼Œ
+//              å¯èƒ½æ˜¯ç”±äºŽæµ®ç‚¹æ•°ç²¾åº¦ä¸¢å¤±é—®é¢˜å¯¼è‡´çš„ï¼Œè¿™å¹¶ä¸æ˜¯æ˜¾ç¤ºå‡½æ•°çš„é—®é¢˜ï¼Œ
+//              æœ‰å…³é—®é¢˜çš„è¯¦æƒ…ï¼Œè¯·è‡ªè¡Œç™¾åº¦å­¦ä¹    æµ®ç‚¹æ•°ç²¾åº¦ä¸¢å¤±é—®é¢˜ã€‚
+//              è´Ÿæ•°ä¼šæ˜¾ç¤ºä¸€ä¸ª â€˜-â€™å·   æ­£æ•°æ˜¾ç¤ºä¸€ä¸ªç©ºæ ¼
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_float (uint16 x, uint16 y, const float dat, uint8 num, uint8 pointnum)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(num > 0);
@@ -623,22 +623,22 @@ void ips114_show_float (uint16 x, uint16 y, const float dat, uint8 num, uint8 po
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾¶þÖµÍ¼Ïñ Êý¾ÝÃ¿°Ë¸öµã×é³ÉÒ»¸ö×Ö½ÚÊý¾Ý
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     *image          Í¼ÏñÊý×éÖ¸Õë
-// ²ÎÊýËµÃ÷     width           Í¼ÏñÊµ¼Ê¿í¶È
-// ²ÎÊýËµÃ÷     height          Í¼ÏñÊµ¼Ê¸ß¶È
-// ²ÎÊýËµÃ÷     dis_width       Í¼ÏñÏÔÊ¾¿í¶È ²ÎÊý·¶Î§ [0, ips114_x_max]
-// ²ÎÊýËµÃ÷     dis_height      Í¼ÏñÏÔÊ¾¸ß¶È ²ÎÊý·¶Î§ [0, ips114_y_max]
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_binary_image(0, 0, ov7725_image_binary[0], OV7725_W, OV7725_H, OV7725_W, OV7725_H);
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤ºäºŒå€¼å›¾åƒ æ•°æ®æ¯å…«ä¸ªç‚¹ç»„æˆä¸€ä¸ªå­—èŠ‚æ•°æ®
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     *image          å›¾åƒæ•°ç»„æŒ‡é’ˆ
+// å‚æ•°è¯´æ˜Ž     width           å›¾åƒå®žé™…å®½åº¦
+// å‚æ•°è¯´æ˜Ž     height          å›¾åƒå®žé™…é«˜åº¦
+// å‚æ•°è¯´æ˜Ž     dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦ å‚æ•°èŒƒå›´ [0, ips114_x_max]
+// å‚æ•°è¯´æ˜Ž     dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦ å‚æ•°èŒƒå›´ [0, ips114_y_max]
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_binary_image(0, 0, ov7725_image_binary[0], OV7725_W, OV7725_H, OV7725_W, OV7725_H);
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_binary_image (uint16 x, uint16 y, const uint8 *image, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(image != NULL);
@@ -648,7 +648,7 @@ void ips114_show_binary_image (uint16 x, uint16 y, const uint8 *image, uint16 wi
     uint32 width_index = 0, height_index = 0;
 
     IPS114_CS(0);
-    ips114_set_region(x, y, x + dis_width - 1, y + dis_height - 1);             // ÉèÖÃÏÔÊ¾ÇøÓò
+    ips114_set_region(x, y, x + dis_width - 1, y + dis_height - 1);             // è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ
 
     for(j = 0; j < dis_height; j ++)
     {
@@ -656,7 +656,7 @@ void ips114_show_binary_image (uint16 x, uint16 y, const uint8 *image, uint16 wi
         for(i = 0; i < dis_width; i ++)
         {
             width_index = i * width / dis_width;
-            temp = *(image + height_index * width / 8 + width_index / 8);       // ¶ÁÈ¡ÏñËØµã
+            temp = *(image + height_index * width / 8 + width_index / 8);       // è¯»å–åƒç´ ç‚¹
             if(0x80 & (temp << (width_index % 8)))
             {
                 ips114_write_16bit_data(RGB565_WHITE);
@@ -671,23 +671,23 @@ void ips114_show_binary_image (uint16 x, uint16 y, const uint8 *image, uint16 wi
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾ 8bit »Ò¶ÈÍ¼Ïñ ´ø¶þÖµ»¯ãÐÖµ
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     *image          Í¼ÏñÊý×éÖ¸Õë
-// ²ÎÊýËµÃ÷     width           Í¼ÏñÊµ¼Ê¿í¶È
-// ²ÎÊýËµÃ÷     height          Í¼ÏñÊµ¼Ê¸ß¶È
-// ²ÎÊýËµÃ÷     dis_width       Í¼ÏñÏÔÊ¾¿í¶È ²ÎÊý·¶Î§ [0, ips114_x_max]
-// ²ÎÊýËµÃ÷     dis_height      Í¼ÏñÏÔÊ¾¸ß¶È ²ÎÊý·¶Î§ [0, ips114_y_max]
-// ²ÎÊýËµÃ÷     threshold       ¶þÖµ»¯ÏÔÊ¾ãÐÖµ 0-²»¿ªÆô¶þÖµ»¯
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤º 8bit ç°åº¦å›¾åƒ å¸¦äºŒå€¼åŒ–é˜ˆå€¼
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     *image          å›¾åƒæ•°ç»„æŒ‡é’ˆ
+// å‚æ•°è¯´æ˜Ž     width           å›¾åƒå®žé™…å®½åº¦
+// å‚æ•°è¯´æ˜Ž     height          å›¾åƒå®žé™…é«˜åº¦
+// å‚æ•°è¯´æ˜Ž     dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦ å‚æ•°èŒƒå›´ [0, ips114_x_max]
+// å‚æ•°è¯´æ˜Ž     dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦ å‚æ•°èŒƒå›´ [0, ips114_y_max]
+// å‚æ•°è¯´æ˜Ž     threshold       äºŒå€¼åŒ–æ˜¾ç¤ºé˜ˆå€¼ 0-ä¸å¼€å¯äºŒå€¼åŒ–
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_gray_image (uint16 x, uint16 y, const uint8 *image, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height, uint8 threshold)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(image != NULL);
@@ -697,7 +697,7 @@ void ips114_show_gray_image (uint16 x, uint16 y, const uint8 *image, uint16 widt
     uint32 width_index = 0, height_index = 0;
 
     IPS114_CS(0);
-    ips114_set_region(x, y, x + dis_width - 1, y + dis_height - 1);             // ÉèÖÃÏÔÊ¾ÇøÓò
+    ips114_set_region(x, y, x + dis_width - 1, y + dis_height - 1);             // è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ
 
     for(j = 0; j < dis_height; j ++)
     {
@@ -705,7 +705,7 @@ void ips114_show_gray_image (uint16 x, uint16 y, const uint8 *image, uint16 widt
         for(i = 0; i < dis_width; i ++)
         {
             width_index = i * width / dis_width;
-            temp = *(image + height_index * width + width_index);               // ¶ÁÈ¡ÏñËØµã
+            temp = *(image + height_index * width + width_index);               // è¯»å–åƒç´ ç‚¹
             if(threshold == 0)
             {
                 color = (0x001f & ((temp) >> 3)) << 11;
@@ -727,23 +727,23 @@ void ips114_show_gray_image (uint16 x, uint16 y, const uint8 *image, uint16 widt
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾ RGB565 ²ÊÉ«Í¼Ïñ
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     *image          Í¼ÏñÊý×éÖ¸Õë
-// ²ÎÊýËµÃ÷     width           Í¼ÏñÊµ¼Ê¿í¶È
-// ²ÎÊýËµÃ÷     height          Í¼ÏñÊµ¼Ê¸ß¶È
-// ²ÎÊýËµÃ÷     dis_width       Í¼ÏñÏÔÊ¾¿í¶È ²ÎÊý·¶Î§ [0, ips114_x_max]
-// ²ÎÊýËµÃ÷     dis_height      Í¼ÏñÏÔÊ¾¸ß¶È ²ÎÊý·¶Î§ [0, ips114_y_max]
-// ²ÎÊýËµÃ÷     color_mode      É«²ÊÄ£Ê½ 0-µÍÎ»ÔÚÇ° 1-¸ßÎ»ÔÚÇ°
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_rgb565_image(0, 0, scc8660_image[0], SCC8660_W, SCC8660_H, SCC8660_W, SCC8660_H, 1);
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤º RGB565 å½©è‰²å›¾åƒ
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     *image          å›¾åƒæ•°ç»„æŒ‡é’ˆ
+// å‚æ•°è¯´æ˜Ž     width           å›¾åƒå®žé™…å®½åº¦
+// å‚æ•°è¯´æ˜Ž     height          å›¾åƒå®žé™…é«˜åº¦
+// å‚æ•°è¯´æ˜Ž     dis_width       å›¾åƒæ˜¾ç¤ºå®½åº¦ å‚æ•°èŒƒå›´ [0, ips114_x_max]
+// å‚æ•°è¯´æ˜Ž     dis_height      å›¾åƒæ˜¾ç¤ºé«˜åº¦ å‚æ•°èŒƒå›´ [0, ips114_y_max]
+// å‚æ•°è¯´æ˜Ž     color_mode      è‰²å½©æ¨¡å¼ 0-ä½Žä½åœ¨å‰ 1-é«˜ä½åœ¨å‰
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_rgb565_image(0, 0, scc8660_image[0], SCC8660_W, SCC8660_H, SCC8660_W, SCC8660_H, 1);
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_rgb565_image (uint16 x, uint16 y, const uint16 *image, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height, uint8 color_mode)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(image != NULL);
@@ -753,7 +753,7 @@ void ips114_show_rgb565_image (uint16 x, uint16 y, const uint16 *image, uint16 w
     uint32 width_index = 0, height_index = 0;
 
     IPS114_CS(0);
-    ips114_set_region(x, y, x + dis_width - 1, y + dis_height - 1);             // ÉèÖÃÏÔÊ¾ÇøÓò
+    ips114_set_region(x, y, x + dis_width - 1, y + dis_height - 1);             // è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ
 
     for(j = 0; j < dis_height; j ++)
     {
@@ -761,7 +761,7 @@ void ips114_show_rgb565_image (uint16 x, uint16 y, const uint16 *image, uint16 w
         for(i = 0; i < dis_width; i ++)
         {
             width_index = i * width / dis_width;
-            color = *(image + height_index * width + width_index);              // ¶ÁÈ¡ÏñËØµã
+            color = *(image + height_index * width + width_index);              // è¯»å–åƒç´ ç‚¹
             if(color_mode)
             {
                 color = ((color & 0xff) << 8) | (color >> 8);
@@ -773,22 +773,22 @@ void ips114_show_rgb565_image (uint16 x, uint16 y, const uint16 *image, uint16 w
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     IPS114 ÏÔÊ¾²¨ÐÎ
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     *wave           ²¨ÐÎÊý×éÖ¸Õë
-// ²ÎÊýËµÃ÷     width           ²¨ÐÎÊµ¼Ê¿í¶È
-// ²ÎÊýËµÃ÷     value_max       ²¨ÐÎÊµ¼Ê×î´óÖµ
-// ²ÎÊýËµÃ÷     dis_width       ²¨ÐÎÏÔÊ¾¿í¶È ²ÎÊý·¶Î§ [0, ips114_x_max]
-// ²ÎÊýËµÃ÷     dis_value_max   ²¨ÐÎÏÔÊ¾×î´óÖµ ²ÎÊý·¶Î§ [0, ips114_y_max]
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_wave(56,35,data,128,64,128,64);
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     IPS114 æ˜¾ç¤ºæ³¢å½¢
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     *wave           æ³¢å½¢æ•°ç»„æŒ‡é’ˆ
+// å‚æ•°è¯´æ˜Ž     width           æ³¢å½¢å®žé™…å®½åº¦
+// å‚æ•°è¯´æ˜Ž     value_max       æ³¢å½¢å®žé™…æœ€å¤§å€¼
+// å‚æ•°è¯´æ˜Ž     dis_width       æ³¢å½¢æ˜¾ç¤ºå®½åº¦ å‚æ•°èŒƒå›´ [0, ips114_x_max]
+// å‚æ•°è¯´æ˜Ž     dis_value_max   æ³¢å½¢æ˜¾ç¤ºæœ€å¤§å€¼ å‚æ•°èŒƒå›´ [0, ips114_y_max]
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_wave(56,35,data,128,64,128,64);
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_wave (uint16 x, uint16 y, const uint16 *wave, uint16 width, uint16 value_max, uint16 dis_width, uint16 dis_value_max)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(wave != NULL);
@@ -797,7 +797,7 @@ void ips114_show_wave (uint16 x, uint16 y, const uint16 *wave, uint16 width, uin
     uint32 width_index = 0, value_max_index = 0;
 
     IPS114_CS(0);
-    ips114_set_region(x, y, x + dis_width - 1, y + dis_value_max - 1);          // ÉèÖÃÏÔÊ¾ÇøÓò
+    ips114_set_region(x, y, x + dis_width - 1, y + dis_value_max - 1);          // è®¾ç½®æ˜¾ç¤ºåŒºåŸŸ
     for(i = 0; i < dis_value_max; i ++)
     {
         for(j = 0; j < dis_width; j ++)
@@ -816,21 +816,21 @@ void ips114_show_wave (uint16 x, uint16 y, const uint16 *wave, uint16 width, uin
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     ºº×ÖÏÔÊ¾
-// ²ÎÊýËµÃ÷     x               ×ø±êx·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_x_max-1]
-// ²ÎÊýËµÃ÷     y               ×ø±êy·½ÏòµÄÆðµã ²ÎÊý·¶Î§ [0, ips114_y_max-1]
-// ²ÎÊýËµÃ÷     size            È¡Ä£µÄÊ±ºòÉèÖÃµÄºº×Ö×ÖÌå´óÐ¡ Ò²¾ÍÊÇÒ»¸öºº×ÖÕ¼ÓÃµÄµãÕó³¤¿íÎª¶àÉÙ¸öµã È¡Ä£µÄÊ±ºòÐèÒª³¤¿íÊÇÒ»ÑùµÄ
-// ²ÎÊýËµÃ÷     *chinese_buffer ÐèÒªÏÔÊ¾µÄºº×ÖÊý×é
-// ²ÎÊýËµÃ÷     number          ÐèÒªÏÔÊ¾¶àÉÙÎ»
-// ²ÎÊýËµÃ÷     color           ÑÕÉ«¸ñÊ½ RGB565 »òÕß¿ÉÒÔÊ¹ÓÃ zf_common_font.h ÄÚ rgb565_color_enum Ã¶¾ÙÖµ»òÕß×ÔÐÐÐ´Èë
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_show_chinese(0, 0, 16, chinese_test[0], 4, RGB565_RED);// ÏÔÊ¾fontÎÄ¼þÀïÃæµÄ Ê¾Àý
-// ±¸×¢ÐÅÏ¢     Ê¹ÓÃPCtoLCD2002Èí¼þÈ¡Ä£           ÒõÂë¡¢ÖðÐÐÊ½¡¢Ë³Ïò   16*16
+// å‡½æ•°ç®€ä»‹     æ±‰å­—æ˜¾ç¤º
+// å‚æ•°è¯´æ˜Ž     x               åæ ‡xæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_x_max-1]
+// å‚æ•°è¯´æ˜Ž     y               åæ ‡yæ–¹å‘çš„èµ·ç‚¹ å‚æ•°èŒƒå›´ [0, ips114_y_max-1]
+// å‚æ•°è¯´æ˜Ž     size            å–æ¨¡çš„æ—¶å€™è®¾ç½®çš„æ±‰å­—å­—ä½“å¤§å° ä¹Ÿå°±æ˜¯ä¸€ä¸ªæ±‰å­—å ç”¨çš„ç‚¹é˜µé•¿å®½ä¸ºå¤šå°‘ä¸ªç‚¹ å–æ¨¡çš„æ—¶å€™éœ€è¦é•¿å®½æ˜¯ä¸€æ ·çš„
+// å‚æ•°è¯´æ˜Ž     *chinese_buffer éœ€è¦æ˜¾ç¤ºçš„æ±‰å­—æ•°ç»„
+// å‚æ•°è¯´æ˜Ž     number          éœ€è¦æ˜¾ç¤ºå¤šå°‘ä½
+// å‚æ•°è¯´æ˜Ž     color           é¢œè‰²æ ¼å¼ RGB565 æˆ–è€…å¯ä»¥ä½¿ç”¨ zf_common_font.h å†… rgb565_color_enum æžšä¸¾å€¼æˆ–è€…è‡ªè¡Œå†™å…¥
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_show_chinese(0, 0, 16, chinese_test[0], 4, RGB565_RED);// æ˜¾ç¤ºfontæ–‡ä»¶é‡Œé¢çš„ ç¤ºä¾‹
+// å¤‡æ³¨ä¿¡æ¯     ä½¿ç”¨PCtoLCD2002è½¯ä»¶å–æ¨¡           é˜´ç ã€é€è¡Œå¼ã€é¡ºå‘   16*16
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_show_chinese (uint16 x, uint16 y, uint8 size, const uint8 *chinese_buffer, uint8 number, const uint16 color)
 {
-    // Èç¹û³ÌÐòÔÚÊä³öÁË¶ÏÑÔÐÅÏ¢ ²¢ÇÒÌáÊ¾³ö´íÎ»ÖÃÔÚÕâÀï
-    // ÄÇÃ´Ò»°ãÊÇÆÁÄ»ÏÔÊ¾µÄÊ±ºò³¬¹ýÆÁÄ»·Ö±æÂÊ·¶Î§ÁË
+    // å¦‚æžœç¨‹åºåœ¨è¾“å‡ºäº†æ–­è¨€ä¿¡æ¯ å¹¶ä¸”æç¤ºå‡ºé”™ä½ç½®åœ¨è¿™é‡Œ
+    // é‚£ä¹ˆä¸€èˆ¬æ˜¯å±å¹•æ˜¾ç¤ºçš„æ—¶å€™è¶…è¿‡å±å¹•åˆ†è¾¨çŽ‡èŒƒå›´äº†
     zf_assert(x < ips114_x_max);
     zf_assert(y < ips114_y_max);
     zf_assert(chinese_buffer != NULL);
@@ -873,11 +873,11 @@ void ips114_show_chinese (uint16 x, uint16 y, uint8 size, const uint8 *chinese_b
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êý¼ò½é     1.14´ç IPSÒº¾§³õÊ¼»¯
-// ²ÎÊýËµÃ÷     void
-// ·µ»Ø²ÎÊý     void
-// Ê¹ÓÃÊ¾Àý     ips114_init();
-// ±¸×¢ÐÅÏ¢
+// å‡½æ•°ç®€ä»‹     1.14å¯¸ IPSæ¶²æ™¶åˆå§‹åŒ–
+// å‚æ•°è¯´æ˜Ž     void
+// è¿”å›žå‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     ips114_init();
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void ips114_init (void)
 {
