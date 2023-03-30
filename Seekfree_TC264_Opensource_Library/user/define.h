@@ -5,7 +5,8 @@
     #include "zf_common_headfile.h"
 #endif
 
-#define maxValue(a,b) ((a)>(b))?(a):(b)
+#define minValue(a,b) (((a)<(b))?(a):(b))
+#define maxValue(a,b) (((a)>(b))?(a):(b))
 #define absValue(a) ((a)>=0)?(a):(-a)
 #define signValue(a) (((a)>0) ? (1) : (((a)<0)?(-1):(0)))
 #define squareValue(a) ((a)*(a))
@@ -61,5 +62,6 @@
 #define WHEEL_2_ENCODER TIM5_ENCODER
 #define WHEEL_2_ENCODER_A_PIN TIM5_ENCODER_CH1_P10_3
 #define WHEEL_2_ENCODER_B_PIN TIM5_ENCODER_CH2_P10_1
+#define WHEEL_PWM_MAX 9000
 
 #endif /* USER_DEFINE_H_ */

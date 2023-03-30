@@ -14,4 +14,7 @@ typedef struct{
     int32_t deltaOutput;
 }PIDValue;
 
+void __initPID(PIDValue *pid,int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax);
+int32_t __updatePID(PIDValue *pid);
+
 #endif
