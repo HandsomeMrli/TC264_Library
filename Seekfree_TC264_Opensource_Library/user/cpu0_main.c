@@ -33,6 +33,7 @@
 * 2022-09-15       pudding            first version
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
+#include "define.h"
 #pragma section all "cpu0_dsram"
 // 将本语句与#pragma section all restore语句之间的全局变量都放在CPU0的RAM中
 
@@ -61,6 +62,13 @@ int core0_main(void)
     tft180_init();
     icm20602_init();
     Init_MPU6050_GYRO();
+
+    /* 方案二:在方案一的基础上,识别+360到+0之间的突变 */
+    float yaw, rol, pitch;
+    int8_t yawCount = 0, rolCount = 0, pitchCount = 0;
+    float yawLast, rolLast, pitchLast;
+    attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
+
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -92,17 +100,51 @@ int core0_main(void)
         tft180_show_float(78, 64, icm20602_gyro_transition(icm20602_gyro_y), 2, 2);
         tft180_show_float(78, 80, icm20602_gyro_transition(icm20602_gyro_z), 2, 2);
 
-        float yaw, rol, pitch;
         
         attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yaw, &rol, &pitch);
         
-        tft180_show_string(0, 96, "yawZ");
-        tft180_show_string(0, 112, "rolY");
-        tft180_show_string(0, 128, "pitchX");
-        tft180_show_float(50, 96, yaw, 3, 3);
-        tft180_show_float(50, 112, rol, 3, 3);
-        tft180_show_float(50, 128, pitch, 3, 3);
-        
+
+
+        tft180_show_string(0, 96, "yaw");
+        tft180_show_string(0, 112, "rol");
+        tft180_show_string(0, 128, "pitch");
+//        tft180_show_int(42, 96, yaw, 3);
+//        tft180_show_int(42, 112, rol, 3);
+//        tft180_show_int(42, 128, pitch, 3);
+        // tft180_show_float(42, 96, yaw, 3, 1);
+        // tft180_show_float(42, 112, rol, 3, 1);
+        // tft180_show_float(42, 128, pitch, 3, 1);
+
+
+        /* 方案一:将[+0~+180~-180~-0]映射到[+0~+180~+180+360],但这样依然在+360与+0之间有突变点
+        tft180_show_int(84, 96, (yaw < 0) ? (yaw + 360) : yaw, 4);
+        tft180_show_int(84, 112, (rol < 0) ? (rol + 360) : rol, 4);
+        tft180_show_int(84, 128, (pitch < 0) ? (pitch + 360) : pitch, 4);
+        */
+
+        /* 方案二:在方案一的基础上,识别+360到+0之间的突变 */
+        yaw = (yaw < 0) ? (yaw + 360) : yaw;
+        rol = (rol < 0) ? (rol + 360) : rol;
+        pitch = (pitch < 0) ? (pitch + 360) : pitch;
+        tft180_show_int(42, 96, yaw, 3);
+        tft180_show_int(42, 112, rol, 3);
+        tft180_show_int(42, 128, pitch, 3);
+        if(absValue(yaw - yawLast) >= 180){ 
+            yawCount -= signValue(yaw - yawLast); 
+        }
+        if(absValue(rol - rolLast) >= 180){ 
+            rolCount -= signValue(rol - rolLast); 
+        }
+        if(absValue(pitch - pitchLast) >= 180){ 
+            pitchCount -= signValue(pitch - pitchLast);
+        }
+        yawLast = yaw;
+        rolLast = rol;
+        pitchLast = pitch;
+        tft180_show_int(84, 96, yaw + yawCount * 360, 4);
+        tft180_show_int(84, 112, rol + rolCount * 360, 4);
+        tft180_show_int(84, 128, pitch + pitchCount * 360, 4);
+
         // 此处编写需要循环执行的代码
     }
 }

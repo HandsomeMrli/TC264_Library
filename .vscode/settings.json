@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "zf_common_headfile.h": "c",
-        "xlocale": "cpp",
-        "zf_common_typedef.h": "c"
-    }
-}

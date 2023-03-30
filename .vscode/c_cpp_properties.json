@@ -11,6 +11,7 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
+                "__TASKING__",
                 "_VSCODE_EDITOR_"
             ],
             "windowsSdkVersion": "10.0.22000.0",

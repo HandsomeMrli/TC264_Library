@@ -5,7 +5,8 @@
 
 // #define GYRO_ICM
 
-
+#define absValue(a) (((a)>=0)?(a):(-(a)))
+#define signValue(a) (((a)>0)?(1):(((a)==0)?(0):(-1)))
 
 // #if defined(GYRO_ICM20602) 
 //     #define gyro_x icm20602_gyro_x
