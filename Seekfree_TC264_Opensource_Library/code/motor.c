@@ -1,5 +1,34 @@
 #include "motor.h"
 
+Motor motorLeft, motorRight, motorBottom;
+PIDValue velPIDy, velPIDl, velPIDr;
+PIDValue angPIDx, angPIDy, angPIDz;
+PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
+
+void updatexxx(){
+    
+    // 速度环更新
+    velPIDl.target = 0; velPIDl.measurement = 左动量轮转速; __updatePID(&velPIDl);
+    velPIDr.target = 0; velPIDr.measurement = 右动量轮转速; __updatePID(&velPIDr);
+    velPIDy.target = 摄像头目标值; velPIDy.measurement = 底轮转速; __updatePID(&velPIDy);
+    
+    // 角度环更新
+    angPIDx.target = velPIDl.deltaOutput + velPIDr.deltaOutput; angPIDx.measurement = 陀螺仪欧拉角x; __updatePID(&angPIDx); // TODO:左右两轮的deltaOutput是相加还是相减?
+    angPIDy.target = velPIDy.deltaOutput; angPIDy.measurement = 陀螺仪欧拉角y; __updatePID(&angPIDy);
+    angPIDz.target = 摄像头目标值;          angPIDz.measurement = 陀螺仪欧拉角z; __updatePID(&angPIDz);
+
+    // 角速度环更新
+    angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = icm20602_gyro_x(陀螺仪角速度x); __updatePID(&angVelPIDx);   
+    angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = icm20602_gyro_y(陀螺仪角速度y); __updatePID(&angVelPIDy);   
+    angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = icm20602_gyro_z(陀螺仪角速度z); __updatePID(&angVelPIDz);   
+
+    // PWM更新
+    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
+    setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
+    setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
+}
+
+
 void initMotors(){
 
     __initMotor(&motorLeft, 17000, 1000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
@@ -44,6 +73,10 @@ void setMotor(Motor *motor, Operation op, int32_t offset){
             motor->pwm = -motor->pwm;
             break;
     }
+    __updateMotor(motor);
+}
+
+void __updateMotor(Motor *motor){
     pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
     gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
 }
