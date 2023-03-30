@@ -4,12 +4,13 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/Seekfree_TC264_Opensource_Library/libraries/zf_common"
+                "${workspaceFolder}/Seekfree_TC264_Opensource_Library/**"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "__TASKING__"
             ],
             "windowsSdkVersion": "10.0.22000.0",
             "compilerPath": "cl.exe",
