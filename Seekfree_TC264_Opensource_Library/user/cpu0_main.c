@@ -1,56 +1,61 @@
 /*********************************************************************************************************************
-* TC264 Opensourec Library ¼´£¨TC264 ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈı·½¿ªÔ´¿â
-* Copyright (c) 2022 SEEKFREE Öğ·É¿Æ¼¼
+* TC264 Opensourec Library å³ï¼ˆTC264 å¼€æºåº“ï¼‰æ˜¯ä¸€ä¸ªåŸºäºå®˜æ–¹ SDK æ¥å£çš„ç¬¬ä¸‰æ–¹å¼€æºåº“
+* Copyright (c) 2022 SEEKFREE é€é£ç§‘æŠ€
 *
-* ±¾ÎÄ¼şÊÇ TC264 ¿ªÔ´¿âµÄÒ»²¿·Ö
+* æœ¬æ–‡ä»¶æ˜¯ TC264 å¼€æºåº“çš„ä¸€éƒ¨åˆ†
 *
-* TC264 ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼ş
-* Äú¿ÉÒÔ¸ù¾İ×ÔÓÉÈí¼ş»ù½ğ»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ğí¿ÉÖ¤£©µÄÌõ¿î
-* ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØĞÂ·¢²¼ºÍ/»òĞŞ¸ÄËü
+* TC264 å¼€æºåº“ æ˜¯å…è´¹è½¯ä»¶
+* æ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GPLï¼ˆGNU General Public Licenseï¼Œå³ GNUé€šç”¨å…¬å…±è®¸å¯è¯ï¼‰çš„æ¡æ¬¾
+* å³ GPL çš„ç¬¬3ç‰ˆï¼ˆå³ GPL3.0ï¼‰æˆ–ï¼ˆæ‚¨é€‰æ‹©çš„ï¼‰ä»»ä½•åæ¥çš„ç‰ˆæœ¬ï¼Œé‡æ–°å‘å¸ƒå’Œ/æˆ–ä¿®æ”¹å®ƒ
 *
-* ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
-* ÉõÖÁÃ»ÓĞÒşº¬µÄÊÊÏúĞÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
-* ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+* æœ¬å¼€æºåº“çš„å‘å¸ƒæ˜¯å¸Œæœ›å®ƒèƒ½å‘æŒ¥ä½œç”¨ï¼Œä½†å¹¶æœªå¯¹å…¶ä½œä»»ä½•çš„ä¿è¯
+* ç”šè‡³æ²¡æœ‰éšå«çš„é€‚é”€æ€§æˆ–é€‚åˆç‰¹å®šç”¨é€”çš„ä¿è¯
+* æ›´å¤šç»†èŠ‚è¯·å‚è§ GPL
 *
-* ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·İ GPL µÄ¸±±¾
-* Èç¹ûÃ»ÓĞ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+* æ‚¨åº”è¯¥åœ¨æ”¶åˆ°æœ¬å¼€æºåº“çš„åŒæ—¶æ”¶åˆ°ä¸€ä»½ GPL çš„å‰¯æœ¬
+* å¦‚æœæ²¡æœ‰ï¼Œè¯·å‚é˜…<https://www.gnu.org/licenses/>
 *
-* ¶îÍâ×¢Ã÷£º
-* ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ğí¿ÉÖ¤Ğ­Òé ÒÔÉÏĞí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
-* Ğí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼ş¼ĞÏÂµÄ GPL3_permission_statement.txt ÎÄ¼şÖĞ
-* Ğí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼ş¼ĞÏÂ ¼´¸ÃÎÄ¼ş¼ĞÏÂµÄ LICENSE ÎÄ¼ş
-* »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò µ«ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+* é¢å¤–æ³¨æ˜ï¼š
+* æœ¬å¼€æºåº“ä½¿ç”¨ GPL3.0 å¼€æºè®¸å¯è¯åè®® ä»¥ä¸Šè®¸å¯ç”³æ˜ä¸ºè¯‘æ–‡ç‰ˆæœ¬
+* è®¸å¯ç”³æ˜è‹±æ–‡ç‰ˆåœ¨ libraries/doc æ–‡ä»¶å¤¹ä¸‹çš„ GPL3_permission_statement.txt æ–‡ä»¶ä¸­
+* è®¸å¯è¯å‰¯æœ¬åœ¨ libraries æ–‡ä»¶å¤¹ä¸‹ å³è¯¥æ–‡ä»¶å¤¹ä¸‹çš„ LICENSE æ–‡ä»¶
+* æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åº ä½†ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ï¼ˆå³æœ¬å£°æ˜ï¼‰
 *
-* ÎÄ¼şÃû³Æ          cpu0_main
-* ¹«Ë¾Ãû³Æ          ³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
-* °æ±¾ĞÅÏ¢          ²é¿´ libraries/doc ÎÄ¼ş¼ĞÄÚ version ÎÄ¼ş °æ±¾ËµÃ÷
-* ¿ª·¢»·¾³          ADS v1.8.0
-* ÊÊÓÃÆ½Ì¨          TC264D
-* µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+* æ–‡ä»¶åç§°          cpu0_main
+* å…¬å¸åç§°          æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+* ç‰ˆæœ¬ä¿¡æ¯          æŸ¥çœ‹ libraries/doc æ–‡ä»¶å¤¹å†… version æ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
+* å¼€å‘ç¯å¢ƒ          ADS v1.8.0
+* é€‚ç”¨å¹³å°          TC264D
+* åº—é“ºé“¾æ¥          https://seekfree.taobao.com/
 *
-* ĞŞ¸Ä¼ÇÂ¼
-* ÈÕÆÚ              ×÷Õß                ±¸×¢
+* ä¿®æ”¹è®°å½•
+* æ—¥æœŸ              ä½œè€…                å¤‡æ³¨
 * 2022-09-15       pudding            first version
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #include "define.h"
+
+#include "pid.h"
+
 #pragma section all "cpu0_dsram"
-// ½«±¾Óï¾äÓë#pragma section all restoreÓï¾äÖ®¼äµÄÈ«¾Ö±äÁ¿¶¼·ÅÔÚCPU0µÄRAMÖĞ
+// å°†æœ¬è¯­å¥ä¸#pragma section all restoreè¯­å¥ä¹‹é—´çš„å…¨å±€å˜é‡éƒ½æ”¾åœ¨CPU0çš„RAMä¸­
 
 
-// ¹¤³Ìµ¼Èëµ½Èí¼şÖ®ºó£¬Ó¦¸ÃÑ¡ÖĞ¹¤³ÌÈ»ºóµã»÷refreshË¢ĞÂÒ»ÏÂÖ®ºóÔÙ±àÒë
-// ¹¤³ÌÄ¬ÈÏÉèÖÃÎª¹Ø±ÕÓÅ»¯£¬¿ÉÒÔ×Ô¼ºÓÒ»÷¹¤³ÌÑ¡Ôñproperties->C/C++ Build->Setting
-// È»ºóÔÚÓÒ²àµÄ´°¿ÚÖĞÕÒµ½C/C++ Compiler->Optimization->Optimization level´¦ÉèÖÃÓÅ»¯µÈ¼¶
-// Ò»°ãÄ¬ÈÏĞÂ½¨Á¢µÄ¹¤³Ì¶¼»áÄ¬ÈÏ¿ª2¼¶ÓÅ»¯£¬Òò´Ë´ó¼ÒÒ²¿ÉÒÔÉèÖÃÎª2¼¶ÓÅ»¯
+// å·¥ç¨‹å¯¼å…¥åˆ°è½¯ä»¶ä¹‹åï¼Œåº”è¯¥é€‰ä¸­å·¥ç¨‹ç„¶åç‚¹å‡»refreshåˆ·æ–°ä¸€ä¸‹ä¹‹åå†ç¼–è¯‘
+// å·¥ç¨‹é»˜è®¤è®¾ç½®ä¸ºå…³é—­ä¼˜åŒ–ï¼Œå¯ä»¥è‡ªå·±å³å‡»å·¥ç¨‹é€‰æ‹©properties->C/C++ Build->Setting
+// ç„¶ååœ¨å³ä¾§çš„çª—å£ä¸­æ‰¾åˆ°C/C++ Compiler->Optimization->Optimization levelå¤„è®¾ç½®ä¼˜åŒ–ç­‰çº§
+// ä¸€èˆ¬é»˜è®¤æ–°å»ºç«‹çš„å·¥ç¨‹éƒ½ä¼šé»˜è®¤å¼€2çº§ä¼˜åŒ–ï¼Œå› æ­¤å¤§å®¶ä¹Ÿå¯ä»¥è®¾ç½®ä¸º2çº§ä¼˜åŒ–
 
-// ¶ÔÓÚTCÏµÁĞÄ¬ÈÏÊÇ²»Ö§³ÖÖĞ¶ÏÇ¶Ì×µÄ£¬Ï£ÍûÖ§³ÖÖĞ¶ÏÇ¶Ì×ĞèÒªÔÚÖĞ¶ÏÄÚÊ¹ÓÃ interrupt_global_enable(0); À´¿ªÆôÖĞ¶ÏÇ¶Ì×
-// ¼òµ¥µãËµÊµ¼ÊÉÏ½øÈëÖĞ¶ÏºóTCÏµÁĞµÄÓ²¼ş×Ô¶¯µ÷ÓÃÁË interrupt_global_disable(); À´¾Ü¾øÏìÓ¦ÈÎºÎµÄÖĞ¶Ï£¬Òò´ËĞèÒªÎÒÃÇ×Ô¼ºÊÖ¶¯µ÷ÓÃ interrupt_global_enable(0); À´¿ªÆôÖĞ¶ÏµÄÏìÓ¦¡£
+// å¯¹äºTCç³»åˆ—é»˜è®¤æ˜¯ä¸æ”¯æŒä¸­æ–­åµŒå¥—çš„ï¼Œå¸Œæœ›æ”¯æŒä¸­æ–­åµŒå¥—éœ€è¦åœ¨ä¸­æ–­å†…ä½¿ç”¨ interrupt_global_enable(0); æ¥å¼€å¯ä¸­æ–­åµŒå¥—
+// ç®€å•ç‚¹è¯´å®é™…ä¸Šè¿›å…¥ä¸­æ–­åTCç³»åˆ—çš„ç¡¬ä»¶è‡ªåŠ¨è°ƒç”¨äº† interrupt_global_disable(); æ¥æ‹’ç»å“åº”ä»»ä½•çš„ä¸­æ–­ï¼Œå› æ­¤éœ€è¦æˆ‘ä»¬è‡ªå·±æ‰‹åŠ¨è°ƒç”¨ interrupt_global_enable(0); æ¥å¼€å¯ä¸­æ–­çš„å“åº”ã€‚
 
-// ±¾Àı³ÌÊÇ¿ªÔ´¿âÒÆÖ²ÓÃ¿Õ¹¤³Ì
-// ±¾Àı³ÌÊÇ¿ªÔ´¿âÒÆÖ²ÓÃ¿Õ¹¤³Ì
-// ±¾Àı³ÌÊÇ¿ªÔ´¿âÒÆÖ²ÓÃ¿Õ¹¤³Ì
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç§»æ¤ç”¨ç©ºå·¥ç¨‹
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç§»æ¤ç”¨ç©ºå·¥ç¨‹
+// æœ¬ä¾‹ç¨‹æ˜¯å¼€æºåº“ç§»æ¤ç”¨ç©ºå·¥ç¨‹
 
-// **************************** ´úÂëÇøÓò ****************************
+#include "attitude.h"
+
+// **************************** ä»£ç åŒºåŸŸ ****************************
 
 uint8 uart_get_data[64];
 uint8 fifo_get_data[64];
@@ -58,11 +63,13 @@ uint8 get_data = 0;
 uint32 fifo_data_count = 0;
 fifo_struct uart_data_file;
 
+
+
 int core0_main(void)
 {
-    clock_init();                   // »ñÈ¡Ê±ÖÓÆµÂÊ<Îñ±Ø±£Áô>
-    debug_init();                   // ³õÊ¼»¯Ä¬ÈÏµ÷ÊÔ´®¿Ú
-    // ´Ë´¦±àĞ´ÓÃ»§´úÂë ÀıÈçÍâÉè³õÊ¼»¯´úÂëµÈ
+    clock_init();                   // è·å–æ—¶é’Ÿé¢‘ç‡<åŠ¡å¿…ä¿ç•™>
+    debug_init();                   // åˆå§‹åŒ–é»˜è®¤è°ƒè¯•ä¸²å£
+    // æ­¤å¤„ç¼–å†™ç”¨æˆ·ä»£ç  ä¾‹å¦‚å¤–è®¾åˆå§‹åŒ–ä»£ç ç­‰
 
     gpio_init(LED_1_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
@@ -82,26 +89,97 @@ int core0_main(void)
     uart_write_byte(UART_CHANNEL, '\r');
     uart_write_byte(UART_CHANNEL, '\n');
 
-    pwm_init(WHEEL_1_PWM_PIN, 17000, 2000);
-    pwm_init(WHEEL_2_PWM_PIN, 5000, 5000);
 
-    encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
-    encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
+    tft180_init();
+    icm20602_init();
+    Init_MPU6050_GYRO();
+
+    /* æ–¹æ¡ˆäºŒ:åœ¨æ–¹æ¡ˆä¸€çš„åŸºç¡€ä¸Š,è¯†åˆ«+360åˆ°+0ä¹‹é—´çš„çªå˜ */
+    float yaw, rol, pitch;
+    int8_t yawCount = 0, rolCount = 0, pitchCount = 0;
+    float yawLast, rolLast, pitchLast;
+    attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
 
 
-    // ´Ë´¦±àĞ´ÓÃ»§´úÂë ÀıÈçÍâÉè³õÊ¼»¯´úÂëµÈ
-    cpu_wait_event_ready();         // µÈ´ıËùÓĞºËĞÄ³õÊ¼»¯Íê±Ï
+    // æ­¤å¤„ç¼–å†™ç”¨æˆ·ä»£ç  ä¾‹å¦‚å¤–è®¾åˆå§‹åŒ–ä»£ç ç­‰
+    cpu_wait_event_ready();         // ç­‰å¾…æ‰€æœ‰æ ¸å¿ƒåˆå§‹åŒ–å®Œæ¯•
     while (TRUE)
     {
-        // ´Ë´¦±àĞ´ĞèÒªÑ­»·Ö´ĞĞµÄ´úÂë
+        // æ­¤å¤„ç¼–å†™éœ€è¦å¾ªç¯æ‰§è¡Œçš„ä»£ç 
+
+        icm20602_get_acc();
+        icm20602_get_gyro();
+
+        tft180_show_string(0, 0, "accX");  
+        tft180_show_string(0, 16, "accY"); 
+        tft180_show_string(0, 32, "accZ"); 
+        tft180_show_string(0, 48, "gyroX");
+        tft180_show_string(0, 64, "gyroY");
+        tft180_show_string(0, 80, "gyroZ");
+
+        tft180_show_int(44, 0, icm20602_acc_x, 6);  
+        tft180_show_int(44, 16, icm20602_acc_y, 6); 
+        tft180_show_int(44, 32, icm20602_acc_z, 6); 
+        tft180_show_int(44, 48, icm20602_gyro_x, 6);
+        tft180_show_int(44, 64, icm20602_gyro_y, 6);
+        tft180_show_int(44, 80, icm20602_gyro_z, 6);
+
+        tft180_show_float(78, 0, icm20602_acc_transition(icm20602_acc_x), 2, 2);
+        tft180_show_float(78, 16, icm20602_acc_transition(icm20602_acc_y), 2, 2);
+        tft180_show_float(78, 32, icm20602_acc_transition(icm20602_acc_z), 2, 2);
+        tft180_show_float(78, 48, icm20602_gyro_transition(icm20602_gyro_x), 2, 2);
+        tft180_show_float(78, 64, icm20602_gyro_transition(icm20602_gyro_y), 2, 2);
+        tft180_show_float(78, 80, icm20602_gyro_transition(icm20602_gyro_z), 2, 2);
+
+        
+        attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yaw, &rol, &pitch);
+        
 
 
+        tft180_show_string(0, 96, "yaw");
+        tft180_show_string(0, 112, "rol");
+        tft180_show_string(0, 128, "pitch");
+//        tft180_show_int(42, 96, yaw, 3);
+//        tft180_show_int(42, 112, rol, 3);
+//        tft180_show_int(42, 128, pitch, 3);
+        // tft180_show_float(42, 96, yaw, 3, 1);
+        // tft180_show_float(42, 112, rol, 3, 1);
+        // tft180_show_float(42, 128, pitch, 3, 1);
 
 
-        // ´Ë´¦±àĞ´ĞèÒªÑ­»·Ö´ĞĞµÄ´úÂë
+        /* æ–¹æ¡ˆä¸€:å°†[+0~+180~-180~-0]æ˜ å°„åˆ°[+0~+180~+180+360],ä½†è¿™æ ·ä¾ç„¶åœ¨+360ä¸+0ä¹‹é—´æœ‰çªå˜ç‚¹
+        tft180_show_int(84, 96, (yaw < 0) ? (yaw + 360) : yaw, 4);
+        tft180_show_int(84, 112, (rol < 0) ? (rol + 360) : rol, 4);
+        tft180_show_int(84, 128, (pitch < 0) ? (pitch + 360) : pitch, 4);
+        */
+
+        /* æ–¹æ¡ˆäºŒ:åœ¨æ–¹æ¡ˆä¸€çš„åŸºç¡€ä¸Š,è¯†åˆ«+360åˆ°+0ä¹‹é—´çš„çªå˜ */
+        yaw = (yaw < 0) ? (yaw + 360) : yaw;
+        rol = (rol < 0) ? (rol + 360) : rol;
+        pitch = (pitch < 0) ? (pitch + 360) : pitch;
+        tft180_show_int(42, 96, yaw, 3);
+        tft180_show_int(42, 112, rol, 3);
+        tft180_show_int(42, 128, pitch, 3);
+        if(absValue(yaw - yawLast) >= 180){ 
+            yawCount -= signValue(yaw - yawLast); 
+        }
+        if(absValue(rol - rolLast) >= 180){ 
+            rolCount -= signValue(rol - rolLast); 
+        }
+        if(absValue(pitch - pitchLast) >= 180){ 
+            pitchCount -= signValue(pitch - pitchLast);
+        }
+        yawLast = yaw;
+        rolLast = rol;
+        pitchLast = pitch;
+        tft180_show_int(84, 96, yaw + yawCount * 360, 4);
+        tft180_show_int(84, 112, rol + rolCount * 360, 4);
+        tft180_show_int(84, 128, pitch + pitchCount * 360, 4);
+
+        // æ­¤å¤„ç¼–å†™éœ€è¦å¾ªç¯æ‰§è¡Œçš„ä»£ç 
     }
 }
 
 #pragma section all restore
-// **************************** ´úÂëÇøÓò ****************************
+// **************************** ä»£ç åŒºåŸŸ ****************************
 

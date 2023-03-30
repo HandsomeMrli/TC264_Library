@@ -1,12 +1,18 @@
-#ifndef USER_DEFINE_H_
-#define USER_DEFINE_H_
+#ifndef _DEFINE_H_
+#define _DEFINE_H_
 
-#ifndef VSCODE_EDITOR_TEST
-    #include "zf_common_headfile.h"
-#endif
 
-#define maxValue(a,b) ((a)>(b))?(a):(b)
-#define absValue(a) ((a)>=0)?(a):(-a)
+// #define GYRO_ICM
+
+// #if defined(GYRO_ICM20602) 
+//     #define gyro_x icm20602_gyro_x
+//     #define gyro_y icm20602_gyro_y
+//     #define gyro_z icm20602_gyro_z
+// #endif
+
+#define minValue(a,b) (((a)<(b))?(a):(b))
+#define maxValue(a,b) (((a)>(b))?(a):(b))
+#define absValue(a) (((a)>=0)?(a):(-(a)))
 #define signValue(a) (((a)>0) ? (1) : (((a)<0)?(-1):(0)))
 #define squareValue(a) ((a)*(a))
 #define swapValue(a,b) (a)^=(b);(b)^=(a);(a)^=(b);
@@ -61,5 +67,6 @@
 #define WHEEL_2_ENCODER TIM5_ENCODER
 #define WHEEL_2_ENCODER_A_PIN TIM5_ENCODER_CH1_P10_3
 #define WHEEL_2_ENCODER_B_PIN TIM5_ENCODER_CH2_P10_1
+#define WHEEL_PWM_MAX 9000
 
-#endif /* USER_DEFINE_H_ */
+#endif
