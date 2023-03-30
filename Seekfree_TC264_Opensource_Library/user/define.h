@@ -26,10 +26,10 @@
 #endif
 
 // 拨码开关
-#define SW_4_PIN P13_0
-#define SW_3_PIN P13_1
-#define SW_2_PIN P14_0
-#define SW_1_PIN P14_1
+#define SW_4_PIN P11_3
+#define SW_3_PIN P13_3
+#define SW_2_PIN P13_2
+#define SW_1_PIN P13_1
 
 // 按键
 #define BTN_1_PIN P02_6

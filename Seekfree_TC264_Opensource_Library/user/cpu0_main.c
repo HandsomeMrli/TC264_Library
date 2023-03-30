@@ -67,6 +67,18 @@ int core0_main(void)
     fifo_init(&uart_data_file, FIFO_DATA_8BIT, uart_get_data, 64);
     uart_init(UART_CHANNEL, 9600, UART2_TX_P10_5, UART2_RX_P10_6);
     uart_rx_interrupt(UART_CHANNEL, 1);
+    gpio_init(LED_1_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+
+    gpio_init(BTN_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(BTN_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+
+    gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    
+    // uint8 mode = 0;
+    int mode[8] = {0};
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -77,7 +89,20 @@ int core0_main(void)
         uart_write_string(UART_CHANNEL, "UART init successful!");
         uart_write_byte(UART_CHANNEL, '\r');
         uart_write_byte(UART_CHANNEL, '\n');
+        // mode = 0;
+        // mode |= gpio_get_level(SW_1_PIN); mode <<= 1;
+        // mode |= gpio_get_level(SW_2_PIN); mode <<= 1;
+        // mode |= gpio_get_level(SW_3_PIN); mode <<= 1;
+        // mode |= gpio_get_level(SW_4_PIN); mode <<= 1;
+        // mode |= gpio_get_level(BTN_1_PIN); mode <<= 1;
+        // mode |= gpio_get_level(BTN_2_PIN);
 
+        mode[0] = gpio_get_level(SW_1_PIN); 
+        mode[1] = gpio_get_level(SW_2_PIN); 
+        mode[2] = gpio_get_level(SW_3_PIN); 
+        mode[3] = gpio_get_level(SW_4_PIN); 
+        mode[4] = gpio_get_level(BTN_1_PIN);
+        mode[5] = gpio_get_level(BTN_2_PIN);
 
         // 此处编写需要循环执行的代码
     }
