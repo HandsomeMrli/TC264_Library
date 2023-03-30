@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "isr.h": "c",
+        "zf_common_headfile.h": "c"
+    }
+}
