@@ -12,7 +12,7 @@
 
 #define minValue(a,b) (((a)<(b))?(a):(b))
 #define maxValue(a,b) (((a)>(b))?(a):(b))
-#define absValue(a) ((a)>=0)?(a):(-(a))
+#define absValue(a) (((a)>=0)?(a):(-(a)))
 #define signValue(a) (((a)>0) ? (1) : (((a)<0)?(-1):(0)))
 #define squareValue(a) ((a)*(a))
 #define swapValue(a,b) (a)^=(b);(b)^=(a);(a)^=(b);

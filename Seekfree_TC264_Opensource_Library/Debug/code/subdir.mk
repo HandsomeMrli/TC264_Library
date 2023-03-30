@@ -4,16 +4,24 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../code/attitude.c 
+../code/attitude.c \
+../code/motor.c \
+../code/pid.c 
 
 COMPILED_SRCS += \
-./code/attitude.src 
+./code/attitude.src \
+./code/motor.src \
+./code/pid.src 
 
 C_DEPS += \
-./code/attitude.d 
+./code/attitude.d \
+./code/motor.d \
+./code/pid.d 
 
 OBJS += \
-./code/attitude.o 
+./code/attitude.o \
+./code/motor.o \
+./code/pid.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -36,7 +44,7 @@ code/%.o: ./code/%.src code/subdir.mk
 clean: clean-code
 
 clean-code:
-	-$(RM) ./code/attitude.d ./code/attitude.o ./code/attitude.src
+	-$(RM) ./code/attitude.d ./code/attitude.o ./code/attitude.src ./code/motor.d ./code/motor.o ./code/motor.src ./code/pid.d ./code/pid.o ./code/pid.src
 
 .PHONY: clean-code
 
