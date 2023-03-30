@@ -1,11 +1,31 @@
 #include "pid.h"
 
 
+int32_t update(PIDValue *pid){
+    
+    pid->error[2] = pid->error[1];
+    pid->error[1] = pid->error[0];
+    pid->error[0] = pid->target - pid->measurement;
+    
+    pid->errorInt += pid->error[0];
+    pid->errorInt = (pid->errorInt > pid->errorIntMax) ? pid->errorIntMax : pid->errorInt;
+    pid->errorInt = (pid->errorInt < -pid->errorIntMax) ? -pid->errorIntMax : pid->errorInt;
+
+    pid->pCorr = pid->pCoef * pid->error[0] / 10;
+    pid->iCorr = pid->iCoef * pid->errorInt / 10;
+    pid->dCorr = pid->dCoef * (pid->error[0] - pid->error[1]) / 10;
+
+    pid->deltaOutput = pid->pCorr + pid->iCorr + pid->dCorr;
+
+    return pid->deltaOutput;
+
+}
 
 
-void initPIDValue(PIDValue *pid,int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target){
+void initPIDValue(PIDValue *pid,int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
     pid->pCorr = 0; pid->iCorr = 0; pid->dCorr = 0;
     pid->error[0] = 0; pid->error[1] = 0; pid->error[2] = 0;
+    pid->errorIntMax = errorIntMax;
     pid->pCoef = pCoef; pid->iCoef = iCoef; pid->dCoef = dCoef;
     pid->target = target;
     pid->measurement = 0;

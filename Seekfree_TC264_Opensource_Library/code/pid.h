@@ -6,6 +6,8 @@
 typedef struct{
     int32_t pCorr, iCorr, dCorr;
     int32_t error[3];
+    int32_t errorInt;
+    int32_t errorIntMax;
     int32_t pCoef, iCoef, dCoef;
     int32_t target;
     int32_t measurement;
