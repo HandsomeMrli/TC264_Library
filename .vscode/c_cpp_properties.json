@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/Seekfree_TC264_Opensource_Library/libraries/**",
-                "${workspaceFolder}/Seekfree_TC264_Opensource_Library/code/**"
+                "${workspaceFolder}/Seekfree_TC264_Opensource_Library/**"
             ],
             "defines": [
                 "_DEBUG",

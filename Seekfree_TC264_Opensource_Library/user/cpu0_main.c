@@ -34,6 +34,9 @@
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #include "define.h"
+
+#include "pid.h"
+
 #pragma section all "cpu0_dsram"
 // 将本语句与#pragma section all restore语句之间的全局变量都放在CPU0的RAM中
 
@@ -53,11 +56,39 @@
 #include "attitude.h"
 
 // **************************** 代码区域 ****************************
+
+uint8 uart_get_data[64];
+uint8 fifo_get_data[64];
+uint8 get_data = 0;
+uint32 fifo_data_count = 0;
+fifo_struct uart_data_file;
+
+
+
 int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
+
+    gpio_init(LED_1_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+
+    gpio_init(BTN_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(BTN_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+
+    gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+
+
+    fifo_init(&uart_data_file, FIFO_DATA_8BIT, uart_get_data, 64);
+    uart_init(UART_CHANNEL, 9600, UART2_TX_P10_5, UART2_RX_P10_6);
+    uart_rx_interrupt(UART_CHANNEL, 1);
+    uart_write_string(UART_CHANNEL, "UART init successful!");
+    uart_write_byte(UART_CHANNEL, '\r');
+    uart_write_byte(UART_CHANNEL, '\n');
+
 
     tft180_init();
     icm20602_init();
