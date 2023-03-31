@@ -34,8 +34,17 @@
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #include "define.h"
+
+#include "pid.h"
+
 #pragma section all "cpu0_dsram"
 // 将本语句与#pragma section all restore语句之间的全局变量都放在CPU0的RAM中
+
+
+// 工程导入到软件之后，应该选中工程然后点击refresh刷新一下之后再编译
+// 工程默认设置为关闭优化，可以自己右击工程选择properties->C/C++ Build->Setting
+// 然后在右侧的窗口中找到C/C++ Compiler->Optimization->Optimization level处设置优化等级
+// 一般默认新建立的工程都会默认开2级优化，因此大家也可以设置为2级优化
 
 
 // 工程导入到软件之后，应该选中工程然后点击refresh刷新一下之后再编译
@@ -50,6 +59,9 @@
 // 本例程是开源库移植用空工程
 // 本例程是开源库移植用空工程
 
+#include "attitude.h"
+
+
 // **************************** 代码区域 ****************************
 
 uint8 uart_get_data[64];
@@ -58,15 +70,18 @@ uint8 get_data = 0;
 uint32 fifo_data_count = 0;
 fifo_struct uart_data_file;
 
+
 uint8 data_buffer[32];
 uint8 data_len;
 uint8 count = 0;    
+
 
 int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
+
 
     /*无线串口
     if(wireless_uart_init()){
@@ -86,7 +101,6 @@ int core0_main(void)
     int mode[8] = {0};
    */
 
-
     gpio_init(LED_1_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
     gpio_init(BTN_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
@@ -105,11 +119,16 @@ int core0_main(void)
     uart_write_byte(UART_CHANNEL, '\r');
     uart_write_byte(UART_CHANNEL, '\n');
 
-    pwm_init(WHEEL_1_PWM_PIN, 17000, 2000);
-    pwm_init(WHEEL_2_PWM_PIN, 5000, 5000);
 
-    encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
-    encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
+    tft180_init();
+    icm20602_init();
+    Init_MPU6050_GYRO();
+
+    /* 方案二:在方案一的基础上,识别+360到+0之间的突变 */
+    float yaw, rol, pitch;
+    int8_t yawCount = 0, rolCount = 0, pitchCount = 0;
+    float yawLast, rolLast, pitchLast;
+    attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
 
 
     // 此处编写用户代码 例如外设初始化代码等
@@ -117,6 +136,7 @@ int core0_main(void)
     while (TRUE)
     {
         // 此处编写需要循环执行的代码
+
 
 	    /* 无线串口
         data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
@@ -148,6 +168,76 @@ int core0_main(void)
         mode[4] = gpio_get_level(BTN_1_PIN);
         mode[5] = gpio_get_level(BTN_2_PIN);
         */
+
+        icm20602_get_acc();
+        icm20602_get_gyro();
+
+        tft180_show_string(0, 0, "accX");  
+        tft180_show_string(0, 16, "accY"); 
+        tft180_show_string(0, 32, "accZ"); 
+        tft180_show_string(0, 48, "gyroX");
+        tft180_show_string(0, 64, "gyroY");
+        tft180_show_string(0, 80, "gyroZ");
+
+        tft180_show_int(44, 0, icm20602_acc_x, 6);  
+        tft180_show_int(44, 16, icm20602_acc_y, 6); 
+        tft180_show_int(44, 32, icm20602_acc_z, 6); 
+        tft180_show_int(44, 48, icm20602_gyro_x, 6);
+        tft180_show_int(44, 64, icm20602_gyro_y, 6);
+        tft180_show_int(44, 80, icm20602_gyro_z, 6);
+
+        tft180_show_float(78, 0, icm20602_acc_transition(icm20602_acc_x), 2, 2);
+        tft180_show_float(78, 16, icm20602_acc_transition(icm20602_acc_y), 2, 2);
+        tft180_show_float(78, 32, icm20602_acc_transition(icm20602_acc_z), 2, 2);
+        tft180_show_float(78, 48, icm20602_gyro_transition(icm20602_gyro_x), 2, 2);
+        tft180_show_float(78, 64, icm20602_gyro_transition(icm20602_gyro_y), 2, 2);
+        tft180_show_float(78, 80, icm20602_gyro_transition(icm20602_gyro_z), 2, 2);
+
+        
+        attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yaw, &rol, &pitch);
+        
+
+
+        tft180_show_string(0, 96, "yaw");
+        tft180_show_string(0, 112, "rol");
+        tft180_show_string(0, 128, "pitch");
+//        tft180_show_int(42, 96, yaw, 3);
+//        tft180_show_int(42, 112, rol, 3);
+//        tft180_show_int(42, 128, pitch, 3);
+        // tft180_show_float(42, 96, yaw, 3, 1);
+        // tft180_show_float(42, 112, rol, 3, 1);
+        // tft180_show_float(42, 128, pitch, 3, 1);
+
+
+        /* 方案一:将[+0~+180~-180~-0]映射到[+0~+180~+180+360],但这样依然在+360与+0之间有突变点
+        tft180_show_int(84, 96, (yaw < 0) ? (yaw + 360) : yaw, 4);
+        tft180_show_int(84, 112, (rol < 0) ? (rol + 360) : rol, 4);
+        tft180_show_int(84, 128, (pitch < 0) ? (pitch + 360) : pitch, 4);
+        */
+
+        /* 方案二:在方案一的基础上,识别+360到+0之间的突变 */
+        yaw = (yaw < 0) ? (yaw + 360) : yaw;
+        rol = (rol < 0) ? (rol + 360) : rol;
+        pitch = (pitch < 0) ? (pitch + 360) : pitch;
+        tft180_show_int(42, 96, yaw, 3);
+        tft180_show_int(42, 112, rol, 3);
+        tft180_show_int(42, 128, pitch, 3);
+        if(absValue(yaw - yawLast) >= 180){ 
+            yawCount -= signValue(yaw - yawLast); 
+        }
+        if(absValue(rol - rolLast) >= 180){ 
+            rolCount -= signValue(rol - rolLast); 
+        }
+        if(absValue(pitch - pitchLast) >= 180){ 
+            pitchCount -= signValue(pitch - pitchLast);
+        }
+        yawLast = yaw;
+        rolLast = rol;
+        pitchLast = pitch;
+        tft180_show_int(84, 96, yaw + yawCount * 360, 4);
+        tft180_show_int(84, 112, rol + rolCount * 360, 4);
+        tft180_show_int(84, 128, pitch + pitchCount * 360, 4);
+
         // 此处编写需要循环执行的代码
     }
 }
