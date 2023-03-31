@@ -46,6 +46,12 @@
 // 然后在右侧的窗口中找到C/C++ Compiler->Optimization->Optimization level处设置优化等级
 // 一般默认新建立的工程都会默认开2级优化，因此大家也可以设置为2级优化
 
+
+// 工程导入到软件之后，应该选中工程然后点击refresh刷新一下之后再编译
+// 工程默认设置为关闭优化，可以自己右击工程选择properties->C/C++ Build->Setting
+// 然后在右侧的窗口中找到C/C++ Compiler->Optimization->Optimization level处设置优化等级
+// 一般默认新建立的工程都会默认开2级优化，因此大家也可以设置为2级优化
+
 // 对于TC系列默认是不支持中断嵌套的，希望支持中断嵌套需要在中断内使用 interrupt_global_enable(0); 来开启中断嵌套
 // 简单点说实际上进入中断后TC系列的硬件自动调用了 interrupt_global_disable(); 来拒绝响应任何的中断，因此需要我们自己手动调用 interrupt_global_enable(0); 来开启中断的响应。
 
@@ -54,6 +60,7 @@
 // 本例程是开源库移植用空工程
 
 #include "attitude.h"
+
 
 // **************************** 代码区域 ****************************
 
@@ -64,12 +71,35 @@ uint32 fifo_data_count = 0;
 fifo_struct uart_data_file;
 
 
+uint8 data_buffer[32];
+uint8 data_len;
+uint8 count = 0;    
+
 
 int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
+
+
+    /*无线串口
+    if(wireless_uart_init()){
+        while(1){
+            ;
+        }
+    }
+    wireless_uart_send_byte('\r');
+    wireless_uart_send_byte('\n');
+    wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");    
+    */
+    
+   /*有线串口
+    fifo_init(&uart_data_file, FIFO_DATA_8BIT, uart_get_data, 64);
+    uart_init(UART_CHANNEL, 9600, UART2_TX_P10_5, UART2_RX_P10_6);
+    uart_rx_interrupt(UART_CHANNEL, 1);
+    int mode[8] = {0};
+   */
 
     gpio_init(LED_1_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
@@ -106,6 +136,38 @@ int core0_main(void)
     while (TRUE)
     {
         // 此处编写需要循环执行的代码
+
+
+	    /* 无线串口
+        data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
+        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
+        {
+            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
+            memset(data_buffer, 0, 32);
+//            func_uint_to_str((char *)data_buffer, data_len);
+        }
+        system_delay_ms(1);
+        */
+
+        /* 有线串口
+        uart_write_string(UART_CHANNEL, "UART init successful!");
+        uart_write_byte(UART_CHANNEL, '\r');
+        uart_write_byte(UART_CHANNEL, '\n');
+        // mode = 0;
+        // mode |= gpio_get_level(SW_1_PIN); mode <<= 1;
+        // mode |= gpio_get_level(SW_2_PIN); mode <<= 1;
+        // mode |= gpio_get_level(SW_3_PIN); mode <<= 1;
+        // mode |= gpio_get_level(SW_4_PIN); mode <<= 1;
+        // mode |= gpio_get_level(BTN_1_PIN); mode <<= 1;
+        // mode |= gpio_get_level(BTN_2_PIN);
+
+        mode[0] = gpio_get_level(SW_1_PIN); 
+        mode[1] = gpio_get_level(SW_2_PIN); 
+        mode[2] = gpio_get_level(SW_3_PIN); 
+        mode[3] = gpio_get_level(SW_4_PIN); 
+        mode[4] = gpio_get_level(BTN_1_PIN);
+        mode[5] = gpio_get_level(BTN_2_PIN);
+        */
 
         icm20602_get_acc();
         icm20602_get_gyro();

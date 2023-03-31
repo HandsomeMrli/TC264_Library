@@ -10,8 +10,8 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "__TASKING__",
-                "_VSCODE_EDITOR_"
+                "__TASKING__"
+
             ],
             "windowsSdkVersion": "10.0.22000.0",
             "compilerPath": "cl.exe",
