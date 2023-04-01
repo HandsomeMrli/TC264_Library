@@ -1,56 +1,56 @@
 /*********************************************************************************************************************
-* TC264 Opensourec Library ¼´£¨TC264 ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈý·½¿ªÔ´¿â
-* Copyright (c) 2022 SEEKFREE Öð·É¿Æ¼¼
+* TC264 Opensourec Library å³ï¼ˆTC264 å¼€æºåº“ï¼‰æ˜¯ä¸€ä¸ªåŸºäºŽå®˜æ–¹ SDK æŽ¥å£çš„ç¬¬ä¸‰æ–¹å¼€æºåº“
+* Copyright (c) 2022 SEEKFREE é€é£žç§‘æŠ€
 *
-* ±¾ÎÄ¼þÊÇ TC264 ¿ªÔ´¿âµÄÒ»²¿·Ö
+* æœ¬æ–‡ä»¶æ˜¯ TC264 å¼€æºåº“çš„ä¸€éƒ¨åˆ†
 *
-* TC264 ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼þ
-* Äú¿ÉÒÔ¸ù¾Ý×ÔÓÉÈí¼þ»ù½ð»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ðí¿ÉÖ¤£©µÄÌõ¿î
-* ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØÐÂ·¢²¼ºÍ/»òÐÞ¸ÄËü
+* TC264 å¼€æºåº“ æ˜¯å…è´¹è½¯ä»¶
+* æ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GPLï¼ˆGNU General Public Licenseï¼Œå³ GNUé€šç”¨å…¬å…±è®¸å¯è¯ï¼‰çš„æ¡æ¬¾
+* å³ GPL çš„ç¬¬3ç‰ˆï¼ˆå³ GPL3.0ï¼‰æˆ–ï¼ˆæ‚¨é€‰æ‹©çš„ï¼‰ä»»ä½•åŽæ¥çš„ç‰ˆæœ¬ï¼Œé‡æ–°å‘å¸ƒå’Œ/æˆ–ä¿®æ”¹å®ƒ
 *
-* ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
-* ÉõÖÁÃ»ÓÐÒþº¬µÄÊÊÏúÐÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
-* ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+* æœ¬å¼€æºåº“çš„å‘å¸ƒæ˜¯å¸Œæœ›å®ƒèƒ½å‘æŒ¥ä½œç”¨ï¼Œä½†å¹¶æœªå¯¹å…¶ä½œä»»ä½•çš„ä¿è¯
+* ç”šè‡³æ²¡æœ‰éšå«çš„é€‚é”€æ€§æˆ–é€‚åˆç‰¹å®šç”¨é€”çš„ä¿è¯
+* æ›´å¤šç»†èŠ‚è¯·å‚è§ GPL
 *
-* ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·Ý GPL µÄ¸±±¾
-* Èç¹ûÃ»ÓÐ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+* æ‚¨åº”è¯¥åœ¨æ”¶åˆ°æœ¬å¼€æºåº“çš„åŒæ—¶æ”¶åˆ°ä¸€ä»½ GPL çš„å‰¯æœ¬
+* å¦‚æžœæ²¡æœ‰ï¼Œè¯·å‚é˜…<https://www.gnu.org/licenses/>
 *
-* ¶îÍâ×¢Ã÷£º
-* ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ðí¿ÉÖ¤Ð­Òé ÒÔÉÏÐí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
-* Ðí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼þ¼ÐÏÂµÄ GPL3_permission_statement.txt ÎÄ¼þÖÐ
-* Ðí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼þ¼ÐÏÂ ¼´¸ÃÎÄ¼þ¼ÐÏÂµÄ LICENSE ÎÄ¼þ
-* »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò µ«ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+* é¢å¤–æ³¨æ˜Žï¼š
+* æœ¬å¼€æºåº“ä½¿ç”¨ GPL3.0 å¼€æºè®¸å¯è¯åè®® ä»¥ä¸Šè®¸å¯ç”³æ˜Žä¸ºè¯‘æ–‡ç‰ˆæœ¬
+* è®¸å¯ç”³æ˜Žè‹±æ–‡ç‰ˆåœ¨ libraries/doc æ–‡ä»¶å¤¹ä¸‹çš„ GPL3_permission_statement.txt æ–‡ä»¶ä¸­
+* è®¸å¯è¯å‰¯æœ¬åœ¨ libraries æ–‡ä»¶å¤¹ä¸‹ å³è¯¥æ–‡ä»¶å¤¹ä¸‹çš„ LICENSE æ–‡ä»¶
+* æ¬¢è¿Žå„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åº ä½†ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£žç§‘æŠ€çš„ç‰ˆæƒå£°æ˜Žï¼ˆå³æœ¬å£°æ˜Žï¼‰
 *
-* ÎÄ¼þÃû³Æ          zf_device_imu660ra
-* ¹«Ë¾Ãû³Æ          ³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
-* °æ±¾ÐÅÏ¢          ²é¿´ libraries/doc ÎÄ¼þ¼ÐÄÚ version ÎÄ¼þ °æ±¾ËµÃ÷
-* ¿ª·¢»·¾³          ADS v1.8.0
-* ÊÊÓÃÆ½Ì¨          TC264D
-* µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+* æ–‡ä»¶åç§°          zf_device_imu660ra
+* å…¬å¸åç§°          æˆéƒ½é€é£žç§‘æŠ€æœ‰é™å…¬å¸
+* ç‰ˆæœ¬ä¿¡æ¯          æŸ¥çœ‹ libraries/doc æ–‡ä»¶å¤¹å†… version æ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜Ž
+* å¼€å‘çŽ¯å¢ƒ          ADS v1.8.0
+* é€‚ç”¨å¹³å°          TC264D
+* åº—é“ºé“¾æŽ¥          https://seekfree.taobao.com/
 *
-* ÐÞ¸Ä¼ÇÂ¼
-* ÈÕÆÚ              ×÷Õß                ±¸×¢
+* ä¿®æ”¹è®°å½•
+* æ—¥æœŸ              ä½œè€…                å¤‡æ³¨
 * 2022-09-15       pudding            first version
 ********************************************************************************************************************/
 /*********************************************************************************************************************
-* ½ÓÏß¶¨Òå£º
+* æŽ¥çº¿å®šä¹‰ï¼š
 *                   ------------------------------------
-*                   Ä£¿é¹Ü½Å            µ¥Æ¬»ú¹Ü½Å
-*                   // Ó²¼þ SPI Òý½Å
-*                   SCL/SPC           ²é¿´ zf_device_imu660ra.h ÖÐ IMU660RA_SPC_PIN ºê¶¨Òå
-*                   SDA/DSI           ²é¿´ zf_device_imu660ra.h ÖÐ IMU660RA_SDI_PIN ºê¶¨Òå
-*                   SA0/SDO           ²é¿´ zf_device_imu660ra.h ÖÐ IMU660RA_SDO_PIN ºê¶¨Òå
-*                   CS                ²é¿´ zf_device_imu660ra.h ÖÐ IMU660RA_CS_PIN ºê¶¨Òå
-*                   VCC               3.3VµçÔ´
-*                   GND               µçÔ´µØ
-*                   ÆäÓàÒý½ÅÐü¿Õ
+*                   æ¨¡å—ç®¡è„š            å•ç‰‡æœºç®¡è„š
+*                   // ç¡¬ä»¶ SPI å¼•è„š
+*                   SCL/SPC           æŸ¥çœ‹ zf_device_imu660ra.h ä¸­ IMU660RA_SPC_PIN å®å®šä¹‰
+*                   SDA/DSI           æŸ¥çœ‹ zf_device_imu660ra.h ä¸­ IMU660RA_SDI_PIN å®å®šä¹‰
+*                   SA0/SDO           æŸ¥çœ‹ zf_device_imu660ra.h ä¸­ IMU660RA_SDO_PIN å®å®šä¹‰
+*                   CS                æŸ¥çœ‹ zf_device_imu660ra.h ä¸­ IMU660RA_CS_PIN å®å®šä¹‰
+*                   VCC               3.3Vç”µæº
+*                   GND               ç”µæºåœ°
+*                   å…¶ä½™å¼•è„šæ‚¬ç©º
 *
-*                   // Èí¼þ IIC Òý½Å
-*                   SCL/SPC           ²é¿´ zf_device_imu660ra.h ÖÐ IMU660RA_SCL_PIN ºê¶¨Òå
-*                   SDA/DSI           ²é¿´ zf_device_imu660ra.h ÖÐ IMU660RA_SDA_PIN ºê¶¨Òå
-*                   VCC               3.3VµçÔ´
-*                   GND               µçÔ´µØ
-*                   ÆäÓàÒý½ÅÐü¿Õ
+*                   // è½¯ä»¶ IIC å¼•è„š
+*                   SCL/SPC           æŸ¥çœ‹ zf_device_imu660ra.h ä¸­ IMU660RA_SCL_PIN å®å®šä¹‰
+*                   SDA/DSI           æŸ¥çœ‹ zf_device_imu660ra.h ä¸­ IMU660RA_SDA_PIN å®å®šä¹‰
+*                   VCC               3.3Vç”µæº
+*                   GND               ç”µæºåœ°
+*                   å…¶ä½™å¼•è„šæ‚¬ç©º
 *                   ------------------------------------
 ********************************************************************************************************************/
 
@@ -60,31 +60,31 @@
 #include "zf_common_typedef.h"
 
 
-// IMU660RA_USE_SOFT_IIC¶¨ÒåÎª0±íÊ¾Ê¹ÓÃÓ²¼þSPIÇý¶¯ ¶¨ÒåÎª1±íÊ¾Ê¹ÓÃÈí¼þIICÇý¶¯
-// µ±¸ü¸ÄIMU660RA_USE_SOFT_IIC¶¨Òåºó£¬ÐèÒªÏÈ±àÒë²¢ÏÂÔØ³ÌÐò£¬µ¥Æ¬»úÓëÄ£¿éÐèÒª¶ÏµçÖØÆô²ÅÄÜÕý³£Í¨Ñ¶
-#define IMU660RA_USE_SOFT_IIC         (0)                                         // Ä¬ÈÏÊ¹ÓÃÓ²¼þ SPI ·½Ê½Çý¶¯
-#if IMU660RA_USE_SOFT_IIC                                                         // ÕâÁ½¶Î ÑÕÉ«Õý³£µÄ²ÅÊÇÕýÈ·µÄ ÑÕÉ«»ÒµÄ¾ÍÊÇÃ»ÓÐÓÃµÄ
-//====================================================Èí¼þ IIC Çý¶¯====================================================
-#define IMU660RA_SOFT_IIC_DELAY       (59 )                                       // Èí¼þ IIC µÄÊ±ÖÓÑÓÊ±ÖÜÆÚ ÊýÖµÔ½Ð¡ IIC Í¨ÐÅËÙÂÊÔ½¿ì
-#define IMU660RA_SCL_PIN              (P20_11)                                    // Èí¼þ IIC SCL Òý½Å Á¬½Ó IMU660RA µÄ SCL Òý½Å
-#define IMU660RA_SDA_PIN              (P20_14)                                    // Èí¼þ IIC SDA Òý½Å Á¬½Ó IMU660RA µÄ SDA Òý½Å
-//====================================================Èí¼þ IIC Çý¶¯====================================================
+// IMU660RA_USE_SOFT_IICå®šä¹‰ä¸º0è¡¨ç¤ºä½¿ç”¨ç¡¬ä»¶SPIé©±åŠ¨ å®šä¹‰ä¸º1è¡¨ç¤ºä½¿ç”¨è½¯ä»¶IICé©±åŠ¨
+// å½“æ›´æ”¹IMU660RA_USE_SOFT_IICå®šä¹‰åŽï¼Œéœ€è¦å…ˆç¼–è¯‘å¹¶ä¸‹è½½ç¨‹åºï¼Œå•ç‰‡æœºä¸Žæ¨¡å—éœ€è¦æ–­ç”µé‡å¯æ‰èƒ½æ­£å¸¸é€šè®¯
+#define IMU660RA_USE_SOFT_IIC         (0)                                         // é»˜è®¤ä½¿ç”¨ç¡¬ä»¶ SPI æ–¹å¼é©±åŠ¨
+#if IMU660RA_USE_SOFT_IIC                                                         // è¿™ä¸¤æ®µ é¢œè‰²æ­£å¸¸çš„æ‰æ˜¯æ­£ç¡®çš„ é¢œè‰²ç°çš„å°±æ˜¯æ²¡æœ‰ç”¨çš„
+//====================================================è½¯ä»¶ IIC é©±åŠ¨====================================================
+#define IMU660RA_SOFT_IIC_DELAY       (59 )                                       // è½¯ä»¶ IIC çš„æ—¶é’Ÿå»¶æ—¶å‘¨æœŸ æ•°å€¼è¶Šå° IIC é€šä¿¡é€ŸçŽ‡è¶Šå¿«
+#define IMU660RA_SCL_PIN              (P20_11)                                    // è½¯ä»¶ IIC SCL å¼•è„š è¿žæŽ¥ IMU660RA çš„ SCL å¼•è„š
+#define IMU660RA_SDA_PIN              (P20_14)                                    // è½¯ä»¶ IIC SDA å¼•è„š è¿žæŽ¥ IMU660RA çš„ SDA å¼•è„š
+//====================================================è½¯ä»¶ IIC é©±åŠ¨====================================================
 #else
 
-//====================================================Ó²¼þ SPI Çý¶¯====================================================
-#define IMU660RA_SPI_SPEED            (10 * 1000 * 1000)                          // Ó²¼þ SPI ËÙÂÊ
-#define IMU660RA_SPI                  (SPI_0)                                     // Ó²¼þ SPI ºÅ
-#define IMU660RA_SPC_PIN              (SPI0_SCLK_P20_11)                          // Ó²¼þ SPI SCK Òý½Å
-#define IMU660RA_SDI_PIN              (SPI0_MOSI_P20_14)                          // Ó²¼þ SPI MOSI Òý½Å
-#define IMU660RA_SDO_PIN              (SPI0_MISO_P20_12)                          // Ó²¼þ SPI MISO Òý½Å
-//====================================================Ó²¼þ SPI Çý¶¯====================================================
+//====================================================ç¡¬ä»¶ SPI é©±åŠ¨====================================================
+#define IMU660RA_SPI_SPEED            (10 * 1000 * 1000)                          // ç¡¬ä»¶ SPI é€ŸçŽ‡
+#define IMU660RA_SPI                  (SPI_0)                                     // ç¡¬ä»¶ SPI å·
+#define IMU660RA_SPC_PIN              (SPI0_SCLK_P20_11)                          // ç¡¬ä»¶ SPI SCK å¼•è„š
+#define IMU660RA_SDI_PIN              (SPI0_MOSI_P20_14)                          // ç¡¬ä»¶ SPI MOSI å¼•è„š
+#define IMU660RA_SDO_PIN              (SPI0_MISO_P20_12)                          // ç¡¬ä»¶ SPI MISO å¼•è„š
+//====================================================ç¡¬ä»¶ SPI é©±åŠ¨====================================================
 #endif
-#define IMU660RA_CS_PIN               (P20_13)                                    // CS Æ¬Ñ¡Òý½Å
+#define IMU660RA_CS_PIN               (P20_13)                                    // CS ç‰‡é€‰å¼•è„š
 #define IMU660RA_CS(x)                ((x) ? (gpio_high(IMU660RA_CS_PIN)) : (gpio_low(IMU660RA_CS_PIN)))
-#define IMU660RA_TIMEOUT_COUNT        (0x00FF)                                    // IMU660 ³¬Ê±¼ÆÊý
+#define IMU660RA_TIMEOUT_COUNT        (0x00FF)                                    // IMU660 è¶…æ—¶è®¡æ•°
 
-//================================================¶¨Òå IMU660RA ÄÚ²¿µØÖ·================================================
-#define IMU660RA_DEV_ADDR             (0x69)                                      // SA0½ÓµØ£º0x68 SA0ÉÏÀ­£º0x69 Ä£¿éÄ¬ÈÏÉÏÀ­
+//================================================å®šä¹‰ IMU660RA å†…éƒ¨åœ°å€================================================
+#define IMU660RA_DEV_ADDR             (0x69)                                      // SA0æŽ¥åœ°ï¼š0x68 SA0ä¸Šæ‹‰ï¼š0x69 æ¨¡å—é»˜è®¤ä¸Šæ‹‰
 #define IMU660RA_SPI_W                (0x00)
 #define IMU660RA_SPI_R                (0x80)
 
@@ -100,32 +100,32 @@
 #define IMU660RA_ACC_RANGE            (0x41)
 #define IMU660RA_GYR_CONF             (0x42)
 #define IMU660RA_GYR_RANGE            (0x43)
-#define IMU660RA_ACC_SAMPLE           (0x02)                                      // ¼ÓËÙ¶È¼ÆÁ¿³Ì
-// ÉèÖÃÎª:0x00 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À2g         »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ 16384   ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»£ºg(m/s^2)
-// ÉèÖÃÎª:0x01 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À4g         »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ 8192    ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»£ºg(m/s^2)
-// ÉèÖÃÎª:0x02 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À8g         »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ 4096    ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»£ºg(m/s^2)
-// ÉèÖÃÎª:0x03 ¼ÓËÙ¶È¼ÆÁ¿³ÌÎª:¡À16g        »ñÈ¡µ½µÄ¼ÓËÙ¶È¼ÆÊý¾Ý ³ýÒÔ 2048    ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»£ºg(m/s^2)
-#define IMU660RA_GYR_SAMPLE           (0x00)                                      // ÍÓÂÝÒÇÁ¿³Ì
-// ÉèÖÃÎª:0x00 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À2000dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý ³ýÒÔ 16.4       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»Îª£º¡ã/s
-// ÉèÖÃÎª:0x01 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À1000dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý ³ýÒÔ 32.8       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»Îª£º¡ã/s
-// ÉèÖÃÎª:0x02 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À500 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý ³ýÒÔ 65.6       ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»Îª£º¡ã/s
-// ÉèÖÃÎª:0x03 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À250 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý ³ýÒÔ 131.2      ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»Îª£º¡ã/s
-// ÉèÖÃÎª:0x04 ÍÓÂÝÒÇÁ¿³ÌÎª:¡À125 dps     »ñÈ¡µ½µÄÍÓÂÝÒÇÊý¾Ý ³ýÒÔ 262.4      ¿ÉÒÔ×ª»¯Îª´øÎïÀíµ¥Î»µÄÊý¾Ý µ¥Î»Îª£º¡ã/s
+#define IMU660RA_ACC_SAMPLE           (0x02)                                      // åŠ é€Ÿåº¦è®¡é‡ç¨‹
+// è®¾ç½®ä¸º:0x00 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±2g         èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥ 16384   å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ï¼šg(m/s^2)
+// è®¾ç½®ä¸º:0x01 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±4g         èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥ 8192    å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ï¼šg(m/s^2)
+// è®¾ç½®ä¸º:0x02 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±8g         èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥ 4096    å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ï¼šg(m/s^2)
+// è®¾ç½®ä¸º:0x03 åŠ é€Ÿåº¦è®¡é‡ç¨‹ä¸º:Â±16g        èŽ·å–åˆ°çš„åŠ é€Ÿåº¦è®¡æ•°æ® é™¤ä»¥ 2048    å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ï¼šg(m/s^2)
+#define IMU660RA_GYR_SAMPLE           (0x00)                                      // é™€èžºä»ªé‡ç¨‹
+// è®¾ç½®ä¸º:0x00 é™€èžºä»ªé‡ç¨‹ä¸º:Â±2000dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ® é™¤ä»¥ 16.4       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ä¸ºï¼šÂ°/s
+// è®¾ç½®ä¸º:0x01 é™€èžºä»ªé‡ç¨‹ä¸º:Â±1000dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ® é™¤ä»¥ 32.8       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ä¸ºï¼šÂ°/s
+// è®¾ç½®ä¸º:0x02 é™€èžºä»ªé‡ç¨‹ä¸º:Â±500 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ® é™¤ä»¥ 65.6       å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ä¸ºï¼šÂ°/s
+// è®¾ç½®ä¸º:0x03 é™€èžºä»ªé‡ç¨‹ä¸º:Â±250 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ® é™¤ä»¥ 131.2      å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ä¸ºï¼šÂ°/s
+// è®¾ç½®ä¸º:0x04 é™€èžºä»ªé‡ç¨‹ä¸º:Â±125 dps     èŽ·å–åˆ°çš„é™€èžºä»ªæ•°æ® é™¤ä»¥ 262.4      å¯ä»¥è½¬åŒ–ä¸ºå¸¦ç‰©ç†å•ä½çš„æ•°æ® å•ä½ä¸ºï¼šÂ°/s
 
-//================================================¶¨Òå IMU660RA ÄÚ²¿µØÖ·================================================
+//================================================å®šä¹‰ IMU660RA å†…éƒ¨åœ°å€================================================
 
-//===============================================ÉùÃ÷ IMU660RA Êý¾Ý´æ´¢±äÁ¿===============================================
-extern int16 imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z;                   // ÈýÖáÍÓÂÝÒÇÊý¾Ý      gyro (ÍÓÂÝÒÇ)
-extern int16 imu660ra_acc_x,  imu660ra_acc_y,  imu660ra_acc_z;                    // ÈýÖá¼ÓËÙ¶È¼ÆÊý¾Ý     acc (accelerometer ¼ÓËÙ¶È¼Æ)
-//===============================================ÉùÃ÷ IMU660RA Êý¾Ý´æ´¢±äÁ¿===============================================
+//===============================================å£°æ˜Ž IMU660RA æ•°æ®å­˜å‚¨å˜é‡===============================================
+extern int16 imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z;                   // ä¸‰è½´é™€èžºä»ªæ•°æ®      gyro (é™€èžºä»ª)
+extern int16 imu660ra_acc_x,  imu660ra_acc_y,  imu660ra_acc_z;                    // ä¸‰è½´åŠ é€Ÿåº¦è®¡æ•°æ®     acc (accelerometer åŠ é€Ÿåº¦è®¡)
+//===============================================å£°æ˜Ž IMU660RA æ•°æ®å­˜å‚¨å˜é‡===============================================
 
-//==================================================IMU660RA »ù´¡º¯Êý==================================================
-void  imu660ra_get_acc            (void);                                         // »ñÈ¡ IMU660RA ¼ÓËÙ¶È¼ÆÊý¾Ý
-void  imu660ra_get_gyro           (void);                                         // »ñÈ¡ IMU660RA ÍÓÂÝÒÇÊý¾Ý
-float imu660ra_acc_transition     (int16 acc_value);                              // ½«   IMU660RA ¼ÓËÙ¶È¼ÆÊý¾Ý×ª»»ÎªÊµ¼ÊÎïÀíÊý¾Ý
-float imu660ra_gyro_transition    (int16 gyro_value);                             // ½«   IMU660RA ÍÓÂÝÒÇÊý¾Ý×ª»»ÎªÊµ¼ÊÎïÀíÊý¾Ý
-uint8 imu660ra_init               (void);                                         // ³õÊ¼»¯ IMU660RA
-//==================================================IMU660RA »ù´¡º¯Êý===================================================
+//==================================================IMU660RA åŸºç¡€å‡½æ•°==================================================
+void  imu660ra_get_acc            (void);                                         // èŽ·å– IMU660RA åŠ é€Ÿåº¦è®¡æ•°æ®
+void  imu660ra_get_gyro           (void);                                         // èŽ·å– IMU660RA é™€èžºä»ªæ•°æ®
+float imu660ra_acc_transition     (int16 acc_value);                              // å°†   IMU660RA åŠ é€Ÿåº¦è®¡æ•°æ®è½¬æ¢ä¸ºå®žé™…ç‰©ç†æ•°æ®
+float imu660ra_gyro_transition    (int16 gyro_value);                             // å°†   IMU660RA é™€èžºä»ªæ•°æ®è½¬æ¢ä¸ºå®žé™…ç‰©ç†æ•°æ®
+uint8 imu660ra_init               (void);                                         // åˆå§‹åŒ– IMU660RA
+//==================================================IMU660RA åŸºç¡€å‡½æ•°===================================================
 
 #endif
 

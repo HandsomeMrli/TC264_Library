@@ -1,35 +1,35 @@
 /*********************************************************************************************************************
-* TC264 Opensourec Library ¼´£¨TC264 ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈı·½¿ªÔ´¿â
-* Copyright (c) 2022 SEEKFREE Öğ·É¿Æ¼¼
+* TC264 Opensourec Library å³ï¼ˆTC264 å¼€æºåº“ï¼‰æ˜¯ä¸€ä¸ªåŸºäºå®˜æ–¹ SDK æ¥å£çš„ç¬¬ä¸‰æ–¹å¼€æºåº“
+* Copyright (c) 2022 SEEKFREE é€é£ç§‘æŠ€
 *
-* ±¾ÎÄ¼şÊÇ TC264 ¿ªÔ´¿âµÄÒ»²¿·Ö
+* æœ¬æ–‡ä»¶æ˜¯ TC264 å¼€æºåº“çš„ä¸€éƒ¨åˆ†
 *
-* TC264 ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼ş
-* Äú¿ÉÒÔ¸ù¾İ×ÔÓÉÈí¼ş»ù½ğ»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ğí¿ÉÖ¤£©µÄÌõ¿î
-* ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØĞÂ·¢²¼ºÍ/»òĞŞ¸ÄËü
+* TC264 å¼€æºåº“ æ˜¯å…è´¹è½¯ä»¶
+* æ‚¨å¯ä»¥æ ¹æ®è‡ªç”±è½¯ä»¶åŸºé‡‘ä¼šå‘å¸ƒçš„ GPLï¼ˆGNU General Public Licenseï¼Œå³ GNUé€šç”¨å…¬å…±è®¸å¯è¯ï¼‰çš„æ¡æ¬¾
+* å³ GPL çš„ç¬¬3ç‰ˆï¼ˆå³ GPL3.0ï¼‰æˆ–ï¼ˆæ‚¨é€‰æ‹©çš„ï¼‰ä»»ä½•åæ¥çš„ç‰ˆæœ¬ï¼Œé‡æ–°å‘å¸ƒå’Œ/æˆ–ä¿®æ”¹å®ƒ
 *
-* ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
-* ÉõÖÁÃ»ÓĞÒşº¬µÄÊÊÏúĞÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
-* ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+* æœ¬å¼€æºåº“çš„å‘å¸ƒæ˜¯å¸Œæœ›å®ƒèƒ½å‘æŒ¥ä½œç”¨ï¼Œä½†å¹¶æœªå¯¹å…¶ä½œä»»ä½•çš„ä¿è¯
+* ç”šè‡³æ²¡æœ‰éšå«çš„é€‚é”€æ€§æˆ–é€‚åˆç‰¹å®šç”¨é€”çš„ä¿è¯
+* æ›´å¤šç»†èŠ‚è¯·å‚è§ GPL
 *
-* ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·İ GPL µÄ¸±±¾
-* Èç¹ûÃ»ÓĞ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+* æ‚¨åº”è¯¥åœ¨æ”¶åˆ°æœ¬å¼€æºåº“çš„åŒæ—¶æ”¶åˆ°ä¸€ä»½ GPL çš„å‰¯æœ¬
+* å¦‚æœæ²¡æœ‰ï¼Œè¯·å‚é˜…<https://www.gnu.org/licenses/>
 *
-* ¶îÍâ×¢Ã÷£º
-* ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ğí¿ÉÖ¤Ğ­Òé ÒÔÉÏĞí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
-* Ğí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼ş¼ĞÏÂµÄ GPL3_permission_statement.txt ÎÄ¼şÖĞ
-* Ğí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼ş¼ĞÏÂ ¼´¸ÃÎÄ¼ş¼ĞÏÂµÄ LICENSE ÎÄ¼ş
-* »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò µ«ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+* é¢å¤–æ³¨æ˜ï¼š
+* æœ¬å¼€æºåº“ä½¿ç”¨ GPL3.0 å¼€æºè®¸å¯è¯åè®® ä»¥ä¸Šè®¸å¯ç”³æ˜ä¸ºè¯‘æ–‡ç‰ˆæœ¬
+* è®¸å¯ç”³æ˜è‹±æ–‡ç‰ˆåœ¨ libraries/doc æ–‡ä»¶å¤¹ä¸‹çš„ GPL3_permission_statement.txt æ–‡ä»¶ä¸­
+* è®¸å¯è¯å‰¯æœ¬åœ¨ libraries æ–‡ä»¶å¤¹ä¸‹ å³è¯¥æ–‡ä»¶å¤¹ä¸‹çš„ LICENSE æ–‡ä»¶
+* æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åº ä½†ä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ï¼ˆå³æœ¬å£°æ˜ï¼‰
 *
-* ÎÄ¼şÃû³Æ          zf_device_camera
-* ¹«Ë¾Ãû³Æ          ³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
-* °æ±¾ĞÅÏ¢          ²é¿´ libraries/doc ÎÄ¼ş¼ĞÄÚ version ÎÄ¼ş °æ±¾ËµÃ÷
-* ¿ª·¢»·¾³          ADS v1.8.0
-* ÊÊÓÃÆ½Ì¨          TC264D
-* µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+* æ–‡ä»¶åç§°          zf_device_camera
+* å…¬å¸åç§°          æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+* ç‰ˆæœ¬ä¿¡æ¯          æŸ¥çœ‹ libraries/doc æ–‡ä»¶å¤¹å†… version æ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
+* å¼€å‘ç¯å¢ƒ          ADS v1.8.0
+* é€‚ç”¨å¹³å°          TC264D
+* åº—é“ºé“¾æ¥          https://seekfree.taobao.com/
 *
-* ĞŞ¸Ä¼ÇÂ¼
-* ÈÕÆÚ              ×÷Õß                ±¸×¢
+* ä¿®æ”¹è®°å½•
+* æ—¥æœŸ              ä½œè€…                å¤‡æ³¨
 * 2022-09-15       pudding             first version
 ********************************************************************************************************************/
 
@@ -49,10 +49,10 @@ uint8 camera_receiver_buffer[CAMERA_RECEIVER_BUFFER_SIZE];
 uint8 camera_send_image_frame_header[4] = {0x00, 0xFF, 0x01, 0x01};
 
 //-------------------------------------------------------------------------------------------------------------------
-// @brief       ÉãÏñÍ·¶ş½øÖÆÍ¼ÏñÊı¾İ½âÑ¹ÎªÊ®Áù½øÖÆ°ËÎ»Êı¾İ Ğ¡×ê·çÓÃ
-// @param       *data1          ÉãÏñÍ·Í¼ÏñÊı×é
-// @param       *data2          ´æ·Å½âÑ¹Êı¾İµÄµØÖ·
-// @param       image_size      Í¼ÏñµÄ´óĞ¡
+// @brief       æ‘„åƒå¤´äºŒè¿›åˆ¶å›¾åƒæ•°æ®è§£å‹ä¸ºåå…­è¿›åˆ¶å…«ä½æ•°æ® å°é’»é£ç”¨
+// @param       *data1          æ‘„åƒå¤´å›¾åƒæ•°ç»„
+// @param       *data2          å­˜æ”¾è§£å‹æ•°æ®çš„åœ°å€
+// @param       image_size      å›¾åƒçš„å¤§å°
 // @return      void
 // Sample usage:                camera_binary_image_decompression(&ov7725_image_binary[0][0], &data_buffer[0][0], OV7725_SIZE);
 //-------------------------------------------------------------------------------------------------------------------
@@ -73,29 +73,29 @@ void camera_binary_image_decompression (const uint8 *data1, uint8 *data2, uint32
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// @brief       ÉãÏñÍ·Í¼Ïñ·¢ËÍÖÁÉÏÎ»»ú²é¿´Í¼Ïñ
-// @param       uartn           Ê¹ÓÃµÄ´®¿ÚºÅ
-// @param       *image_addr     ĞèÒª·¢ËÍµÄÍ¼ÏñµØÖ·
-// @param       image_size      Í¼ÏñµÄ´óĞ¡
+// @brief       æ‘„åƒå¤´å›¾åƒå‘é€è‡³ä¸Šä½æœºæŸ¥çœ‹å›¾åƒ
+// @param       uartn           ä½¿ç”¨çš„ä¸²å£å·
+// @param       *image_addr     éœ€è¦å‘é€çš„å›¾åƒåœ°å€
+// @param       image_size      å›¾åƒçš„å¤§å°
 // @return      void
 // Sample usage:                camera_send_image(DEBUG_UART_INDEX, &mt9v03x_image[0][0], MT9V03X_IMAGE_SIZE);
 //-------------------------------------------------------------------------------------------------------------------
 void camera_send_image (uart_index_enum uartn, const uint8 *image_addr, uint32 image_size)
 {
     zf_assert(image_addr != NULL);
-    // ·¢ËÍÃüÁî
+    // å‘é€å‘½ä»¤
     uart_write_buffer(uartn, camera_send_image_frame_header, 4);
 
-    // ·¢ËÍÍ¼Ïñ
+    // å‘é€å›¾åƒ
     uart_write_buffer(uartn, (uint8 *)image_addr, image_size);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-// º¯Êı¼ò½é     ÉãÏñÍ·´®¿Ú FIFO ³õÊ¼»¯
-// ²ÎÊıËµÃ÷     void
-// ·µ»Ø²ÎÊı     void
-// Ê¹ÓÃÊ¾Àı     camera_fifo_init();
-// ±¸×¢ĞÅÏ¢
+// å‡½æ•°ç®€ä»‹     æ‘„åƒå¤´ä¸²å£ FIFO åˆå§‹åŒ–
+// å‚æ•°è¯´æ˜     void
+// è¿”å›å‚æ•°     void
+// ä½¿ç”¨ç¤ºä¾‹     camera_fifo_init();
+// å¤‡æ³¨ä¿¡æ¯
 //-------------------------------------------------------------------------------------------------------------------
 void camera_fifo_init (void)
 {
@@ -104,12 +104,12 @@ void camera_fifo_init (void)
 
 
 //-------------------------------------------------------------------------------------------------------------------
-// @brief       ÉãÏñÍ·³õÊ¼»¯
-// @param       image_size      Í¼ÏñµÄ´óĞ¡
+// @brief       æ‘„åƒå¤´åˆå§‹åŒ–
+// @param       image_size      å›¾åƒçš„å¤§å°
 // @return      void
-// @param       image_size      Í¼ÏñµÄ´óĞ¡
-// @param       data_addr       Êı¾İÀ´Ô´ÍâÉèµØÖ·
-// @param       buffer_addr     Í¼Ïñ»º³åÇøµØÖ·
+// @param       image_size      å›¾åƒçš„å¤§å°
+// @param       data_addr       æ•°æ®æ¥æºå¤–è®¾åœ°å€
+// @param       buffer_addr     å›¾åƒç¼“å†²åŒºåœ°å€
 // @return      void
 // Sample usage:                camera_init();
 //-------------------------------------------------------------------------------------------------------------------
@@ -119,8 +119,8 @@ uint8 camera_init (uint8 *source_addr, uint8 *destination_addr, uint16 image_siz
     uint8 link_list_num;
     switch(camera_type)
     {
-        case CAMERA_BIN_IIC:                                                    // IIC Ğ¡×ê·ç
-        case CAMERA_BIN_UART:                                                   // UART Ğ¡×ê·ç
+        case CAMERA_BIN_IIC:                                                    // IIC å°é’»é£
+        case CAMERA_BIN_UART:                                                   // UART å°é’»é£
             for(num = 0; num < 8; num ++)
             {
                 gpio_init((gpio_pin_enum)(OV7725_DATA_PIN + num), GPI, GPIO_LOW, GPI_FLOATING_IN);
@@ -131,9 +131,9 @@ uint8 camera_init (uint8 *source_addr, uint8 *destination_addr, uint16 image_siz
                                      OV7725_PCLK_PIN,
                                      EXTI_TRIGGER_FALLING,
                                      image_size);
-            exti_init(OV7725_VSYNC_PIN, EXTI_TRIGGER_FALLING);                  //³õÊ¼»¯³¡ÖĞ¶Ï£¬²¢ÉèÖÃÎªÏÂ½µÑØ´¥·¢ÖĞ¶Ï
+            exti_init(OV7725_VSYNC_PIN, EXTI_TRIGGER_FALLING);                  //åˆå§‹åŒ–åœºä¸­æ–­ï¼Œå¹¶è®¾ç½®ä¸ºä¸‹é™æ²¿è§¦å‘ä¸­æ–­
             break;
-        case CAMERA_GRAYSCALE:                                                  // ×Ü×ê·ç
+        case CAMERA_GRAYSCALE:                                                  // æ€»é’»é£
             for(num = 0; num < 8; num ++)
             {
                 gpio_init((gpio_pin_enum)(MT9V03X_DATA_PIN + num), GPI, GPIO_LOW, GPI_FLOATING_IN);
@@ -143,11 +143,11 @@ uint8 camera_init (uint8 *source_addr, uint8 *destination_addr, uint16 image_siz
                                      destination_addr,
                                      MT9V03X_PCLK_PIN,
                                      EXTI_TRIGGER_RISING,
-                                     image_size);                               // Èç¹û³¬Æµµ½300M µ¹ÊıµÚ¶ş¸ö²ÎÊıÇëÉèÖÃÎªFALLING
+                                     image_size);                               // å¦‚æœè¶…é¢‘åˆ°300M å€’æ•°ç¬¬äºŒä¸ªå‚æ•°è¯·è®¾ç½®ä¸ºFALLING
 
-            exti_init(MT9V03X_VSYNC_PIN, EXTI_TRIGGER_FALLING);                 // ³õÊ¼»¯³¡ÖĞ¶Ï£¬²¢ÉèÖÃÎªÏÂ½µÑØ´¥·¢ÖĞ¶Ï
+            exti_init(MT9V03X_VSYNC_PIN, EXTI_TRIGGER_FALLING);                 // åˆå§‹åŒ–åœºä¸­æ–­ï¼Œå¹¶è®¾ç½®ä¸ºä¸‹é™æ²¿è§¦å‘ä¸­æ–­
             break;
-        case CAMERA_COLOR:                                                      // ÁèÍ«
+        case CAMERA_COLOR:                                                      // å‡Œç³
             for(num=0; num<8; num++)
             {
                 gpio_init((gpio_pin_enum)(SCC8660_DATA_PIN + num), GPI, GPIO_LOW, GPI_FLOATING_IN);
@@ -158,9 +158,9 @@ uint8 camera_init (uint8 *source_addr, uint8 *destination_addr, uint16 image_siz
                                      destination_addr,
                                      SCC8660_PCLK_PIN,
                                      EXTI_TRIGGER_RISING,
-                                     image_size);                               // Èç¹û³¬Æµµ½300M µ¹ÊıµÚ¶ş¸ö²ÎÊıÇëÉèÖÃÎªFALLING
+                                     image_size);                               // å¦‚æœè¶…é¢‘åˆ°300M å€’æ•°ç¬¬äºŒä¸ªå‚æ•°è¯·è®¾ç½®ä¸ºFALLING
 
-            exti_init(SCC8660_VSYNC_PIN, EXTI_TRIGGER_FALLING);                  // ³õÊ¼»¯³¡ÖĞ¶Ï£¬²¢ÉèÖÃÎªÏÂ½µÑØ´¥·¢ÖĞ¶Ï
+            exti_init(SCC8660_VSYNC_PIN, EXTI_TRIGGER_FALLING);                  // åˆå§‹åŒ–åœºä¸­æ–­ï¼Œå¹¶è®¾ç½®ä¸ºä¸‹é™æ²¿è§¦å‘ä¸­æ–­
             break;
         default:
             break;
