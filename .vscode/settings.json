@@ -1,15 +1,6 @@
 {
     "files.associations": {
-        "pid.h": "c",
-        "define.h": "c",
-        "algorithm": "c",
-        "limits": "c",
-        "utility": "c",
-        "xutility": "c",
         "zf_common_headfile.h": "c",
-        "compilers.h": "c",
-        "compilergnuc.h": "c",
-        "compilertasking.h": "c",
-        "compilerdcc.h": "c"
+        "zf_device_tft180.h": "c"
     }
 }
