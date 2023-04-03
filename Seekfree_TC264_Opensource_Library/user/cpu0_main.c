@@ -122,34 +122,38 @@ int core0_main(void)
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
 
-    if(mt9v03x_init()){
-        while(1){
-            ;
-        }
-    }
+    // if(mt9v03x_init()){
+    //     while(1){
+    //         ;
+    //     }
+    // }
 
     gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+
+    // 电机相关初始化
+    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+    pwm_init(WHEEL_1_PWM_PIN, 17000, 1000);
+    pwm_init(WHEEL_2_PWM_PIN, 17000, 2000);
+    encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
+    encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
 
     tft180_init();
     
 
-    /*无线串口
+    // 无线串口
     if(wireless_uart_init()){
-        while(1){
-            ;
-        }
+        while(1){ gpio_toggle_level(BELL_PIN); system_delay_ms(200); }
     }
-    wireless_uart_send_byte('\r');
-    wireless_uart_send_byte('\n');
     wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");    
-    */
+
     
-   /*有线串口
+    /*有线串口
     fifo_init(&uart_data_file, FIFO_DATA_8BIT, uart_get_data, 64);
     uart_init(UART_CHANNEL, 9600, UART2_TX_P10_5, UART2_RX_P10_6);
     uart_rx_interrupt(UART_CHANNEL, 1);
     int mode[8] = {0};
-   */
+    */
 
 
     attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
@@ -163,18 +167,9 @@ int core0_main(void)
     {
         // 此处编写需要循环执行的代码
 
-        tft180_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, 160 - 1, 128 - 1, 0);
-        
-        wireless_uart_send_image(mt9v03x_image[0], MT9V03X_IMAGE_SIZE);        data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-        {
-            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-            memset(data_buffer, 0, 32);
-            // func_uint_to_str((char *)data_buffer, data_len);
-        }
-        system_delay_ms(1);
+        // tft180_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, 160 - 1, 128 - 1, 0);
 
-	    /* 无线串口
+	    // 无线串口
         data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
         if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
         {
@@ -183,20 +178,7 @@ int core0_main(void)
             // func_uint_to_str((char *)data_buffer, data_len);
         }
         system_delay_ms(1);
-        */
-
-        /* 有线串口
-        uart_write_string(UART_CHANNEL, "UART init successful!");
-        uart_write_byte(UART_CHANNEL, '\r');
-        uart_write_byte(UART_CHANNEL, '\n');
-
-        mode[0] = gpio_get_level(SW_1_PIN); 
-        mode[1] = gpio_get_level(SW_2_PIN); 
-        mode[2] = gpio_get_level(SW_3_PIN); 
-        mode[3] = gpio_get_level(SW_4_PIN); 
-        mode[4] = gpio_get_level(BTN_1_PIN);
-        mode[5] = gpio_get_level(BTN_2_PIN);
-        */
+        
 
 
 
