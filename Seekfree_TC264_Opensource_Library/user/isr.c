@@ -36,6 +36,9 @@
 #include "isr_config.h"
 #include "isr.h"
 
+#include "define.h"
+extern FusionAhrs ahrs;
+void printEularAngle();
 // **************************** PIT中断函数 ****************************
 IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
 {
@@ -51,8 +54,51 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     interrupt_global_enable(0);                     // 开启中断嵌套
     pit_clear_flag(CCU60_CH1);
 
+        // 姿态解算
+        // icm20602_get_acc();
+        // icm20602_get_gyro();
+        // attitude_solution_func(icm20602_acc_y, icm20602_acc_z, icm20602_acc_x, icm20602_gyro_y, icm20602_gyro_z, icm20602_gyro_x, &yaw, &rol, &pitch);
+        // yaw = (yaw < 0) ? (yaw + 360) : yaw;
+        // rol = (rol < 0) ? (rol + 360) : rol;
+        // pitch = (pitch < 0) ? (pitch + 360) : pitch;
 
+        // tft180_show_int(42, 96, yaw, 3);
+        // tft180_show_int(42, 112, rol, 3);
+        // tft180_show_int(42, 128, pitch, 3);
 
+        // if(absValue(yaw - yawLast) >= 180){ 
+        //     yawCount -= signValue(yaw - yawLast); 
+        //     gpio_set_level(BELL_PIN, 1); system_delay_ms(5); gpio_set_level(BELL_PIN, 0);
+        // }
+        // if(absValue(rol - rolLast) >= 180){ 
+        //     rolCount -= signValue(rol - rolLast); 
+        //     gpio_set_level(BELL_PIN, 1); system_delay_ms(5); gpio_set_level(BELL_PIN, 0);
+        // }
+        // if(absValue(pitch - pitchLast) >= 180){ 
+        //     pitchCount -= signValue(pitch - pitchLast);
+        //     gpio_set_level(BELL_PIN, 1); system_delay_ms(5); gpio_set_level(BELL_PIN, 0);
+        // }
+        // yawLast = yaw; rolLast = rol; pitchLast = pitch;
+        // printEularAngle();
+
+        icm20602_get_acc();
+        icm20602_get_gyro();
+        const FusionVector gyroscope = {
+            icm20602_gyro_transition(icm20602_gyro_x),
+            icm20602_gyro_transition(icm20602_gyro_y),
+            icm20602_gyro_transition(icm20602_gyro_z)
+        }; // replace this with actual gyroscope data in degrees/s
+        const FusionVector accelerometer = {
+            icm20602_acc_transition(icm20602_acc_x),
+            icm20602_acc_transition(icm20602_acc_y),
+            icm20602_acc_transition(icm20602_acc_z)
+        }; // replace this with actual accelerometer data in g
+
+        FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
+
+        const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
+
+        printEularAngle(&euler);
 
 }
 

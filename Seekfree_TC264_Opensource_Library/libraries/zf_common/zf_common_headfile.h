@@ -110,5 +110,7 @@
     #undef __DCC__
 #endif
 
+#include "Fusion/Fusion.h"
+
 #endif
 
