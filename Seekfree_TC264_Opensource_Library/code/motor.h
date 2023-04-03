@@ -20,10 +20,10 @@ typedef enum {
     OPPOSE
 }Operation;
 
-Motor motorLeft, motorRight, motorBottom;
-PIDValue velPIDy, velPIDl, velPIDr;
-PIDValue angPIDx, angPIDy, angPIDz;
-PIDValue angVelPIDx, angVelPIDy, angVelPIDz; 
+extern Motor motorLeft, motorRight, motorBottom;
+extern PIDValue velPIDy, velPIDl, velPIDr;
+extern PIDValue angPIDx, angPIDy, angPIDz;
+extern PIDValue angVelPIDx, angVelPIDy, angVelPIDz; 
 
 void initMotors();
 void __initMotor(Motor *motor, uint32 freq, int32 pwm, 
