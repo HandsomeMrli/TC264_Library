@@ -107,9 +107,9 @@ void printEularAngle(){
     tft180_show_string(0, 112, "rol");
     tft180_show_string(0, 128, "pitch");
 
-    tft180_show_int(42, 96, yaw, 3);
-    tft180_show_int(42, 112, rol, 3);
-    tft180_show_int(42, 128, pitch, 3);
+    // tft180_show_int(42, 96, yaw, 3);
+    // tft180_show_int(42, 112, rol, 3);
+    // tft180_show_int(42, 128, pitch, 3);
         
     tft180_show_int(84, 96, yaw + yawCount * 360, 4);
     tft180_show_int(84, 112, rol + rolCount * 360, 4);
@@ -133,7 +133,7 @@ int core0_main(void)
     // 电机相关初始化
     gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
     gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-    pwm_init(WHEEL_1_PWM_PIN, 17000, 1000);
+    // pwm_init(WHEEL_1_PWM_PIN, 17000, 200);
     pwm_init(WHEEL_2_PWM_PIN, 17000, 2000);
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
@@ -155,7 +155,9 @@ int core0_main(void)
     int mode[8] = {0};
     */
 
-
+    // 陀螺仪初始化
+    icm20602_init();
+    Init_MPU6050_GYRO();
     attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
     yawLast = (yawLast < 0) ? (yawLast + 360) : yawLast;
     rolLast = (rolLast < 0) ? (rolLast + 360) : rolLast;
@@ -190,14 +192,22 @@ int core0_main(void)
         yaw = (yaw < 0) ? (yaw + 360) : yaw;
         rol = (rol < 0) ? (rol + 360) : rol;
         pitch = (pitch < 0) ? (pitch + 360) : pitch;
+
+        tft180_show_int(42, 96, yaw, 3);
+        tft180_show_int(42, 112, rol, 3);
+        tft180_show_int(42, 128, pitch, 3);
+
         if(absValue(yaw - yawLast) >= 180){ 
             yawCount -= signValue(yaw - yawLast); 
+            gpio_set_level(BELL_PIN, 1); system_delay_ms(10); gpio_set_level(BELL_PIN, 0);
         }
         if(absValue(rol - rolLast) >= 180){ 
             rolCount -= signValue(rol - rolLast); 
+            gpio_set_level(BELL_PIN, 1); system_delay_ms(10); gpio_set_level(BELL_PIN, 0);
         }
         if(absValue(pitch - pitchLast) >= 180){ 
             pitchCount -= signValue(pitch - pitchLast);
+            gpio_set_level(BELL_PIN, 1); system_delay_ms(10); gpio_set_level(BELL_PIN, 0);
         }
         yawLast = yaw; rolLast = rol; pitchLast = pitch;
         printEularAngle();
