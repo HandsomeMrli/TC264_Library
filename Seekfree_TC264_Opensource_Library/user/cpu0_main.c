@@ -74,7 +74,6 @@ fifo_struct uart_data_file;
 uint8 data_buffer[32];
 uint8 data_len;
 uint8 count = 0;    
-uint8 image_temp[MT9V03X_H][MT9V03X_W];
 
 int core0_main(void)
 {
@@ -123,13 +122,6 @@ int core0_main(void)
     attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
 
 
-
-    for(int i = 0; i < MT9V03X_H; ++i){
-        for(int j = 0; j < MT9V03X_W; ++j){
-            image_temp[i][j] = (i+j)%256;
-        }
-    }
-
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
     while (TRUE)
@@ -137,6 +129,7 @@ int core0_main(void)
         // 此处编写需要循环执行的代码
 
         tft180_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, 160 - 1, 128 - 1, 0);
+        
         wireless_uart_send_image(mt9v03x_image[0], MT9V03X_IMAGE_SIZE);        data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
         if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
         {
@@ -146,6 +139,7 @@ int core0_main(void)
         }
         wireless_uart_send_image(image_temp[0], MT9V03X_IMAGE_SIZE);
         system_delay_ms(1);
+
 	    /* 无线串口
         data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
         if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
@@ -217,13 +211,7 @@ int core0_main(void)
         // tft180_show_float(42, 128, pitch, 3, 1);
 
 
-        /* 方案一:将[+0~+180~-180~-0]映射到[+0~+180~+180+360],但这样依然在+360与+0之间有突变点
-        tft180_show_int(84, 96, (yaw < 0) ? (yaw + 360) : yaw, 4);
-        tft180_show_int(84, 112, (rol < 0) ? (rol + 360) : rol, 4);
-        tft180_show_int(84, 128, (pitch < 0) ? (pitch + 360) : pitch, 4);
-        */
 
-        /* 方案二:在方案一的基础上,识别+360到+0之间的突变 */
         // yaw = (yaw < 0) ? (yaw + 360) : yaw;
         // rol = (rol < 0) ? (rol + 360) : rol;
         // pitch = (pitch < 0) ? (pitch + 360) : pitch;
