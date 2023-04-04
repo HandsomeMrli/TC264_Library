@@ -7,7 +7,7 @@ void initMotors(){
     pwm_init(WHEEL_1_PWM_PIN, motorRight.freq, motorRight.pwm);
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
     
-    __initMotor(&motorLeft, 17000, 2000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
+    __initMotor(&motorRight, 17000, 2000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
     gpio_init(WHEEL_2_DIR_PIN, GPO, 0, GPO_PUSH_PULL);
     pwm_init(WHEEL_2_PWM_PIN, motorLeft.freq, motorLeft.pwm);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
