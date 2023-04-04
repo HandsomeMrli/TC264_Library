@@ -57,6 +57,12 @@ void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChann
     motor->dirPin = dirPin;
 }
 
+void __updateMotor(Motor *motor){
+    pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
+    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
+}
+
+
 void setMotor(Motor *motor, Operation op, int32_t offset){
     int32_t pwmTemp;
     switch (op){
@@ -80,7 +86,3 @@ void setMotor(Motor *motor, Operation op, int32_t offset){
     __updateMotor(motor);
 }
 
-void __updateMotor(Motor *motor){
-    pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
-    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
-}
