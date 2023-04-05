@@ -37,10 +37,15 @@
 #include "isr.h"
 
 #include "define.h"
+#include "motor.h"
 extern FusionAhrs ahrs;
 extern char uart_string_buffer[64];
+extern int16 motorLeftSpeed;
+extern int16 motorRightSpeed;
+extern uint8 mode;
 
-void printEularAngle();
+void printEularAngle(const FusionEuler *euler);
+void printMotorSpeed();
 // **************************** PIT中断函数 ****************************
 IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
 {
@@ -95,12 +100,28 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             icm20602_acc_transition(icm20602_acc_z),
             icm20602_acc_transition(icm20602_acc_x)
         }; // replace this with actual accelerometer data in g
-
         FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
-
         const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
+        
+        motorLeftSpeed = encoder_get_count(WHEEL_1_ENCODER);
+        motorRightSpeed = encoder_get_count(WHEEL_2_ENCODER);
+        encoder_clear_count(WHEEL_1_ENCODER);
+        encoder_clear_count(WHEEL_2_ENCODER);
 
-        printEularAngle(&euler);
+        switch (mode){
+            case 0:
+                printEularAngle(&euler);        
+                break;
+            case 1:
+                printMotorSpeed();
+            default:
+                break;
+        }
+        
+
+
+        // updateMotors();
+        
 
 }
 

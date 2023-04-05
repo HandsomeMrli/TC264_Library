@@ -60,7 +60,7 @@
 // 本例程是开源库移植用空工程
 
 #include "attitude.h"
-
+#include "motor.h"
 
 // **************************** 代码区域 ****************************
 
@@ -79,6 +79,12 @@ uint8 count = 0;
 // 欧拉角相关变量
 FusionAhrs ahrs;
 
+// 拨码开关更改模式
+uint8 mode = 0;
+
+// 电机相关变量
+int16 motorLeftSpeed = 0;
+int16 motorRightSpeed = 0;
 
 void printEularAngle(const FusionEuler *euler){
     tft180_show_string(0, 0, "accX");  
@@ -112,6 +118,22 @@ void printEularAngle(const FusionEuler *euler){
 
 }
 
+void printMotorSpeed(){
+    tft180_show_string(0, 0, "motorL");  
+    tft180_show_string(0, 16, "motorR"); 
+    tft180_show_string(0, 32, "motorB"); 
+    // tft180_show_string(0, 48, "gyroX");
+    // tft180_show_string(0, 64, "gyroY");
+    // tft180_show_string(0, 80, "gyroZ");
+
+    tft180_show_int(50, 0, motorLeftSpeed, 6);  
+    tft180_show_int(50, 16, motorRightSpeed, 6); 
+    // tft180_show_int(44, 32, icm20602_acc_z, 6); 
+    // tft180_show_int(44, 48, icm20602_gyro_x, 6);
+    // tft180_show_int(44, 64, icm20602_gyro_y, 6);
+    // tft180_show_int(44, 80, icm20602_gyro_z, 6);
+}
+
 int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
@@ -119,12 +141,18 @@ int core0_main(void)
     // 此处编写用户代码 例如外设初始化代码等
 
 
+    gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+
+
     gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
     // 电机相关初始化
     gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
     gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-    // pwm_init(WHEEL_1_PWM_PIN, 17000, 200);
+    pwm_init(WHEEL_1_PWM_PIN, 17000, 2000);
     pwm_init(WHEEL_2_PWM_PIN, 17000, 2000);
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
@@ -143,10 +171,12 @@ int core0_main(void)
     {
         // 此处编写需要循环执行的代码
 
-        
-
-
-
+        // mode = 0;
+        // mode = gpio_get_level(SW_1_PIN); mode <<= 1;
+        // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
+        // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
+        // mode = gpio_get_level(SW_4_PIN); 
+        mode = 1;
 
 
         // 此处编写需要循环执行的代码

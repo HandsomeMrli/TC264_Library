@@ -5,33 +5,18 @@ PIDValue velPIDy, velPIDl, velPIDr;
 PIDValue angPIDx, angPIDy, angPIDz;
 PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
 
-void updateMotors(
-        int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed, 
-        int32 cameraSpeedTarget, int32 cameraTurnTarget, 
-        int32 pitchX, int32 rollY, int32 yawZ,
-        int32 angVelX, int32 angVelY, int32 angVelZ){
-
-    // 速度环更新
-    velPIDl.target = 0; velPIDl.measurement = motorLeftSpeed; __updatePID(&velPIDl);
-    velPIDr.target = 0; velPIDr.measurement = motorRightSpeed; __updatePID(&velPIDr);
-    velPIDy.target = cameraSpeedTarget; velPIDy.measurement = motorBottomSpeed; __updatePID(&velPIDy);
-    
-    // 角度环更新
-    angPIDx.target = velPIDl.deltaOutput + velPIDr.deltaOutput; angPIDx.measurement = pitchX; __updatePID(&angPIDx); // TODO:左右两轮的deltaOutput是相加还是相减?
-    angPIDy.target = velPIDy.deltaOutput; angPIDy.measurement = rollY; __updatePID(&angPIDy);
-    angPIDz.target = cameraTurnTarget;    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
-
-    // 角速度环更新
-    angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
-    angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
-
-    // PWM更新
-    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
-    setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
-    setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
+void __updateMotor(Motor *motor){
+    pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
+    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
 }
 
+void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChannel, gpio_pin_enum dirPin, int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
+    __initPID(&(motor->pid), pCoef, iCoef, dCoef, target, errorIntMax);
+    motor->freq = freq;
+    motor->pwm = pwm;
+    motor->pwmChannel = pwmChannel;
+    motor->dirPin = dirPin;
+}
 
 void initMotors(){
 
@@ -47,14 +32,6 @@ void initMotors(){
 
     // TODO:底轮的电机还未初始化，需要得知其PWM_PIN与DIR_PIN
 
-}
-
-void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChannel, gpio_pin_enum dirPin, int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
-    __initPID(&(motor->pid), pCoef, iCoef, dCoef, target, errorIntMax);
-    motor->freq = freq;
-    motor->pwm = pwm;
-    motor->pwmChannel = pwmChannel;
-    motor->dirPin = dirPin;
 }
 
 void setMotor(Motor *motor, Operation op, int32_t offset){
@@ -80,7 +57,29 @@ void setMotor(Motor *motor, Operation op, int32_t offset){
     __updateMotor(motor);
 }
 
-void __updateMotor(Motor *motor){
-    pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
-    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
+void updateMotors(
+        int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed, 
+        int32 cameraSpeedTarget, int32 cameraTurnTarget, 
+        int32 pitchX, int32 rollY, int32 yawZ,
+        int32 angVelX, int32 angVelY, int32 angVelZ){
+
+    // 速度环更新
+    velPIDl.target = 0; velPIDl.measurement = motorLeftSpeed; __updatePID(&velPIDl);
+    velPIDr.target = 0; velPIDr.measurement = motorRightSpeed; __updatePID(&velPIDr);
+    velPIDy.target = cameraSpeedTarget; velPIDy.measurement = motorBottomSpeed; __updatePID(&velPIDy);
+    
+    // 角度环更新
+    angPIDx.target = velPIDl.deltaOutput + velPIDr.deltaOutput; angPIDx.measurement = pitchX; __updatePID(&angPIDx); // TODO:左右两轮的deltaOutput是相加还是相减?
+    angPIDy.target = velPIDy.deltaOutput; angPIDy.measurement = rollY; __updatePID(&angPIDy);
+    angPIDz.target = cameraTurnTarget;    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+
+    // 角速度环更新
+    angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
+
+    // PWM更新
+    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
+    setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
+    setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
 }
