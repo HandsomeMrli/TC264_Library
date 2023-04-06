@@ -106,22 +106,6 @@ int core0_main(void)
         }
     }
 
-    // 电机相关初始化
-    /*
-        WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负
-
-    */
-    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
-    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
-    gpio_init(WHEEL_3_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
-    pwm_init(WHEEL_1_PWM_PIN, 17000, 8000);
-    pwm_init(WHEEL_2_PWM_PIN, 17000, 0);
-    pwm_init(WHEEL_3_PWM_PIN, 17000, 0);
-    gpio_init(WHEEL_1_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL); // 刹车引脚低电平有效
-    gpio_init(WHEEL_2_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
-    encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
-    encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
-    encoder_quad_init(WHEEL_3_ENCODER, WHEEL_3_ENCODER_A_PIN, WHEEL_3_ENCODER_B_PIN);
 
     tft180_init();
 

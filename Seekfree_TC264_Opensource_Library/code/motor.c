@@ -5,19 +5,9 @@ PIDValue velPIDy, velPIDl, velPIDr;
 PIDValue angPIDx, angPIDy, angPIDz;
 PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
 
-void __updateMotor(Motor *motor){
-    #ifdef _DEBUG_BELL_
-    if(WHEEL_PWM_MAX - absValue(motor->pwm) < 0){
-        while(1){
-            gpio_set_level(BELL_PIN, 1);
-        }
-    }
-    #endif
-    // 高低电平都是实际pwm=10000-pwm
-    pwm_set_duty(motor->pwmChannel, WHEEL_PWM_MAX - absValue(motor->pwm));
-    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
-}
-
+/**
+ * @brief 仅初始化Motor结构体,不负责初始化引脚与PWM
+*/
 void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChannel, gpio_pin_enum dirPin, int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
     __initPID(&(motor->pid), pCoef, iCoef, dCoef, target, errorIntMax);
     motor->freq = freq;
@@ -27,19 +17,46 @@ void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChann
 }
 
 void initMotors(){
+    /*
+        WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负
+    */
 
-    __initMotor(&motorLeft, 17000, 1000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
-    gpio_init(WHEEL_1_DIR_PIN, GPO, 0, GPO_PUSH_PULL);
-    pwm_init(WHEEL_1_PWM_PIN, motorRight.freq, motorRight.pwm);
+    __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
+    __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 5, 1, 1, 0, 300);
+    __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 5, 1, 1, 0, 300);
+
+    // 初始化方向引脚
+    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_3_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+
+    // 初始化PWM信号
+    pwm_init(WHEEL_1_PWM_PIN, motorRight.freq, PWM_DUTY_MAX);
+    pwm_init(WHEEL_2_PWM_PIN, motorLeft.freq, PWM_DUTY_MAX);
+    pwm_init(WHEEL_3_PWM_PIN, motorBottom.freq, PWM_DUTY_MAX);
+
+    // 初始化刹车引脚(低电平有效)
+    gpio_init(WHEEL_1_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_2_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+
+    // 初始化测速编码器
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
-    
-    __initMotor(&motorRight, 17000, 2000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
-    gpio_init(WHEEL_2_DIR_PIN, GPO, 0, GPO_PUSH_PULL);
-    pwm_init(WHEEL_2_PWM_PIN, motorLeft.freq, motorLeft.pwm);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
+    encoder_quad_init(WHEEL_3_ENCODER, WHEEL_3_ENCODER_A_PIN, WHEEL_3_ENCODER_B_PIN);
 
-    // TODO:底轮的电机还未初始化，需要得知其PWM_PIN与DIR_PIN
+}
 
+void __updateMotor(Motor *motor){
+    #ifdef _DEBUG_BELL_
+    if(WHEEL_PWM_MAX - absValue(motor->pwm) < 0){
+        while(1){
+            gpio_set_level(BELL_PIN, 1);
+        }
+    }
+    #endif
+    // 无论方向引脚高低电平，实际pwm = 10000 - pwm
+    pwm_set_duty(motor->pwmChannel, WHEEL_PWM_MAX - absValue(motor->pwm));
+    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
 }
 
 void setMotor(Motor *motor, Operation op, int32_t offset){
@@ -91,58 +108,3 @@ void updateMotors(
     setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
     setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
 }
-
-
-void initMotors(){
-
-    __initMotor(&motorLeft, 17000, 1000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
-    gpio_init(WHEEL_1_DIR_PIN, GPO, 0, GPO_PUSH_PULL);
-    pwm_init(WHEEL_1_PWM_PIN, motorRight.freq, motorRight.pwm);
-    encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
-    
-    __initMotor(&motorRight, 17000, 2000, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
-    gpio_init(WHEEL_2_DIR_PIN, GPO, 0, GPO_PUSH_PULL);
-    pwm_init(WHEEL_2_PWM_PIN, motorLeft.freq, motorLeft.pwm);
-    encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
-
-    // TODO:底轮的电机还未初始化，需要得知其PWM_PIN与DIR_PIN
-
-}
-
-void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChannel, gpio_pin_enum dirPin, int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
-    __initPID(&(motor->pid), pCoef, iCoef, dCoef, target, errorIntMax);
-    motor->freq = freq;
-    motor->pwm = pwm;
-    motor->pwmChannel = pwmChannel;
-    motor->dirPin = dirPin;
-}
-
-void __updateMotor(Motor *motor){
-    pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
-    gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
-}
-
-
-void setMotor(Motor *motor, Operation op, int32_t offset){
-    int32_t pwmTemp;
-    switch (op){
-        case PLUS:
-            pwmTemp = motor->pwm + offset;
-            motor->pwm = (pwmTemp > WHEEL_PWM_MAX) ? WHEEL_PWM_MAX : pwmTemp;
-            break;
-        case MINUS:
-            pwmTemp = motor->pwm - offset;
-            motor->pwm = (pwmTemp < -WHEEL_PWM_MAX) ? -WHEEL_PWM_MAX : pwmTemp;
-            break;
-        case ASSIGN:
-            pwmTemp = minValue(offset, WHEEL_PWM_MAX);
-            pwmTemp = maxValue(offset, -WHEEL_PWM_MAX);
-            motor->pwm = pwmTemp;
-            break;
-        case OPPOSE:
-            motor->pwm = -motor->pwm;
-            break;
-    }
-    __updateMotor(motor);
-}
-
