@@ -59,8 +59,7 @@
 // 本例程是开源库移植用空工程
 // 本例程是开源库移植用空工程
 
-#include "attitude.h"
-
+#include "motor.h"
 
 // **************************** 代码区域 ****************************
 
@@ -77,44 +76,15 @@ uint8 data_len;
 uint8 count = 0;
 
 // 欧拉角相关变量
-float yaw, rol, pitch;
-int8_t yawCount = 0, rolCount = 0, pitchCount = 0;
-float yawLast, rolLast, pitchLast;
+FusionAhrs ahrs;
 
-void printEularAngle(){
-    tft180_show_string(0, 0, "accX");  
-    tft180_show_string(0, 16, "accY"); 
-    tft180_show_string(0, 32, "accZ"); 
-    tft180_show_string(0, 48, "gyroX");
-    tft180_show_string(0, 64, "gyroY");
-    tft180_show_string(0, 80, "gyroZ");
+// 拨码开关更改模式
+uint8 mode = 0;
 
-    tft180_show_int(44, 0, icm20602_acc_x, 6);  
-    tft180_show_int(44, 16, icm20602_acc_y, 6); 
-    tft180_show_int(44, 32, icm20602_acc_z, 6); 
-    tft180_show_int(44, 48, icm20602_gyro_x, 6);
-    tft180_show_int(44, 64, icm20602_gyro_y, 6);
-    tft180_show_int(44, 80, icm20602_gyro_z, 6);
-
-    tft180_show_float(78, 0, icm20602_acc_transition(icm20602_acc_x), 2, 2);
-    tft180_show_float(78, 16, icm20602_acc_transition(icm20602_acc_y), 2, 2);
-    tft180_show_float(78, 32, icm20602_acc_transition(icm20602_acc_z), 2, 2);
-    tft180_show_float(78, 48, icm20602_gyro_transition(icm20602_gyro_x), 2, 2);
-    tft180_show_float(78, 64, icm20602_gyro_transition(icm20602_gyro_y), 2, 2);
-    tft180_show_float(78, 80, icm20602_gyro_transition(icm20602_gyro_z), 2, 2);
-
-    tft180_show_string(0, 96, "yaw");
-    tft180_show_string(0, 112, "rol");
-    tft180_show_string(0, 128, "pitch");
-
-    // tft180_show_int(42, 96, yaw, 3);
-    // tft180_show_int(42, 112, rol, 3);
-    // tft180_show_int(42, 128, pitch, 3);
-        
-    tft180_show_int(84, 96, yaw + yawCount * 360, 4);
-    tft180_show_int(84, 112, rol + rolCount * 360, 4);
-    tft180_show_int(84, 128, pitch + pitchCount * 360, 4);
-}
+// 电机相关变量
+int16 motorLeftSpeed = 0;
+int16 motorRightSpeed = 0;
+int16 motorBottomSpeed = 0;
 
 int core0_main(void)
 {
@@ -122,46 +92,45 @@ int core0_main(void)
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
 
-    // if(mt9v03x_init()){
-    //     while(1){
-    //         ;
-    //     }
-    // }
+
+    gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
 
     gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
+    if(wireless_uart_init()){
+        while(1){
+            gpio_set_level(BELL_PIN, 1);
+        }
+    }
+
     // 电机相关初始化
-    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-    // pwm_init(WHEEL_1_PWM_PIN, 17000, 200);
-    pwm_init(WHEEL_2_PWM_PIN, 17000, 2000);
+    /*
+        WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负
+
+    */
+    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_3_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    pwm_init(WHEEL_1_PWM_PIN, 17000, 8000);
+    pwm_init(WHEEL_2_PWM_PIN, 17000, 0);
+    pwm_init(WHEEL_3_PWM_PIN, 17000, 0);
+    gpio_init(WHEEL_1_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL); // 刹车引脚低电平有效
+    gpio_init(WHEEL_2_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
+    encoder_quad_init(WHEEL_3_ENCODER, WHEEL_3_ENCODER_A_PIN, WHEEL_3_ENCODER_B_PIN);
 
     tft180_init();
-    
-
-    // 无线串口
-    if(wireless_uart_init()){
-        while(1){ gpio_toggle_level(BELL_PIN); system_delay_ms(200); }
-    }
-    wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");    
-
-    
-    /*有线串口
-    fifo_init(&uart_data_file, FIFO_DATA_8BIT, uart_get_data, 64);
-    uart_init(UART_CHANNEL, 9600, UART2_TX_P10_5, UART2_RX_P10_6);
-    uart_rx_interrupt(UART_CHANNEL, 1);
-    int mode[8] = {0};
-    */
 
     // 陀螺仪初始化
     icm20602_init();
-    Init_MPU6050_GYRO();
-    attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yawLast, &rolLast, &pitchLast);
-    yawLast = (yawLast < 0) ? (yawLast + 360) : yawLast;
-    rolLast = (rolLast < 0) ? (rolLast + 360) : rolLast;
-    pitchLast = (pitchLast < 0) ? (pitchLast + 360) : pitchLast;
+    FusionAhrsInitialise(&ahrs);
+
+    pit_ms_init(CCU60_CH1, 10);
+
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -169,48 +138,27 @@ int core0_main(void)
     {
         // 此处编写需要循环执行的代码
 
-        // tft180_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, 160 - 1, 128 - 1, 0);
+        // mode = 0;
+        // mode = gpio_get_level(SW_1_PIN); mode <<= 1;
+        // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
+        // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
+        // mode = gpio_get_level(SW_4_PIN); 
+        mode = 0;
 
-	    // 无线串口
-        data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-        {
-            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-            memset(data_buffer, 0, 32);
-            // func_uint_to_str((char *)data_buffer, data_len);
+        uint8 data;
+        if(wireless_uart_read_buff(&data, 1)){
+            switch(data){
+                case '0':
+                     
+                    break;
+                
+                default:
+                    break;
+            }
         }
-        system_delay_ms(1);
+
         
 
-
-
-
-        // 姿态解算
-        icm20602_get_acc();
-        icm20602_get_gyro();
-        attitude_solution_func(icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, &yaw, &rol, &pitch);
-        yaw = (yaw < 0) ? (yaw + 360) : yaw;
-        rol = (rol < 0) ? (rol + 360) : rol;
-        pitch = (pitch < 0) ? (pitch + 360) : pitch;
-
-        tft180_show_int(42, 96, yaw, 3);
-        tft180_show_int(42, 112, rol, 3);
-        tft180_show_int(42, 128, pitch, 3);
-
-        if(absValue(yaw - yawLast) >= 180){ 
-            yawCount -= signValue(yaw - yawLast); 
-            gpio_set_level(BELL_PIN, 1); system_delay_ms(10); gpio_set_level(BELL_PIN, 0);
-        }
-        if(absValue(rol - rolLast) >= 180){ 
-            rolCount -= signValue(rol - rolLast); 
-            gpio_set_level(BELL_PIN, 1); system_delay_ms(10); gpio_set_level(BELL_PIN, 0);
-        }
-        if(absValue(pitch - pitchLast) >= 180){ 
-            pitchCount -= signValue(pitch - pitchLast);
-            gpio_set_level(BELL_PIN, 1); system_delay_ms(10); gpio_set_level(BELL_PIN, 0);
-        }
-        yawLast = yaw; rolLast = rol; pitchLast = pitch;
-        printEularAngle();
 
         // 此处编写需要循环执行的代码
     }

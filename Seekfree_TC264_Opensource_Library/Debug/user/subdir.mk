@@ -6,22 +6,26 @@
 C_SRCS += \
 ../user/cpu0_main.c \
 ../user/cpu1_main.c \
-../user/isr.c 
+../user/isr.c \
+../user/print.c 
 
 COMPILED_SRCS += \
 ./user/cpu0_main.src \
 ./user/cpu1_main.src \
-./user/isr.src 
+./user/isr.src \
+./user/print.src 
 
 C_DEPS += \
 ./user/cpu0_main.d \
 ./user/cpu1_main.d \
-./user/isr.d 
+./user/isr.d \
+./user/print.d 
 
 OBJS += \
 ./user/cpu0_main.o \
 ./user/cpu1_main.o \
-./user/isr.o 
+./user/isr.o \
+./user/print.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -44,7 +48,7 @@ user/%.o: ./user/%.src user/subdir.mk
 clean: clean-user
 
 clean-user:
-	-$(RM) ./user/cpu0_main.d ./user/cpu0_main.o ./user/cpu0_main.src ./user/cpu1_main.d ./user/cpu1_main.o ./user/cpu1_main.src ./user/isr.d ./user/isr.o ./user/isr.src
+	-$(RM) ./user/cpu0_main.d ./user/cpu0_main.o ./user/cpu0_main.src ./user/cpu1_main.d ./user/cpu1_main.o ./user/cpu1_main.src ./user/isr.d ./user/isr.o ./user/isr.src ./user/print.d ./user/print.o ./user/print.src
 
 .PHONY: clean-user
 
