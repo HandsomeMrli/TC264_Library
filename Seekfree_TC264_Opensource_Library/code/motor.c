@@ -6,7 +6,7 @@ PIDValue angPIDx, angPIDy, angPIDz;
 PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
 
 void __updateMotor(Motor *motor){
-    pwm_set_duty(motor->pwmChannel, (uint32)absValue(motor->pwm));
+    pwm_set_duty(motor->pwmChannel, ((motor->pwm>=0) ? (uint32)(motor->pwm) : (uint32)(motor->pwm + WHEEL_PWM_MAX)));
     gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
 }
 

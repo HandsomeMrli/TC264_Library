@@ -146,16 +146,24 @@ int core0_main(void)
     gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
     gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
 
-
     gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
+    if(wireless_uart_init()){
+        while(1){
+            gpio_set_level(BELL_PIN, 1);
+        }
+    }
+
     // 电机相关初始化
-    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-    pwm_init(WHEEL_1_PWM_PIN, 17000, 2000);
-    pwm_init(WHEEL_2_PWM_PIN, 17000, 2000);
+    gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    gpio_init(WHEEL_3_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
+    pwm_init(WHEEL_1_PWM_PIN, 17000, 0);
+    pwm_init(WHEEL_2_PWM_PIN, 17000, 0);
+    pwm_init(WHEEL_3_PWM_PIN, 17000, 0);
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
+    encoder_quad_init(WHEEL_3_ENCODER, WHEEL_3_ENCODER_A_PIN, WHEEL_3_ENCODER_B_PIN);
 
     tft180_init();
 
@@ -164,6 +172,7 @@ int core0_main(void)
     FusionAhrsInitialise(&ahrs);
 
     pit_ms_init(CCU60_CH1, 10);
+
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -176,7 +185,19 @@ int core0_main(void)
         // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_4_PIN); 
-        mode = 1;
+        mode = 0;
+
+        uint8 data;
+        if(wireless_uart_read_buff(&data, 1)){
+            switch(data){
+                case '0':
+                     
+                    break;
+                
+                default:
+                    break;
+            }
+        }
 
 
         // 此处编写需要循环执行的代码
