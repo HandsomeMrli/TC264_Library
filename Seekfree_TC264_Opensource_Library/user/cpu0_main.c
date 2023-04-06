@@ -85,54 +85,7 @@ uint8 mode = 0;
 // 电机相关变量
 int16 motorLeftSpeed = 0;
 int16 motorRightSpeed = 0;
-
-void printEularAngle(const FusionEuler *euler){
-    tft180_show_string(0, 0, "accX");  
-    tft180_show_string(0, 16, "accY"); 
-    tft180_show_string(0, 32, "accZ"); 
-    tft180_show_string(0, 48, "gyroX");
-    tft180_show_string(0, 64, "gyroY");
-    tft180_show_string(0, 80, "gyroZ");
-
-    tft180_show_int(44, 0, icm20602_acc_x, 6);  
-    tft180_show_int(44, 16, icm20602_acc_y, 6); 
-    tft180_show_int(44, 32, icm20602_acc_z, 6); 
-    tft180_show_int(44, 48, icm20602_gyro_x, 6);
-    tft180_show_int(44, 64, icm20602_gyro_y, 6);
-    tft180_show_int(44, 80, icm20602_gyro_z, 6);
-
-    tft180_show_float(78, 0, icm20602_acc_transition(icm20602_acc_x), 2, 2);
-    tft180_show_float(78, 16, icm20602_acc_transition(icm20602_acc_y), 2, 2);
-    tft180_show_float(78, 32, icm20602_acc_transition(icm20602_acc_z), 2, 2);
-    tft180_show_float(78, 48, icm20602_gyro_transition(icm20602_gyro_x), 2, 2);
-    tft180_show_float(78, 64, icm20602_gyro_transition(icm20602_gyro_y), 2, 2);
-    tft180_show_float(78, 80, icm20602_gyro_transition(icm20602_gyro_z), 2, 2);
-
-    tft180_show_string(0, 96, "yaw");
-    tft180_show_string(0, 112, "rol");
-    tft180_show_string(0, 128, "pitch");
-
-    tft180_show_int(42, 96, euler->angle.yaw, 3);
-    tft180_show_int(42, 112, euler->angle.roll, 3);
-    tft180_show_int(42, 128, euler->angle.pitch, 3);
-
-}
-
-void printMotorSpeed(){
-    tft180_show_string(0, 0, "motorL");  
-    tft180_show_string(0, 16, "motorR"); 
-    tft180_show_string(0, 32, "motorB"); 
-    // tft180_show_string(0, 48, "gyroX");
-    // tft180_show_string(0, 64, "gyroY");
-    // tft180_show_string(0, 80, "gyroZ");
-
-    tft180_show_int(50, 0, motorLeftSpeed, 6);  
-    tft180_show_int(50, 16, motorRightSpeed, 6); 
-    // tft180_show_int(44, 32, icm20602_acc_z, 6); 
-    // tft180_show_int(44, 48, icm20602_gyro_x, 6);
-    // tft180_show_int(44, 64, icm20602_gyro_y, 6);
-    // tft180_show_int(44, 80, icm20602_gyro_z, 6);
-}
+int16 motorBottomSpeed = 0;
 
 int core0_main(void)
 {
@@ -155,12 +108,18 @@ int core0_main(void)
     }
 
     // 电机相关初始化
+    /*
+        WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负
+
+    */
     gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
     gpio_init(WHEEL_2_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
     gpio_init(WHEEL_3_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
-    pwm_init(WHEEL_1_PWM_PIN, 17000, 0);
+    pwm_init(WHEEL_1_PWM_PIN, 17000, 8000);
     pwm_init(WHEEL_2_PWM_PIN, 17000, 0);
     pwm_init(WHEEL_3_PWM_PIN, 17000, 0);
+    gpio_init(WHEEL_1_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL); // 刹车引脚低电平有效
+    gpio_init(WHEEL_2_SC_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
     encoder_quad_init(WHEEL_1_ENCODER, WHEEL_1_ENCODER_A_PIN, WHEEL_1_ENCODER_B_PIN);
     encoder_quad_init(WHEEL_2_ENCODER, WHEEL_2_ENCODER_A_PIN, WHEEL_2_ENCODER_B_PIN);
     encoder_quad_init(WHEEL_3_ENCODER, WHEEL_3_ENCODER_A_PIN, WHEEL_3_ENCODER_B_PIN);
@@ -198,6 +157,8 @@ int core0_main(void)
                     break;
             }
         }
+
+        
 
 
         // 此处编写需要循环执行的代码

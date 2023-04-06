@@ -6,7 +6,15 @@ PIDValue angPIDx, angPIDy, angPIDz;
 PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
 
 void __updateMotor(Motor *motor){
-    pwm_set_duty(motor->pwmChannel, ((motor->pwm>=0) ? (uint32)(motor->pwm) : (uint32)(motor->pwm + WHEEL_PWM_MAX)));
+    #ifdef _DEBUG_BELL_
+    if(WHEEL_PWM_MAX - absValue(motor->pwm) < 0){
+        while(1){
+            gpio_set_level(BELL_PIN, 1);
+        }
+    }
+    #endif
+    // 高低电平都是实际pwm=10000-pwm
+    pwm_set_duty(motor->pwmChannel, WHEEL_PWM_MAX - absValue(motor->pwm));
     gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
 }
 

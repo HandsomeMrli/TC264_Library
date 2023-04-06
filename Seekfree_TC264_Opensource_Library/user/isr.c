@@ -38,10 +38,12 @@
 
 #include "define.h"
 #include "motor.h"
+#include "print.h"
 extern FusionAhrs ahrs;
 extern char uart_string_buffer[64];
 extern int16 motorLeftSpeed;
 extern int16 motorRightSpeed;
+extern int16 motorBottomSpeed;
 extern uint8 mode;
 
 void printEularAngle(const FusionEuler *euler);
@@ -105,8 +107,10 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
         
         motorLeftSpeed = encoder_get_count(WHEEL_1_ENCODER);
         motorRightSpeed = encoder_get_count(WHEEL_2_ENCODER);
+        motorBottomSpeed = encoder_get_count(WHEEL_3_ENCODER);
         encoder_clear_count(WHEEL_1_ENCODER);
         encoder_clear_count(WHEEL_2_ENCODER);
+        encoder_clear_count(WHEEL_3_ENCODER);
 
         switch (mode){
             case 0:

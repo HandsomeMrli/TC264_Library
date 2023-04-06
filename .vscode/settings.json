@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "zf_common_headfile.h": "c",
-        "zf_device_tft180.h": "c"
-    }
-}
