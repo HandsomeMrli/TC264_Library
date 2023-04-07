@@ -1,5 +1,5 @@
 #ifndef _MOTOR_H_
-#define _MOTOR_H
+#define _MOTOR_H_
 
 #include "zf_common_headfile.h"
 #include "define.h"

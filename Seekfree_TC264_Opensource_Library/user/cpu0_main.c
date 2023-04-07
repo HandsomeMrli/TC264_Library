@@ -34,8 +34,8 @@
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #include "define.h"
-
-#include "pid.h"
+#include "upperComputer.h"
+#include "motor.h"
 
 #pragma section all "cpu0_dsram"
 // 将本语句与#pragma section all restore语句之间的全局变量都放在CPU0的RAM中
@@ -59,7 +59,6 @@
 // 本例程是开源库移植用空工程
 // 本例程是开源库移植用空工程
 
-#include "motor.h"
 
 // **************************** 代码区域 ****************************
 
@@ -98,16 +97,12 @@ int core0_main(void)
     // gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
     // gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
 
-    // gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+    gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
-    // if(wireless_uart_init()){
-    //     while(1){
-    //         ;
-    //     }
-    // }
-    // wireless_uart_send_byte('\r');
-    // wireless_uart_send_byte('\n');
-    // wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");
+    wireless_uart_init();
+    wireless_uart_send_byte('\r');
+    wireless_uart_send_byte('\n');
+    wireless_uart_send_string("Wireless uart init successful.\r\n");
 
 
     tft180_init();
@@ -118,7 +113,7 @@ int core0_main(void)
 
     initMotors();
 
-    pit_ms_init(CCU60_CH1, 10);
+    // pit_ms_init(CCU60_CH1, 10);
 
 
     // 此处编写用户代码 例如外设初始化代码等
@@ -132,22 +127,10 @@ int core0_main(void)
         // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_4_PIN); 
-        mode = 0;
+        mode = 0;        
 
-        uint8 data;
-        if(wireless_uart_read_buff(&data, 1)){
-            switch(data){
-                case '0':
-                     
-                    break;
-                
-                default:
-                    break;
-            }
-        }
-        system_delay_ms(1);
-        wireless_uart_send_string("HELLO WORLD");
 
+        // system_delay_ns(1);
 
         // 此处编写需要循环执行的代码
     }
