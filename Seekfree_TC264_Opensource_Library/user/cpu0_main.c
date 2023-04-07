@@ -93,21 +93,21 @@ int core0_main(void)
     // 此处编写用户代码 例如外设初始化代码等
 
 
-    gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-    gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-    gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-    gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
 
-    gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+    // gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
-    if(wireless_uart_init()){
-        while(1){
-            ;
-        }
-    }
-    wireless_uart_send_byte('\r');
-    wireless_uart_send_byte('\n');
-    wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");
+    // if(wireless_uart_init()){
+    //     while(1){
+    //         ;
+    //     }
+    // }
+    // wireless_uart_send_byte('\r');
+    // wireless_uart_send_byte('\n');
+    // wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");
 
 
     tft180_init();
@@ -115,6 +115,8 @@ int core0_main(void)
     // 陀螺仪初始化
     icm20602_init();
     FusionAhrsInitialise(&ahrs);
+
+    initMotors();
 
     pit_ms_init(CCU60_CH1, 10);
 

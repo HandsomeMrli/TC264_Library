@@ -25,11 +25,11 @@ extern PIDValue velPIDy, velPIDl, velPIDr;
 extern PIDValue angPIDx, angPIDy, angPIDz;
 extern PIDValue angVelPIDx, angVelPIDy, angVelPIDz; 
 
-void __updateMotor(Motor *motor);
 void __initMotor(Motor *motor, uint32 freq, int32 pwm, 
         pwm_channel_enum pwmChannel, gpio_pin_enum dirPin,
         int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax);
 void initMotors();
+void __updateMotor(Motor *motor);
 void setMotor(Motor *motor, Operation op, int32_t offset);
 void updateMotors(
         int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed, 
