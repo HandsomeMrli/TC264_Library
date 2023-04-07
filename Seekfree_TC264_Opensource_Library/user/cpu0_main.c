@@ -102,9 +102,12 @@ int core0_main(void)
 
     if(wireless_uart_init()){
         while(1){
-            gpio_set_level(BELL_PIN, 1);
+            ;
         }
     }
+    wireless_uart_send_byte('\r');
+    wireless_uart_send_byte('\n');
+    wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");
 
 
     tft180_init();
@@ -140,8 +143,8 @@ int core0_main(void)
                     break;
             }
         }
-
-        
+        system_delay_ms(1);
+        wireless_uart_send_string("HELLO WORLD");
 
 
         // 此处编写需要循环执行的代码

@@ -92,16 +92,16 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
 
         icm20602_get_acc();
         icm20602_get_gyro();
-        const FusionVector gyroscope = {
+        const FusionVector gyroscope = {{
             icm20602_gyro_transition(icm20602_gyro_y),
             icm20602_gyro_transition(icm20602_gyro_z),
             icm20602_gyro_transition(icm20602_gyro_x)
-        }; // replace this with actual gyroscope data in degrees/s
-        const FusionVector accelerometer = {
+        }}; // replace this with actual gyroscope data in degrees/s
+        const FusionVector accelerometer = {{
             icm20602_acc_transition(icm20602_acc_y),
             icm20602_acc_transition(icm20602_acc_z),
             icm20602_acc_transition(icm20602_acc_x)
-        }; // replace this with actual accelerometer data in g
+        }}; // replace this with actual accelerometer data in g
         FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
         const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
         
@@ -118,6 +118,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
                 break;
             case 1:
                 printMotorSpeed();
+                break;
             default:
                 break;
         }
