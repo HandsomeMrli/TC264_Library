@@ -8,7 +8,9 @@ PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
 /**
  * @brief 仅初始化Motor结构体,不负责初始化引脚与PWM
 */
-void __initMotor(Motor *motor, uint32 freq, int32 pwm, pwm_channel_enum pwmChannel, gpio_pin_enum dirPin, int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
+void __initMotor(Motor *motor, uint32 freq, int32 pwm,
+        pwm_channel_enum pwmChannel, gpio_pin_enum dirPin,
+        int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
     __initPID(&(motor->pid), pCoef, iCoef, dCoef, target, errorIntMax);
     motor->freq = freq;
     motor->pwm = pwm;

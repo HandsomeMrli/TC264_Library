@@ -5,19 +5,23 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../code/motor.c \
-../code/pid.c 
+../code/pid.c \
+../code/upperComputer.c 
 
 COMPILED_SRCS += \
 ./code/motor.src \
-./code/pid.src 
+./code/pid.src \
+./code/upperComputer.src 
 
 C_DEPS += \
 ./code/motor.d \
-./code/pid.d 
+./code/pid.d \
+./code/upperComputer.d 
 
 OBJS += \
 ./code/motor.o \
-./code/pid.o 
+./code/pid.o \
+./code/upperComputer.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -40,7 +44,7 @@ code/%.o: ./code/%.src code/subdir.mk
 clean: clean-code
 
 clean-code:
-	-$(RM) ./code/motor.d ./code/motor.o ./code/motor.src ./code/pid.d ./code/pid.o ./code/pid.src
+	-$(RM) ./code/motor.d ./code/motor.o ./code/motor.src ./code/pid.d ./code/pid.o ./code/pid.src ./code/upperComputer.d ./code/upperComputer.o ./code/upperComputer.src
 
 .PHONY: clean-code
 

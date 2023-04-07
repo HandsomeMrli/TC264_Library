@@ -35,10 +35,10 @@
 
 #include "isr_config.h"
 #include "isr.h"
-
 #include "define.h"
 #include "motor.h"
 #include "print.h"
+#include "upperComputer.h"
 extern FusionAhrs ahrs;
 extern char uart_string_buffer[64];
 extern int16 motorLeftSpeed;
@@ -96,7 +96,8 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
                 break;
         }
         
-
+        wireless_uart_LingLi_send(1,2,3,4,1,2,3,4,1,2,3,4);
+        system_delay_ms(1);
 
         // updateMotors();
         
