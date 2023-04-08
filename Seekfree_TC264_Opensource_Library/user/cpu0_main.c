@@ -63,11 +63,11 @@
 // **************************** 代码区域 ****************************
 
 // 有线串口有关变量
-uint8 uart_get_data[64];
-uint8 fifo_get_data[64];
-uint8 get_data = 0;
-uint32 fifo_data_count = 0;
-fifo_struct uart_data_file;
+// uint8 uart_get_data[64];
+// uint8 fifo_get_data[64];
+// uint8 get_data = 0;
+// uint32 fifo_data_count = 0;
+// fifo_struct uart_data_file;
 
 // 无线串口相关变量
 uint8 data_buffer[32];
@@ -75,15 +75,15 @@ uint8 data_len;
 uint8 count = 0;
 
 // 欧拉角相关变量
-FusionAhrs ahrs;
+// FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 mode = 0;
+// uint8 mode = 0;
 
 // 电机相关变量
-int16 motorLeftSpeed = 0;
-int16 motorRightSpeed = 0;
-int16 motorBottomSpeed = 0;
+// int16 motorLeftSpeed = 0;
+// int16 motorRightSpeed = 0;
+// int16 motorBottomSpeed = 0;
 
 int core0_main(void)
 {
@@ -98,17 +98,7 @@ int core0_main(void)
     wireless_uart_send_byte('\n');
     wireless_uart_send_string("Wireless uart init successful.\r\n");
 
-    tft180_init();
-
-    // 陀螺仪初始化
-    icm20602_init();
-    FusionAhrsInitialise(&ahrs);
-
-    initMotors();
-
     pit_ms_init(CCU60_CH1, 10);
-
-    mode = 2;
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -116,22 +106,15 @@ int core0_main(void)
     {
         // 此处编写需要循环执行的代码
 
-        mode = 2;
-        // mode = gpio_get_level(SW_1_PIN); mode <<= 1;
-        // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
-        // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
-        // mode = gpio_get_level(SW_4_PIN); 
+	    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
+        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
+        {
+           wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
+           memset(data_buffer, 0, 32);
+//            func_uint_to_str((char *)data_buffer, data_len);
+        }
+        system_delay_ms(1);
 
-// 	    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-//         if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-//         {
-// //            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-// //            memset(data_buffer, 0, 32);
-// //            func_uint_to_str((char *)data_buffer, data_len);
-//         }
-//         system_delay_ms(1);
-        
-        // system_delay_ns(1);
 
         // 此处编写需要循环执行的代码
     }
