@@ -85,19 +85,19 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
         encoder_clear_count(WHEEL_2_ENCODER);
         encoder_clear_count(WHEEL_3_ENCODER);
 
-        switch (mode){
+        switch (mode){ // 禁止显示屏与串口一起用！否则串口会卡死！
             case 0:
                 printEularAngle(&euler);        
                 break;
             case 1:
                 printMotorSpeed();
                 break;
+            case 2:
+                wireless_uart_LingLi_send(1,2,3,4,1,2,3,4,1,2,3,4); 
+                break;
             default:
                 break;
         }
-        
-        wireless_uart_LingLi_send(1,2,3,4,1,2,3,4,1,2,3,4);
-        system_delay_ms(1);
 
         // updateMotors();
         

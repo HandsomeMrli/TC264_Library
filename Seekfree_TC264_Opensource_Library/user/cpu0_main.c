@@ -113,7 +113,7 @@ int core0_main(void)
 
     initMotors();
 
-    // pit_ms_init(CCU60_CH1, 10);
+    pit_ms_init(CCU60_CH1, 10);
 
 
     // 此处编写用户代码 例如外设初始化代码等
@@ -127,9 +127,9 @@ int core0_main(void)
         // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_4_PIN); 
-        mode = 0;        
+        mode = 3;        
 
-
+        
         // system_delay_ns(1);
 
         // 此处编写需要循环执行的代码
