@@ -34,6 +34,7 @@
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #include "define.h"
+#include "motor.h"
 #pragma section all "cpu0_dsram"
 // 将本语句与#pragma section all restore语句之间的全局变量都放在CPU0的RAM中
 
@@ -70,11 +71,6 @@ FusionAhrs ahrs;
 // 拨码开关更改模式
 uint8 mode = 0;
 
-// 电机相关变量
-int16 motorLeftSpeed = 0;
-int16 motorRightSpeed = 0;
-int16 motorBottomSpeed = 0;
-
 int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
@@ -101,7 +97,7 @@ int core0_main(void)
 
     initMotors();
 
-    mode = 0;
+    mode = 255;
     
     pit_ms_init(CCU60_CH1, 10);
     
@@ -118,9 +114,30 @@ int core0_main(void)
         // mode = gpio_get_level(SW_4_PIN); 
 
         data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-        {
-            mode = data_buffer[0] - '0';
+        if(data_len != 0){
+            uint8 data = data_buffer[0];
+            if(data >= '0' && data <= '9'){
+                mode = data_buffer[0] - '0';
+            }else if(data >= 'a' && data <= 'z'){
+                switch (data){
+                    case 'a':
+                        setMotor(&motorLeft, PLUS, 1000);
+                        break;
+                    case 'b':
+                        setMotor(&motorLeft, MINUS, 1000);
+                        break;
+                    case 'c':
+                        setMotor(&motorLeft, ASSIGN, 0);
+                        break;
+                    case 'd':
+                        setMotor(&motorLeft, OPPOSE, 0);
+                        break;
+                    default:
+                        wireless_uart_send_string("Unknown Command: ");
+                        break;
+                }
+            }
+            
             wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
             memset(data_buffer, 0, 32);
         }

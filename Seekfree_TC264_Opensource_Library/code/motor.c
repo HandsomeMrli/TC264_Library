@@ -57,7 +57,7 @@ void __updateMotor(Motor *motor){
     }
     #endif
     // 无论方向引脚高低电平，实际pwm = 10000 - pwm
-    pwm_set_duty(motor->pwmChannel, WHEEL_PWM_MAX - absValue(motor->pwm));
+    pwm_set_duty(motor->pwmChannel, PWM_DUTY_MAX - absValue(motor->pwm));
     gpio_set_level(motor->dirPin, (uint8)(motor->pwm >= 0));
 }
 

@@ -41,7 +41,7 @@ void printEularAngle(const FusionEuler *euler){
 
 }
 
-void printMotorSpeed(){
+void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed){
     tft180_show_string(0, 0, "motorL");  
     tft180_show_string(0, 16, "motorR"); 
     tft180_show_string(0, 32, "motorB"); 

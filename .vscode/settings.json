@@ -3,6 +3,7 @@
         "motor.h": "c",
         "define.h": "c",
         "pid.h": "c",
-        "uppercomputer.h": "c"
+        "uppercomputer.h": "c",
+        "print.h": "c"
     }
 }

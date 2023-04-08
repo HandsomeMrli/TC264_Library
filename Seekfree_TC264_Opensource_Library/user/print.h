@@ -5,10 +5,6 @@
 #include "define.h"
 
 void printEularAngle(const FusionEuler *euler);
-void printMotorSpeed();
-
-extern int16 motorLeftSpeed;
-extern int16 motorRightSpeed;
-extern int16 motorBottomSpeed;
+void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed);
 
 #endif

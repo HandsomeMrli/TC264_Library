@@ -41,15 +41,10 @@
 #include "upperComputer.h"
 extern FusionAhrs ahrs;
 extern char uart_string_buffer[64];
-extern int16 motorLeftSpeed;
-extern int16 motorRightSpeed;
-extern int16 motorBottomSpeed;
 extern uint8 mode;
 extern uint8 data_buffer[32];
 extern uint8 data_len;
 extern uint8 count;
-void printEularAngle(const FusionEuler *euler);
-void printMotorSpeed();
 // **************************** PIT中断函数 ****************************
 IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
 {
@@ -80,26 +75,28 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
     const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
     
-    motorLeftSpeed = encoder_get_count(WHEEL_1_ENCODER);
-    motorRightSpeed = encoder_get_count(WHEEL_2_ENCODER);
-    motorBottomSpeed = encoder_get_count(WHEEL_3_ENCODER);
+    velPIDl.measurement = encoder_get_count(WHEEL_1_ENCODER);
+    velPIDr.measurement = encoder_get_count(WHEEL_2_ENCODER);
+    velPIDy.measurement = encoder_get_count(WHEEL_3_ENCODER);
     encoder_clear_count(WHEEL_1_ENCODER);
     encoder_clear_count(WHEEL_2_ENCODER);
     encoder_clear_count(WHEEL_3_ENCODER);
 
-    switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当
+    switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当增大定时中断间隔例如(100ms)可以消除该问题
         case 0:
             printEularAngle(&euler);        
             break;
         case 1:
-            printMotorSpeed();
+            printMotorSpeed(velPIDl.measurement, velPIDr.measurement, velPIDy.measurement);
             break;
         case 2:
             wireless_uart_LingLi_send(
                     icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, 0,
                     icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, 0,
                     euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
-            ); 
+            );
+            break;
+        case 3:
             break;
         default:
             break;
