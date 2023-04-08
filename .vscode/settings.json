@@ -2,6 +2,7 @@
     "files.associations": {
         "motor.h": "c",
         "define.h": "c",
-        "pid.h": "c"
+        "pid.h": "c",
+        "uppercomputer.h": "c"
     }
 }
