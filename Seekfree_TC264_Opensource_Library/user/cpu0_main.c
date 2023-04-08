@@ -108,30 +108,28 @@ int core0_main(void)
 
     pit_ms_init(CCU60_CH1, 10);
 
-    mode = 2;
-
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
     while (TRUE)
     {
         // 此处编写需要循环执行的代码
 
-        mode = 2;
+        mode = 4;
         // mode = gpio_get_level(SW_1_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_2_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_4_PIN); 
 
-// 	    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-//         if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-//         {
-// //            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-// //            memset(data_buffer, 0, 32);
-// //            func_uint_to_str((char *)data_buffer, data_len);
-//         }
-//         system_delay_ms(1);
+	    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
+        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
+        {
+           wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
+           memset(data_buffer, 0, 32);
+//            func_uint_to_str((char *)data_buffer, data_len);
+        }
+
+        system_delay_ms(1);
         
-        // system_delay_ns(1);
 
         // 此处编写需要循环执行的代码
     }

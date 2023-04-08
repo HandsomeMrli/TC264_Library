@@ -44,7 +44,9 @@ extern int16 motorLeftSpeed;
 extern int16 motorRightSpeed;
 extern int16 motorBottomSpeed;
 extern uint8 mode;
-
+extern uint8 data_buffer[64];
+extern uint8 data_len;
+extern uint8 count;
 void printEularAngle(const FusionEuler *euler);
 void printMotorSpeed();
 // **************************** PIT中断函数 ****************************
@@ -83,15 +85,6 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
         encoder_clear_count(WHEEL_1_ENCODER);
         encoder_clear_count(WHEEL_2_ENCODER);
         encoder_clear_count(WHEEL_3_ENCODER);
-
-        // system_delay_us(1);
-
-        // uint8 data;
-        // data_len = wireless_uart_read_buff(&data, 1);
-        // if(data_len){
-        //     mode = data - '0';
-        // }
-
 
         switch (mode){ // 禁止显示屏与串口一起用！否则串口会卡死！
             case 0:
@@ -293,17 +286,7 @@ IFX_INTERRUPT(uart2_rx_isr, 0, UART2_RX_INT_PRIO)
     interrupt_global_enable(0);                     // 开启中断嵌套
     IfxAsclin_Asc_isrReceive(&uart2_handle);
 
-
-
-    // wireless_module_uart_handler();                 // 无线模块统一回调函数
-    uint8 data;
-    if(uart_query_byte(UART_2, &data) == 0){
-        return;
-    }
-
-    
-
-
+    wireless_module_uart_handler();                 // 无线模块统一回调函数
 
 }
 IFX_INTERRUPT(uart2_er_isr, 0, UART2_ER_INT_PRIO)
