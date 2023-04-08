@@ -52,36 +52,61 @@
 
 // **************************** 代码区域 ****************************
 
+// 有线串口有关变量
 uint8 uart_get_data[64];
 uint8 fifo_get_data[64];
 uint8 get_data = 0;
 uint32 fifo_data_count = 0;
 fifo_struct uart_data_file;
 
+// 无线串口相关变量
 uint8 data_buffer[32];
 uint8 data_len;
-uint8 count = 0;    
+uint8 count = 0;
 
-int16 motorLeftSpeed;
-int16 motorRightSpeed;
-int16 motorBottomSpeed;
+// 欧拉角相关变量
+FusionAhrs ahrs;
+
+// 拨码开关更改模式
+uint8 mode = 0;
+
+// 电机相关变量
+int16 motorLeftSpeed = 0;
+int16 motorRightSpeed = 0;
+int16 motorBottomSpeed = 0;
 
 int core0_main(void)
 {
     clock_init();                   // 获取时钟频率<务必保留>
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
+    // gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
+    // gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
 
-    if(wireless_uart_init()){
-        while(1){
-            ;
-        }
-    }
+    gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
+
+    wireless_uart_init();
     wireless_uart_send_byte('\r');
     wireless_uart_send_byte('\n');
-    wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");              // 初始化正常 输出测试信息
+    wireless_uart_send_string("Wireless uart init successful.\r\n");
 
 
+    tft180_init();
+
+    // 陀螺仪初始化
+    icm20602_init();
+    FusionAhrsInitialise(&ahrs);
+
+    initMotors();
+
+    mode = 2;
+    
+    pit_ms_init(CCU60_CH1, 10);
+
+    tft180_show_char(0,0,"abc");
+    
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -89,14 +114,10 @@ int core0_main(void)
     {
         // 此处编写需要循环执行的代码
 
-	    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-        if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-        {
-            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-            memset(data_buffer, 0, 32);
-//            func_uint_to_str((char *)data_buffer, data_len);
-        }
-        system_delay_ms(1);
+        
+
+
+        // system_delay_ms(1);
 
 
         // 此处编写需要循环执行的代码
