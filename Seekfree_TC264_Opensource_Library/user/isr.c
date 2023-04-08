@@ -40,7 +40,6 @@
 #include "print.h"
 #include "upperComputer.h"
 extern FusionAhrs ahrs;
-extern char uart_string_buffer[64];
 extern int16 motorLeftSpeed;
 extern int16 motorRightSpeed;
 extern int16 motorBottomSpeed;
@@ -85,6 +84,15 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
         encoder_clear_count(WHEEL_2_ENCODER);
         encoder_clear_count(WHEEL_3_ENCODER);
 
+        // system_delay_us(1);
+
+        // uint8 data;
+        // data_len = wireless_uart_read_buff(&data, 1);
+        // if(data_len){
+        //     mode = data - '0';
+        // }
+
+
         switch (mode){ // 禁止显示屏与串口一起用！否则串口会卡死！
             case 0:
                 printEularAngle(&euler);        
@@ -93,7 +101,11 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
                 printMotorSpeed();
                 break;
             case 2:
-                wireless_uart_LingLi_send(1,2,3,4,1,2,3,4,1,2,3,4); 
+                wireless_uart_LingLi_send(
+                    icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, 0,
+                    icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, 0,
+                    euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
+                ); 
                 break;
             default:
                 break;
