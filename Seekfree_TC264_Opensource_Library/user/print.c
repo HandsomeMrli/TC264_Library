@@ -1,5 +1,10 @@
 #include "print.h"
 
+/**
+ * 10ms中断对无线串口的收发影响测试结果
+ * × 123
+ * √ 3 12 13 23
+*/
 void printEularAngle(const FusionEuler *euler){
     tft180_show_string(0, 0, "accX");  
     tft180_show_string(0, 16, "accY"); 
@@ -29,6 +34,7 @@ void printEularAngle(const FusionEuler *euler){
     tft180_show_float(43, 96, euler->angle.yaw, 3, 1);
     tft180_show_float(43, 112, euler->angle.roll, 3, 1);
     tft180_show_float(43, 128, euler->angle.pitch, 3, 1);
+
     // tft180_show_int(42, 96, euler->angle.yaw, 3);
     // tft180_show_int(42, 112, euler->angle.roll, 3);
     // tft180_show_int(42, 128, euler->angle.pitch, 3);

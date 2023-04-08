@@ -87,16 +87,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     encoder_clear_count(WHEEL_2_ENCODER);
     encoder_clear_count(WHEEL_3_ENCODER);
 
-    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-    if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
-    {
-        mode = data_buffer[0] - '0';
-        wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-        memset(data_buffer, 0, 32);
-//            func_uint_to_str((char *)data_buffer, data_len);
-    }
-
-    switch (mode){ // 禁止显示屏与串口一起用！否则串口会卡死！
+    switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当
         case 0:
             printEularAngle(&euler);        
             break;
@@ -104,7 +95,11 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             printMotorSpeed();
             break;
         case 2:
-            // wireless_uart_LingLi_send(1,2,3,4,1,2,3,4,1,2,3,4); 
+            wireless_uart_LingLi_send(
+                    icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, 0,
+                    icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, 0,
+                    euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
+            ); 
             break;
         default:
             break;
