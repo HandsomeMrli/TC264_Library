@@ -35,13 +35,7 @@
 
 #include "isr_config.h"
 #include "isr.h"
-#include "define.h"
-#include "motor.h"
-#include "print.h"
-#include "upperComputer.h"
 
-void printEularAngle(const FusionEuler *euler);
-void printMotorSpeed();
 // **************************** PIT中断函数 ****************************
 IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
 {
@@ -76,6 +70,9 @@ IFX_INTERRUPT(cc61_pit_ch1_isr, 0, CCU6_1_CH1_ISR_PRIORITY)
 {
     interrupt_global_enable(0);                     // 开启中断嵌套
     pit_clear_flag(CCU61_CH1);
+
+
+
 
 
 }
@@ -238,18 +235,7 @@ IFX_INTERRUPT(uart2_rx_isr, 0, UART2_RX_INT_PRIO)
 {
     interrupt_global_enable(0);                     // 开启中断嵌套
     IfxAsclin_Asc_isrReceive(&uart2_handle);
-
-
-
-    // wireless_module_uart_handler();                 // 无线模块统一回调函数
-    uint8 data;
-    if(uart_query_byte(UART_2, &data) == 0){
-        return;
-    }
-
-    
-
-
+    wireless_module_uart_handler();                 // 无线模块统一回调函数
 
 }
 IFX_INTERRUPT(uart2_er_isr, 0, UART2_ER_INT_PRIO)
