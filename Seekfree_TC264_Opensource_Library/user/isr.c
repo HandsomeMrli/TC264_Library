@@ -39,11 +39,6 @@
 #include "motor.h"
 #include "print.h"
 #include "upperComputer.h"
-extern FusionAhrs ahrs;
-extern int16 motorLeftSpeed;
-extern int16 motorRightSpeed;
-extern int16 motorBottomSpeed;
-extern uint8 mode;
 
 void printEularAngle(const FusionEuler *euler);
 void printMotorSpeed();

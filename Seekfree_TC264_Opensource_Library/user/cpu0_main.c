@@ -34,17 +34,8 @@
 ********************************************************************************************************************/
 #include "zf_common_headfile.h"
 #include "define.h"
-#include "upperComputer.h"
-#include "motor.h"
-
 #pragma section all "cpu0_dsram"
 // 将本语句与#pragma section all restore语句之间的全局变量都放在CPU0的RAM中
-
-
-// 工程导入到软件之后，应该选中工程然后点击refresh刷新一下之后再编译
-// 工程默认设置为关闭优化，可以自己右击工程选择properties->C/C++ Build->Setting
-// 然后在右侧的窗口中找到C/C++ Compiler->Optimization->Optimization level处设置优化等级
-// 一般默认新建立的工程都会默认开2级优化，因此大家也可以设置为2级优化
 
 
 // 工程导入到软件之后，应该选中工程然后点击refresh刷新一下之后再编译
@@ -59,31 +50,21 @@
 // 本例程是开源库移植用空工程
 // 本例程是开源库移植用空工程
 
-
 // **************************** 代码区域 ****************************
 
-// 有线串口有关变量
-// uint8 uart_get_data[64];
-// uint8 fifo_get_data[64];
-// uint8 get_data = 0;
-// uint32 fifo_data_count = 0;
-// fifo_struct uart_data_file;
+uint8 uart_get_data[64];
+uint8 fifo_get_data[64];
+uint8 get_data = 0;
+uint32 fifo_data_count = 0;
+fifo_struct uart_data_file;
 
-// 无线串口相关变量
 uint8 data_buffer[32];
 uint8 data_len;
-uint8 count = 0;
+uint8 count = 0;    
 
-// 欧拉角相关变量
-// FusionAhrs ahrs;
-
-// 拨码开关更改模式
-// uint8 mode = 0;
-
-// 电机相关变量
-// int16 motorLeftSpeed = 0;
-// int16 motorRightSpeed = 0;
-// int16 motorBottomSpeed = 0;
+int16 motorLeftSpeed;
+int16 motorRightSpeed;
+int16 motorBottomSpeed;
 
 int core0_main(void)
 {
@@ -91,14 +72,16 @@ int core0_main(void)
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
 
-    gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
-
-    wireless_uart_init();
+    if(wireless_uart_init()){
+        while(1){
+            ;
+        }
+    }
     wireless_uart_send_byte('\r');
     wireless_uart_send_byte('\n');
-    wireless_uart_send_string("Wireless uart init successful.\r\n");
+    wireless_uart_send_string("SEEKFREE wireless uart demo.\r\n");              // 初始化正常 输出测试信息
 
-    pit_ms_init(CCU60_CH1, 10);
+
 
     // 此处编写用户代码 例如外设初始化代码等
     cpu_wait_event_ready();         // 等待所有核心初始化完毕
@@ -109,8 +92,8 @@ int core0_main(void)
 	    data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
         if(data_len != 0)                                                       // 收到了消息 读取函数会返回实际读取到的数据个数
         {
-           wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-           memset(data_buffer, 0, 32);
+            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
+            memset(data_buffer, 0, 32);
 //            func_uint_to_str((char *)data_buffer, data_len);
         }
         system_delay_ms(1);
