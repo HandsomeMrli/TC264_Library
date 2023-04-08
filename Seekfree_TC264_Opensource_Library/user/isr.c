@@ -63,44 +63,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     interrupt_global_enable(0);                     // 开启中断嵌套
     pit_clear_flag(CCU60_CH1);
 
-        icm20602_get_acc();
-        icm20602_get_gyro();
-        const FusionVector gyroscope = {{
-            icm20602_gyro_transition(icm20602_gyro_y),
-            icm20602_gyro_transition(icm20602_gyro_z),
-            icm20602_gyro_transition(icm20602_gyro_x)
-        }}; // replace this with actual gyroscope data in degrees/s
-        const FusionVector accelerometer = {{
-            icm20602_acc_transition(icm20602_acc_y),
-            icm20602_acc_transition(icm20602_acc_z),
-            icm20602_acc_transition(icm20602_acc_x)
-        }}; // replace this with actual accelerometer data in g
-        FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
-        const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
-        
-        motorLeftSpeed = encoder_get_count(WHEEL_1_ENCODER);
-        motorRightSpeed = encoder_get_count(WHEEL_2_ENCODER);
-        motorBottomSpeed = encoder_get_count(WHEEL_3_ENCODER);
-        encoder_clear_count(WHEEL_1_ENCODER);
-        encoder_clear_count(WHEEL_2_ENCODER);
-        encoder_clear_count(WHEEL_3_ENCODER);
-
-        switch (mode){
-            case 0:
-                printEularAngle(&euler);        
-                break;
-            case 1:
-                printMotorSpeed();
-                break;
-            default:
-                break;
-        }
-        
-        wireless_uart_LingLi_send(1,2,3,4,1,2,3,4,1,2,3,4);
-        system_delay_ms(1);
-
-        // updateMotors();
-        
+        wireless_uart_send_string("Hello");
 
 }
 
@@ -118,9 +81,6 @@ IFX_INTERRUPT(cc61_pit_ch1_isr, 0, CCU6_1_CH1_ISR_PRIORITY)
 {
     interrupt_global_enable(0);                     // 开启中断嵌套
     pit_clear_flag(CCU61_CH1);
-
-
-
 
 
 }
