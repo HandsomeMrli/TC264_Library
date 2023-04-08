@@ -20,7 +20,8 @@ void __initMotor(Motor *motor, uint32 freq, int32 pwm,
 
 void initMotors(){
     /*
-        WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负
+        WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负,经过人为纠正变为正
+        WHEEL_2: 方向引脚为正时,角动量=(-,0,+),原测速为负,经过人为纠正变为正
     */
 
     __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);

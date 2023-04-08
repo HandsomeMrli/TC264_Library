@@ -75,8 +75,8 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
     const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
     
-    velPIDl.measurement = encoder_get_count(WHEEL_1_ENCODER);
-    velPIDr.measurement = encoder_get_count(WHEEL_2_ENCODER);
+    velPIDl.measurement = -encoder_get_count(WHEEL_1_ENCODER);
+    velPIDr.measurement = -encoder_get_count(WHEEL_2_ENCODER);
     velPIDy.measurement = encoder_get_count(WHEEL_3_ENCODER);
     encoder_clear_count(WHEEL_1_ENCODER);
     encoder_clear_count(WHEEL_2_ENCODER);
@@ -97,6 +97,11 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             );
             break;
         case 3:
+            wireless_uart_LingLi_send(
+                    motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0,
+                    velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
+                    0, 0, 0, 0
+            );
             break;
         default:
             break;
