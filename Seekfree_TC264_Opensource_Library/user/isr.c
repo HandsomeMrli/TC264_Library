@@ -120,9 +120,6 @@ IFX_INTERRUPT(cc61_pit_ch1_isr, 0, CCU6_1_CH1_ISR_PRIORITY)
     pit_clear_flag(CCU61_CH1);
 
 
-
-
-
 }
 // **************************** PIT中断函数 ****************************
 

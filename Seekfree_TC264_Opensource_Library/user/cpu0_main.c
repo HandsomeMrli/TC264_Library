@@ -91,19 +91,12 @@ int core0_main(void)
     debug_init();                   // 初始化默认调试串口
     // 此处编写用户代码 例如外设初始化代码等
 
-
-    // gpio_init(SW_1_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-    // gpio_init(SW_2_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-    // gpio_init(SW_3_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-    // gpio_init(SW_4_PIN, GPI, GPIO_LOW, GPI_PULL_UP);
-
     gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
     wireless_uart_init();
     wireless_uart_send_byte('\r');
     wireless_uart_send_byte('\n');
     wireless_uart_send_string("Wireless uart init successful.\r\n");
-
 
     tft180_init();
 
