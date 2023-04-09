@@ -175,8 +175,8 @@ void updateMotors(
         实践测试:
             当车身角动量为(+,0,0)时,右轮角动量=(+,0,-),反作用角动量为(-,0,+),阻止了X方向的角动量变化.
     */
-    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput - angVelPIDy.deltaOutput);
-    setMotor(&motorRight, ASSIGN, -angVelPIDx.deltaOutput - angVelPIDy.deltaOutput);
+    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput - angVelPIDz.deltaOutput);
+    setMotor(&motorRight, ASSIGN, -angVelPIDx.deltaOutput - angVelPIDz.deltaOutput);
     // setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
 
 }
