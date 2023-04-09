@@ -1,7 +1,7 @@
 #include "pid.h"
 
 void __initPID(PIDValue *pid,int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
-    pid->pCorr = 0; pid->iCorr = 0; pid->dCorr = 0;
+    pid->pCorr = pCoef; pid->iCorr = iCoef; pid->dCorr = dCoef;
     pid->error[0] = 0; pid->error[1] = 0; pid->error[2] = 0;
     pid->errorInt = 0;
     pid->errorIntMax = errorIntMax;

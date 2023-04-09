@@ -85,12 +85,12 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     encoder_clear_count(WHEEL_2_ENCODER);
     encoder_clear_count(WHEEL_3_ENCODER);
 
-    // updateMotors(
-    //         velPIDl.measurement, velPIDr.measurement, velPIDy.measurement,
-    //         0, 0,
-    //         angPIDx.measurement, angPIDy.measurement, angPIDz.measurement,
-    //         icm20602_acc_transition(icm20602_acc_y), icm20602_acc_transition(icm20602_acc_z), icm20602_acc_transition(icm20602_acc_x)
-    // );
+    updateMotors(
+            velPIDl.measurement, velPIDr.measurement, velPIDy.measurement,
+            0, 0,
+            angPIDx.measurement, angPIDy.measurement, angPIDz.measurement,
+            icm20602_gyro_y, icm20602_gyro_z, icm20602_gyro_x
+    );
 
     switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当增大定时中断间隔例如(100ms)可以消除该问题
         case 0:
@@ -111,6 +111,20 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
                     motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0,
                     velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
                     0, 0, 0, 0
+            );
+            break;
+        case 4: // 调试角速度环
+            wireless_uart_LingLi_send(
+                    icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, 0,
+                    angVelPIDx.deltaOutput, angVelPIDy.deltaOutput, angVelPIDz.deltaOutput, 0,
+                    motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0
+            );
+            break;
+        case 5:
+            wireless_uart_LingLi_send(
+                    angVelPIDx.target, angVelPIDx.measurement, angVelPIDx.deltaOutput, 0,
+                    angVelPIDy.target, angVelPIDy.measurement, angVelPIDy.deltaOutput, 0,
+                    angVelPIDz.target, angVelPIDz.measurement, angVelPIDz.deltaOutput, 0
             );
             break;
         default:

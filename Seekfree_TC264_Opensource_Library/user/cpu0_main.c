@@ -97,7 +97,7 @@ int core0_main(void)
 
     initMotors();
 
-    mode = 1;
+    mode = 255;
     
     pit_ms_init(CCU60_CH1, 10);
     

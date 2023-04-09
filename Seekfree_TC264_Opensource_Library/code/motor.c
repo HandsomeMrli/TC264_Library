@@ -24,9 +24,9 @@ void initMotors(){
         WHEEL_2: 方向引脚为正时,角动量=(-,0,+),原测速为负,经过人为纠正变为正,导致roll减小
     */
 
-    __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 20, 5, 3, 0, 300);
-    __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 20, 5, 3, 0, 300);
-    __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 20, 5, 3, 0, 300);
+    __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 10, 3, 1, 0, 300);
+    __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 10, 3, 1, 0, 300);
+    __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 10, 3, 1, 0, 300);
 
     // 初始化方向引脚
     gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
@@ -112,9 +112,9 @@ void updateMotors(
         当yaw↑时,Δyaw>0. 应该让yaw↓,而左轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致yaw↓ ∴pwmL += ΔyawY
         当yaw↑时,Δyaw>0. 应该让yaw↓,而右轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致yaw↓ ∴pwmR += ΔyawY
     */
-    angVelPIDx.target = 0; angVelPIDx.measurement = rollX; __updatePID(&angVelPIDx);   
-    angVelPIDy.target = 0; angVelPIDy.measurement = pitchY; __updatePID(&angVelPIDy);   
-    angVelPIDz.target = 0; angVelPIDz.measurement = yawZ; __updatePID(&angVelPIDz);   
+    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
     // PWM更新
     // setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
