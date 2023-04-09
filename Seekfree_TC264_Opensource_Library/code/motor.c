@@ -11,7 +11,6 @@ PIDValue angVelPIDx, angVelPIDy, angVelPIDz;
 void __initMotor(Motor *motor, uint32 freq, int32 pwm,
         pwm_channel_enum pwmChannel, gpio_pin_enum dirPin,
         int32_t pCoef, int32_t iCoef, int32_t dCoef, int32_t target, int32_t errorIntMax){
-    __initPID(&(motor->pid), pCoef, iCoef, dCoef, target, errorIntMax);
     motor->freq = freq;
     motor->pwm = pwm;
     motor->pwmChannel = pwmChannel;
@@ -24,9 +23,22 @@ void initMotors(){
         WHEEL_2: 方向引脚为正时,角动量=(-,0,+),原测速为负,经过人为纠正变为正,导致roll减小
     */
 
+    // 初始化电机的DIR与PWM引脚   
     __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 10, 3, 1, 0, 300);
     __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 10, 3, 1, 0, 300);
     __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 10, 3, 1, 0, 300);
+
+    // 初始化PID
+    __initPID(&velPIDl, 10, 5, 2, 0, 1000);
+    __initPID(&velPIDr, 10, 5, 2, 0, 1000);
+    __initPID(&velPIDy, 10, 5, 2, 0, 1000);
+    __initPID(&angPIDx, 10, 5, 2, 0, 1000);
+    __initPID(&angPIDy, 10, 5, 2, 0, 1000);
+    __initPID(&angPIDz, 10, 5, 2, 0, 1000);
+    __initPID(&angVelPIDx, 100, 5, 2, 0, 1000);
+    __initPID(&angVelPIDy, 100, 5, 2, 0, 1000);
+    __initPID(&angVelPIDz, 100, 5, 2, 0, 1000);
+
 
     // 初始化方向引脚
     gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
@@ -74,8 +86,8 @@ void setMotor(Motor *motor, Operation op, int32_t offset){
             motor->pwm = (pwmTemp < -WHEEL_PWM_MAX) ? -WHEEL_PWM_MAX : pwmTemp;
             break;
         case ASSIGN:
-            pwmTemp = minValue(offset, WHEEL_PWM_MAX);
-            pwmTemp = maxValue(offset, -WHEEL_PWM_MAX);
+            pwmTemp = minValue(pwmTemp, WHEEL_PWM_MAX);
+            pwmTemp = maxValue(pwmTemp, -WHEEL_PWM_MAX);
             motor->pwm = pwmTemp;
             break;
         case OPPOSE:
