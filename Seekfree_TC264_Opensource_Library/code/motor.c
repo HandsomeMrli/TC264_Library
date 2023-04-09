@@ -86,6 +86,7 @@ void setMotor(Motor *motor, Operation op, int32_t offset){
             motor->pwm = (pwmTemp < -WHEEL_PWM_MAX) ? -WHEEL_PWM_MAX : pwmTemp;
             break;
         case ASSIGN:
+            pwmTemp = offset;
             pwmTemp = minValue(pwmTemp, WHEEL_PWM_MAX);
             pwmTemp = maxValue(pwmTemp, -WHEEL_PWM_MAX);
             motor->pwm = pwmTemp;
