@@ -147,8 +147,10 @@ void updateMotors(
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身不动,因此angVelPID的target均为0.
-    angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
-    angVelPIDy.target = -angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    // angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    // angVelPIDy.target = -angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy); 
     angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
     /* 通过角速度环输出,决定PWM
