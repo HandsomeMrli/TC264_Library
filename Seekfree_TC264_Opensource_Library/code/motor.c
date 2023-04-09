@@ -21,12 +21,12 @@ void __initMotor(Motor *motor, uint32 freq, int32 pwm,
 void initMotors(){
     /*
         WHEEL_1: 方向引脚为正时,角动量=(+,0,+),原测速为负,经过人为纠正变为正
-        WHEEL_2: 方向引脚为正时,角动量=(-,0,+),原测速为负,经过人为纠正变为正
+        WHEEL_2: 方向引脚为正时,角动量=(-,0,+),原测速为负,经过人为纠正变为正,导致roll减小
     */
 
-    __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 5, 1, 1, 0, 300);
-    __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 5, 1, 1, 0, 300);
-    __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 5, 1, 1, 0, 300);
+    __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 20, 5, 3, 0, 300);
+    __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 20, 5, 3, 0, 300);
+    __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 20, 5, 3, 0, 300);
 
     // 初始化方向引脚
     gpio_init(WHEEL_1_DIR_PIN, GPO, GPIO_HIGH, GPO_PUSH_PULL);
@@ -88,26 +88,38 @@ void setMotor(Motor *motor, Operation op, int32_t offset){
 void updateMotors(
         int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed, 
         int32 cameraSpeedTarget, int32 cameraTurnTarget, 
-        int32 pitchX, int32 rollY, int32 yawZ,
+        int32 rollX, int32 pitchY, int32 yawZ,
         int32 angVelX, int32 angVelY, int32 angVelZ){
 
-    // 速度环更新
-    velPIDl.target = 0; velPIDl.measurement = motorLeftSpeed; __updatePID(&velPIDl);
-    velPIDr.target = 0; velPIDr.measurement = motorRightSpeed; __updatePID(&velPIDr);
-    velPIDy.target = cameraSpeedTarget; velPIDy.measurement = motorBottomSpeed; __updatePID(&velPIDy);
+    // // 速度环更新
+    // velPIDl.target = 0; velPIDl.measurement = motorLeftSpeed; __updatePID(&velPIDl);
+    // velPIDr.target = 0; velPIDr.measurement = motorRightSpeed; __updatePID(&velPIDr);
+    // velPIDy.target = cameraSpeedTarget; velPIDy.measurement = motorBottomSpeed; __updatePID(&velPIDy);
     
-    // 角度环更新
-    angPIDx.target = velPIDl.deltaOutput + velPIDr.deltaOutput; angPIDx.measurement = pitchX; __updatePID(&angPIDx); // TODO:左右两轮的deltaOutput是相加还是相减?
-    angPIDy.target = velPIDy.deltaOutput; angPIDy.measurement = rollY; __updatePID(&angPIDy);
-    angPIDz.target = cameraTurnTarget;    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    // // 角度环更新
+    // angPIDx.target = velPIDl.deltaOutput + velPIDr.deltaOutput; angPIDx.measurement = pitchX; __updatePID(&angPIDx); // TODO:左右两轮的deltaOutput是相加还是相减?
+    // angPIDy.target = velPIDy.deltaOutput; angPIDy.measurement = rollY; __updatePID(&angPIDy);
+    // angPIDz.target = cameraTurnTarget;    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
 
     // 角速度环更新
-    angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
-    angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
+    // angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    // angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    // angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
+
+    /* 角速度环验证
+        当roll↑时,Δroll>0. 应该让roll↓,而左轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致roll↑ ∴pwmL += -ΔrollX
+        当roll↑时,Δroll>0. 应该让roll↓,而右轮pwm↑时,角动量=(-,0,+),原测速↓,经过人为纠正↑,导致roll↓ ∴pwmR += +ΔrollX
+        当yaw↑时,Δyaw>0. 应该让yaw↓,而左轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致yaw↓ ∴pwmL += ΔyawY
+        当yaw↑时,Δyaw>0. 应该让yaw↓,而右轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致yaw↓ ∴pwmR += ΔyawY
+    */
+    angVelPIDx.target = 0; angVelPIDx.measurement = rollX; __updatePID(&angVelPIDx);   
+    angVelPIDy.target = 0; angVelPIDy.measurement = pitchY; __updatePID(&angVelPIDy);   
+    angVelPIDz.target = 0; angVelPIDz.measurement = yawZ; __updatePID(&angVelPIDz);   
 
     // PWM更新
-    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
-    setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
-    setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
+    // setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
+    // setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
+    setMotor(&motorLeft, ASSIGN, -angVelPIDx.deltaOutput + angVelPIDy.deltaOutput);
+    setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDy.deltaOutput);
+    // setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
 }

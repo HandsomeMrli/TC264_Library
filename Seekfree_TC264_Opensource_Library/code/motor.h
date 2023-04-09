@@ -34,7 +34,7 @@ void setMotor(Motor *motor, Operation op, int32_t offset);
 void updateMotors(
         int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed, 
         int32 cameraSpeedTarget, int32 cameraTurnTarget, 
-        int32 pitchX, int32 rollY, int32 yawZ,
+        int32 rollX, int32 pitchY, int32 yawZ,
         int32 angVelX, int32 angVelY, int32 angVelZ);
 
 #endif

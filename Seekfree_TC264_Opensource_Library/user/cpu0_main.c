@@ -97,7 +97,7 @@ int core0_main(void)
 
     initMotors();
 
-    mode = 255;
+    mode = 1;
     
     pit_ms_init(CCU60_CH1, 10);
     
@@ -131,6 +131,18 @@ int core0_main(void)
                         break;
                     case 'd':
                         setMotor(&motorLeft, OPPOSE, 0);
+                        break;
+                    case 'e':
+                        setMotor(&motorRight, PLUS, 1000);
+                        break;
+                    case 'f':
+                        setMotor(&motorRight, MINUS, 1000);
+                        break;
+                    case 'g':
+                        setMotor(&motorRight, ASSIGN, 0);
+                        break;
+                    case 'h':
+                        setMotor(&motorRight, OPPOSE, 0);
                         break;
                     default:
                         wireless_uart_send_string("Unknown Command: ");
