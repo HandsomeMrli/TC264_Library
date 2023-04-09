@@ -94,7 +94,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
 
     switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当增大定时中断间隔例如(100ms)可以消除该问题
         case 0:
-            printEularAngle(&euler);        
+            printAllAttitudeSolution(&euler);        
             break;
         case 1:
             printMotorSpeed(velPIDl.measurement, velPIDr.measurement, velPIDy.measurement);
@@ -126,6 +126,15 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
                     angVelPIDy.target, angVelPIDy.measurement, angVelPIDy.deltaOutput, 0,
                     angVelPIDz.target, angVelPIDz.measurement, angVelPIDz.deltaOutput, 0
             );
+            break;
+        case 7:
+            printAcc();
+            break;
+        case 8:
+            printGyro();
+            break;
+        case 9:
+            printEularAngle(&euler);
             break;
         default:
             break;

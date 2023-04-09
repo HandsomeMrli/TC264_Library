@@ -120,19 +120,40 @@ void updateMotors(
     // angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
     /* 角速度环验证
-        当roll↑时,Δroll>0. 应该让roll↓,而左轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致roll↑ ∴pwmL += -ΔrollX
-        当roll↑时,Δroll>0. 应该让roll↓,而右轮pwm↑时,角动量=(-,0,+),原测速↓,经过人为纠正↑,导致roll↓ ∴pwmR += +ΔrollX
-        当yaw↑时,Δyaw>0. 应该让yaw↓,而左轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致yaw↓ ∴pwmL += ΔyawY
-        当yaw↑时,Δyaw>0. 应该让yaw↓,而右轮pwm↑时,角动量=(+,0,+),原测速↓,经过人为纠正↑,导致yaw↓ ∴pwmR += ΔyawY
+
     */
     angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
     angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
     angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
-    // PWM更新
-    // setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
-    // setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDz.deltaOutput); // TODO:左右两轮的deltaOutput是相加还是相减?
-    setMotor(&motorLeft, ASSIGN, -angVelPIDx.deltaOutput + angVelPIDy.deltaOutput);
-    setMotor(&motorRight, ASSIGN, angVelPIDx.deltaOutput + angVelPIDy.deltaOutput);
+    /* PWM更新
+        已知:
+            当车身有角动量(0,+,0)时,gyroZ->angVelY为负
+            当车身有角动量(+,0,0)时,gyroY->angVelX为负
+            当车身有角动量(0,0,+)时,gyroX->angVelZ为正
+
+        分析:
+            X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为正. 此时measurement↑,angVelPIDx输出值target-measurement减小
+                我们期望左轮pwm↓,角动量=(-,0,-),反作用角动量=(+,0,+),可以抵消X方向角动量. 
+                ∴pwmL += angVelPIDx
+            X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为正. 此时measurement↑,angVelPIDx输出值target-measurement减小
+                我们期望右轮pwm↑,角动量=(-,0,+),反作用角动量=(+,0,-),可以抵消X方向角动量. 
+                ∴pwmR -= angVelPIDx
+            Y: 当pitch↑时,角动量为(0,-,0),gyroZ->angVelY为正. 此时measurement↑,angvelPIDy输出值target-measurement减小
+                ......
+                ......
+            Z: 当yaw↑时,角动量为(0,0,+),gyroX->angVelZ为正. 此时measurement↑,angVelPIDz输出值target-measurement减小
+                我们期望左轮pwm↑,角动量=(+,0,+),反作用角动量=(-,0,-),可以抵消Z方向角动量.
+                ∴pwmL -= angVelPIDz
+            Z: 当yaw↑时,角动量为(0,0,+),gyroX->angVelZ为正. 此时measurement↑,angVelPIDz输出值target-measurement减小
+                我们期望右轮pwm↑,角动量=(-,0,+),反作用角动量=(+,0,-),可以抵消Z方向角动量.
+                ∴pwmR -= angVelPIDz
+    
+        测试:
+            当车身角动量为(+,0,0)时,右轮角动量=(+,0,-),反作用角动量为(-,0,+),阻止了X方向的角动量变化.
+    */
+    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput - angVelPIDy.deltaOutput);
+    setMotor(&motorRight, ASSIGN, -angVelPIDx.deltaOutput - angVelPIDy.deltaOutput);
     // setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
+    
 }

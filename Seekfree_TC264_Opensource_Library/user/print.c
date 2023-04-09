@@ -1,32 +1,38 @@
 #include "print.h"
 
 /**
- * 10ms中断对无线串口的收发影响测试结果
- * × 123
- * √ 3 12 13 23
+ * @brief 绘制加速度计数据(陀螺仪原坐标系)
 */
-void printEularAngle(const FusionEuler *euler){
-    tft180_show_string(0, 0, "accX");  
-    tft180_show_string(0, 16, "accY"); 
-    tft180_show_string(0, 32, "accZ"); 
-    tft180_show_string(0, 48, "gyroX");
-    tft180_show_string(0, 64, "gyroY");
-    tft180_show_string(0, 80, "gyroZ");
+void printAcc(){
+    tft180_show_string(0, 0, "accX->Y");  
+    tft180_show_string(0, 16, "accY->Z"); 
+    tft180_show_string(0, 32, "accZ->X");
 
-    tft180_show_int(44, 0, icm20602_acc_x, 6);  
-    tft180_show_int(44, 16, icm20602_acc_y, 6); 
-    tft180_show_int(44, 32, icm20602_acc_z, 6); 
-    tft180_show_int(44, 48, icm20602_gyro_x, 6);
-    tft180_show_int(44, 64, icm20602_gyro_y, 6);
-    tft180_show_int(44, 80, icm20602_gyro_z, 6);
+    // tft180_show_int(43, 0, icm20602_acc_x, 6);  
+    // tft180_show_int(43, 16, icm20602_acc_y, 6); 
+    // tft180_show_int(43, 32, icm20602_acc_z, 6);
 
     tft180_show_float(78, 0, icm20602_acc_transition(icm20602_acc_x), 2, 2);
     tft180_show_float(78, 16, icm20602_acc_transition(icm20602_acc_y), 2, 2);
     tft180_show_float(78, 32, icm20602_acc_transition(icm20602_acc_z), 2, 2);
+}
+
+void printGyro(){
+    tft180_show_string(0, 48, "gyroX->Y");
+    tft180_show_string(0, 64, "gyroY->Z");
+    tft180_show_string(0, 80, "gyroZ->Y");
+
+    // tft180_show_int(43, 48, icm20602_gyro_x, 6);
+    // tft180_show_int(43, 64, icm20602_gyro_y, 6);
+    // tft180_show_int(43, 80, icm20602_gyro_z, 6);
+
     tft180_show_float(78, 48, icm20602_gyro_transition(icm20602_gyro_x), 2, 2);
     tft180_show_float(78, 64, icm20602_gyro_transition(icm20602_gyro_y), 2, 2);
     tft180_show_float(78, 80, icm20602_gyro_transition(icm20602_gyro_z), 2, 2);
+}
 
+
+void printEularAngle(const FusionEuler *euler){
     tft180_show_string(0, 96, "yaw");
     tft180_show_string(0, 112, "rol");
     tft180_show_string(0, 128, "pitch");
@@ -38,7 +44,15 @@ void printEularAngle(const FusionEuler *euler){
     // tft180_show_int(42, 96, euler->angle.yaw, 3);
     // tft180_show_int(42, 112, euler->angle.roll, 3);
     // tft180_show_int(42, 128, euler->angle.pitch, 3);
+}
 
+/**
+ * @bug 禁用,与无线串口冲突
+*/
+void printAllAttitudeSolution(const FusionEuler *euler){
+    printAcc();
+    printGyro();
+    printEularAngle(euler);
 }
 
 void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed){
