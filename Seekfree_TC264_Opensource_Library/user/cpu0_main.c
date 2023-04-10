@@ -69,7 +69,7 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 mode = 0;
+uint8 mode = 6;
 
 int core0_main(void)
 {
@@ -97,7 +97,7 @@ int core0_main(void)
 
     initMotors();
 
-    mode = 0;
+    mode = 7;
     
     pit_ms_init(CCU60_CH1, 10);
     

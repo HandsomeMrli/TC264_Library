@@ -127,6 +127,9 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
                     angVelPIDz.target, angVelPIDz.measurement, angVelPIDz.deltaOutput, 0
             );
             break;
+        case 6:
+            printAngVelPID(&angVelPIDx, &angVelPIDy, &angVelPIDz);
+            break;
         case 7:
             printAcc();
             break;

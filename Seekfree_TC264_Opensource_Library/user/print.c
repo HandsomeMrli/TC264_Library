@@ -55,6 +55,30 @@ void printAllAttitudeSolution(const FusionEuler *euler){
     printEularAngle(euler);
 }
 
+void printAngVelPID(PIDValue *angVelPIDx, PIDValue *angVelPIDy, PIDValue *angVelPIDz){
+    tft180_show_string(30, 0, "angVelPID");
+
+    tft180_show_string(0, 16, "X:");
+    tft180_show_string(0, 32, "Y:");
+    tft180_show_string(0, 48, "Z:");
+
+    tft180_show_int(20, 16, angVelPIDx->target, 4);
+    tft180_show_int(20, 32, angVelPIDy->target, 4);
+    tft180_show_int(20, 48, angVelPIDz->target, 4);
+
+    tft180_show_int(30, 16, angVelPIDx->measurement, 4);
+    tft180_show_int(30, 32, angVelPIDy->measurement, 4);
+    tft180_show_int(30, 48, angVelPIDz->measurement, 4);
+
+    tft180_show_int(50, 16, angVelPIDx->deltaOutput, 4);
+    tft180_show_int(50, 32, angVelPIDx->deltaOutput, 4);
+    tft180_show_int(50, 48, angVelPIDx->deltaOutput, 4);
+
+
+
+
+}
+
 void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed){
     tft180_show_string(0, 0, "motorL");  
     tft180_show_string(0, 16, "motorR"); 
