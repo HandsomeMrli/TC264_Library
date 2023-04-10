@@ -69,7 +69,7 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 mode = 0;
+uint8 mode = 6;
 
 int core0_main(void)
 {
@@ -92,12 +92,12 @@ int core0_main(void)
     tft180_init();
 
     // 陀螺仪初始化
-    icm20602_init();
+    imu660ra_init();
     FusionAhrsInitialise(&ahrs);
 
     initMotors();
 
-    mode = 1;
+    mode = 0;
     
     pit_ms_init(CCU60_CH1, 10);
     

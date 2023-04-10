@@ -6,7 +6,6 @@
 #include "pid.h"
 
 typedef struct {
-    PIDValue pid;
     uint32_t freq;
     int32_t pwm; // 同时表示大小和方向
     pwm_channel_enum pwmChannel;
