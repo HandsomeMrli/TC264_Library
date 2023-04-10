@@ -60,17 +60,17 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
     interrupt_global_enable(0);                     // 开启中断嵌套
     pit_clear_flag(CCU60_CH1);
 
-    icm20602_get_acc();
-    icm20602_get_gyro();
+    imu660ra_get_acc();
+    imu660ra_get_gyro();
     const FusionVector gyroscope = {{
-        icm20602_gyro_transition(icm20602_gyro_y),
-        icm20602_gyro_transition(icm20602_gyro_z),
-        icm20602_gyro_transition(icm20602_gyro_x)
+        imu660ra_gyro_transition(-imu660ra_gyro_y),
+        imu660ra_gyro_transition(imu660ra_gyro_z),
+        imu660ra_gyro_transition(-imu660ra_gyro_x)
     }}; // replace this with actual gyroscope data in degrees/s
     const FusionVector accelerometer = {{
-        icm20602_acc_transition(icm20602_acc_y),
-        icm20602_acc_transition(icm20602_acc_z),
-        icm20602_acc_transition(icm20602_acc_x)
+        imu660ra_acc_transition(-imu660ra_acc_y),
+        imu660ra_acc_transition(imu660ra_acc_z),
+        imu660ra_acc_transition(-imu660ra_acc_x)
     }}; // replace this with actual accelerometer data in g
     FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
     const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
@@ -89,7 +89,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             velPIDl.measurement, velPIDr.measurement, velPIDy.measurement,
             0, 0,
             angPIDx.measurement, angPIDy.measurement, angPIDz.measurement,
-            icm20602_gyro_y, icm20602_gyro_z, icm20602_gyro_x
+            imu660ra_gyro_y, imu660ra_gyro_z, imu660ra_gyro_x
     );
 
     switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当增大定时中断间隔例如(100ms)可以消除该问题
@@ -101,8 +101,8 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             break;
         case 2:
             wireless_uart_LingLi_send(
-                    icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, 0,
-                    icm20602_acc_x, icm20602_acc_y, icm20602_acc_z, 0,
+                    imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
+                    imu660ra_acc_x, imu660ra_acc_y, imu660ra_acc_z, 0,
                     euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
             );
             break;
@@ -115,8 +115,8 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             break;
         case 4: // 调试角速度环
             wireless_uart_LingLi_send(
-                    icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z, 0,
-                    angVelPIDx.deltaOutput, angVelPIDy.deltaOutput, angVelPIDz.deltaOutput, 0,
+                    imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
+                    velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
                     motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0
             );
             break;

@@ -120,64 +120,67 @@ void updateMotors(
     // angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
     // 在不考虑上一层PID环的情况下,我们期望车身直立平衡,angPIDx与angPIDy的target均为0,angPIDz的target随意.
-    angPIDx.target = 0; angPIDx.measurement = rollX; __updatePID(&angPIDx);
-    angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
-    angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    // angPIDx.target = 0; angPIDx.measurement = rollX; __updatePID(&angPIDx);
+    // angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
+    // angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
 
     /* 通过角度环输出, 决定角速度环target
         已知:
             当车身有角动量(+,0,0)时,roll↓
             当车身有角动量(0,+,0)时,pitch↓
             当车身有角动量(0,0,+)时,yaw↑
-            当车身有角动量(+,0,0)时,gyroY->angVelX为负.反过来说gyroY->angVelX为正时,说明车身受到了一个等价的(-,0,0)角动量
-            当车身有角动量(0,+,0)时,gyroZ->angVelY为负.反过来说gyroZ->angVelY为正时,说明车身受到了一个等价的(0,-,0)角动量
-            当车身有角动量(0,0,+)时,gyroX->angVelZ为正.反过来说gyroX->angVelZ为正时,说明车身受到了一个等价的(0,0,+)角动量
+            当车身有角动量(+,0,0)时,gyroY->angVelX为正,反过来说gyroY->angVelX为正时,说明车身受到了一个等价的(+,0,0)角动量
+            当车身有角动量(0,+,0)时,gyroZ->angVelY为负,反过来说gyroZ->angVelY为正时,说明车身受到了一个等价的(0,-,0)角动量
+            当车身有角动量(0,0,+)时,gyroX->angVelZ为负,反过来说gyroX->angVelZ为正时,说明车身受到了一个等价的(0,0,-)角动量
         分析:
-            X: 当车身roll<0时,measurement<0. 我们期望车身角动量=(-,0,0). 此时target - measurement增大, 即angPIDx输出增大.
-                我们期望accVelPIDx的target↓,使得deltaoutput=target-measurement减小,等价于measurement↑,即angVelX↑,效果等价于给车身一个角动量(-,0,0)
-                ∴angVelPIDx.target -= angPIDx
+            X: 当车身roll<0时,measurement<0. 我们期望车身角动量=(-,0,0). 此时target - measurement增大, 即angPIDx输出更可能为正.
+                我们期望accVelPIDx的target↑,使得deltaoutput=target-measurement增大,等价于measurement↓,即angVelX↓,效果等价于给车身一个角动量(-,0,0)
+                ∴angVelPIDx.target += angPIDx
             Y: 当车身pitch<0时,measurement<0. 我们期望车身角动量=(0,-,0). 此时target - measurement更可能为正, 即angPIDy输出更可能为正.
                 我们期望accVelPIDy的target↓,使得deltaoutput=target-measurement减小,等价于measurement↑,即angVelY↑,效果等价于给车身一个角动量(0,-,0)
                 ∴angVelPIDy.target -= angPIDy
             Z: 当车身yaw<target时,measurement<target. 我们期望车身角动量=(0,0,+). 此时target - measurement > 0, 即angPIDz输出为正.
-                我们期望accVelPIDz的target↓,使得deltaoutput=target-measurement减小,等价于measurement↑,即angVelZ↑,效果等价于给车身一个角动量(0,0,+)
-                ∴angVelPIDz.target -= angPIDy
+                我们期望accVelPIDz的target↑,使得deltaoutput=target-measurement增大,等价于measurement↓,即angVelZ↓,效果等价于给车身一个角动量(0,0,+)
+                ∴angVelPIDz.target += angPIDz
             // 遗憾的,以上分析与事实不符。实践至少证明X应该为+=。到底哪一步错了呢？不知道了。😭
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身不动,因此angVelPID的target均为0.
-    angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
-    angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
+    // angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    // angVelPIDy.target = -angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    // angVelPIDz.target = +angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
+    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz); 
 
     /* 通过角速度环输出,决定PWM
         已知:
+            当车身有角动量(+,0,0)时,gyroY->angVelX为正
             当车身有角动量(0,+,0)时,gyroZ->angVelY为负
-            当车身有角动量(+,0,0)时,gyroY->angVelX为负
-            当车身有角动量(0,0,+)时,gyroX->angVelZ为正
+            当车身有角动量(0,0,+)时,gyroX->angVelZ为负
         分析:
-            X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为正. 此时measurement↑,angVelPIDx输出值target-measurement减小
+            X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为负. 此时measurement↓,angVelPIDx输出值target-measurement增大
                 我们期望左轮pwm↓,角动量=(-,0,-),反作用角动量=(+,0,+),可以抵消X方向角动量. 
-                ∴pwmL += angVelPIDx
-            X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为正. 此时measurement↑,angVelPIDx输出值target-measurement减小
+                ∴pwmL -= angVelPIDx
+            X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为负. 此时measurement↓,angVelPIDx输出值target-measurement增大
                 我们期望右轮pwm↑,角动量=(-,0,+),反作用角动量=(+,0,-),可以抵消X方向角动量. 
-                ∴pwmR -= angVelPIDx
+                ∴pwmR += angVelPIDx
             Y: 当pitch↑时,角动量为(0,-,0),gyroZ->angVelY为正. 此时measurement↑,angvelPIDy输出值target-measurement减小
                 ......
                 ......
-            Z: 当yaw↑时,角动量为(0,0,+),gyroX->angVelZ为正. 此时measurement↑,angVelPIDz输出值target-measurement减小
+            Z: 当yaw↑时,角动量为(0,0,+),gyroX->angVelZ为负. 此时measurement↓,angVelPIDz输出值target-measurement增大
                 我们期望左轮pwm↑,角动量=(+,0,+),反作用角动量=(-,0,-),可以抵消Z方向角动量.
-                ∴pwmL -= angVelPIDz
-            Z: 当yaw↑时,角动量为(0,0,+),gyroX->angVelZ为正. 此时measurement↑,angVelPIDz输出值target-measurement减小
+                ∴pwmL += angVelPIDz
+            Z: 当yaw↑时,角动量为(0,0,+),gyroX->angVelZ为负. 此时measurement↓,angVelPIDz输出值target-measurement增大
                 我们期望右轮pwm↑,角动量=(-,0,+),反作用角动量=(+,0,-),可以抵消Z方向角动量.
-                ∴pwmR -= angVelPIDz
+                ∴pwmR += angVelPIDz
         实践测试:
             当车身角动量为(+,0,0)时,右轮角动量=(+,0,-),反作用角动量为(-,0,+),阻止了X方向的角动量变化.
     */
-    // setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput - angVelPIDz.deltaOutput);
-    // setMotor(&motorRight, ASSIGN, -angVelPIDx.deltaOutput - angVelPIDz.deltaOutput);
-    setMotor(&motorLeft, ASSIGN, angVelPIDx.deltaOutput);
-    setMotor(&motorRight, ASSIGN, -angVelPIDx.deltaOutput);
+    // setMotor(&motorLeft, ASSIGN, -angVelPIDx.deltaOutput + angVelPIDz.deltaOutput);
+    // setMotor(&motorRight, ASSIGN, +angVelPIDx.deltaOutput + angVelPIDz.deltaOutput);
+    setMotor(&motorLeft, ASSIGN, -angVelPIDx.deltaOutput);
+    setMotor(&motorRight, ASSIGN, +angVelPIDx.deltaOutput);
     // setMotor(&motorBottom, ASSIGN, angVelPIDy.deltaOutput);
 
 }
