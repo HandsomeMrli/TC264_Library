@@ -31,7 +31,6 @@ void printGyro(){
     tft180_show_float(78, 80, imu660ra_gyro_transition(imu660ra_gyro_z), 2, 2);
 }
 
-
 void printEularAngle(const FusionEuler *euler){
     tft180_show_string(0, 96, "yaw");
     tft180_show_string(0, 112, "rol");
@@ -95,3 +94,4 @@ void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBot
     // tft180_show_int(44, 64, imu660ra_gyro_y, 6);
     // tft180_show_int(44, 80, imu660ra_gyro_z, 6);
 }
+

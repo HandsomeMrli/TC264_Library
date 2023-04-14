@@ -35,9 +35,9 @@ void initMotors(){
     __initPID(&angPIDx, 1000, 0, 100, 0, 1000);
     __initPID(&angPIDy, 1000, 0, 100, 0, 1000);
     __initPID(&angPIDz, 1000, 0, 100, 0, 1000);
-    __initPID(&angVelPIDx, 100, 5, 2, 0, 1000);
-    __initPID(&angVelPIDy, 100, 5, 2, 0, 1000);
-    __initPID(&angVelPIDz, 100, 5, 2, 0, 1000);
+    __initPID(&angVelPIDx, 500, 0, 0, 0, 1000);
+    __initPID(&angVelPIDy, 500, 0, 0, 0, 1000);
+    __initPID(&angVelPIDz, 500, 0, 0, 0, 1000);
 
 
     // 初始化方向引脚
@@ -145,14 +145,15 @@ void updateMotors(
                 我们期望角动量(0,0,-)转移到两个动量轮上,也就是说左轮(+,0,+)↓,右轮(-,0,+)↓
                 我们期望accVelPIDz的target↓,使得deltaoutput = target - measurement↓,左轮pwm↓,右轮pwm↓
                 ∴angVelPIDz.target -= angPIDz
-            // 遗憾的,以上分析与事实不符。实践至少证明X应该为+=。到底哪一步错了呢？不知道了。😭
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身不动,因此angVelPID的target均为0.
-    angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    // angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    // angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
+    // angVelPIDz.target = -angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
+    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
     angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    angVelPIDz.target = -angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
-
+    angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
     /* 通过角速度环输出,决定PWM
         已知:
             当车身有角动量(+,0,0)时,gyroY->angVelX为正

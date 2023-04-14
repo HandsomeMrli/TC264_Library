@@ -45,6 +45,7 @@ extern uint8 mode;
 extern uint8 data_buffer[32];
 extern uint8 data_len;
 extern uint8 count;
+extern FusionEuler euler;
 // **************************** PIT中断函数 ****************************
 IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
 {
@@ -73,7 +74,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
         imu660ra_acc_transition(-imu660ra_acc_x)
     }}; // replace this with actual accelerometer data in g
     FusionAhrsUpdateNoMagnetometer(&ahrs, gyroscope, accelerometer, 0.01);
-    const FusionEuler euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
+    euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&ahrs));
     angPIDx.measurement = euler.angle.roll;
     angPIDy.measurement = euler.angle.pitch;
     angPIDz.measurement = euler.angle.yaw;
@@ -90,59 +91,7 @@ IFX_INTERRUPT(cc60_pit_ch1_isr, 0, CCU6_0_CH1_ISR_PRIORITY)
             0, 0,
             angPIDx.measurement, angPIDy.measurement, angPIDz.measurement,
             imu660ra_gyro_y, imu660ra_gyro_z, imu660ra_gyro_x
-    );
-
-    switch (mode){ // 禁止串口与很多显示屏函数一起用！否则串口会卡死！适当增大定时中断间隔例如(100ms)可以消除该问题
-        case 0:
-            printAllAttitudeSolution(&euler);        
-            break;
-        case 1:
-            printMotorSpeed(velPIDl.measurement, velPIDr.measurement, velPIDy.measurement);
-            break;
-        case 2:
-            wireless_uart_LingLi_send(
-                    imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
-                    imu660ra_acc_x, imu660ra_acc_y, imu660ra_acc_z, 0,
-                    euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
-            );
-            break;
-        case 3:
-            wireless_uart_LingLi_send(
-                    motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0,
-                    velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
-                    0, 0, 0, 0
-            );
-            break;
-        case 4: // 调试角速度环
-            wireless_uart_LingLi_send(
-                    imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
-                    velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
-                    motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0
-            );
-            break;
-        case 5:
-            wireless_uart_LingLi_send(
-                    angVelPIDx.target, angVelPIDx.measurement, angVelPIDx.deltaOutput, 0,
-                    angVelPIDy.target, angVelPIDy.measurement, angVelPIDy.deltaOutput, 0,
-                    angVelPIDz.target, angVelPIDz.measurement, angVelPIDz.deltaOutput, 0
-            );
-            break;
-        case 6:
-            printAngVelPID(&angVelPIDx, &angVelPIDy, &angVelPIDz);
-            break;
-        case 7:
-            printAcc();
-            break;
-        case 8:
-            printGyro();
-            break;
-        case 9:
-            printEularAngle(&euler);
-            break;
-        default:
-            break;
-    }
-        
+    );  
 
 }
 
