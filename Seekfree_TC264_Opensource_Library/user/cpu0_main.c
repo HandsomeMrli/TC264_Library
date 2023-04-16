@@ -72,7 +72,7 @@ FusionAhrs ahrs;
 
 // 拨码开关更改模式
 uint8 screenMode = 1;
-uint8 uartSendMode = 255;
+uint8 uartSendMode = 2;
 
 // 姿态解算相关变量
 FusionEuler euler;
@@ -359,8 +359,8 @@ int core0_main(void)
             case 2: // 调试角速度环
                 wireless_uart_LingLi_send(
                         imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
-                        velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
-                        motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0
+                        angPIDx.deltaOutput, angPIDy.deltaOutput, angPIDz.deltaOutput, 0,
+                        angVelPIDx.deltaOutput, angVelPIDy.deltaOutput, angVelPIDz.deltaOutput, 0
                 );
                 break;
             case 3:

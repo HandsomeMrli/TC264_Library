@@ -20,7 +20,7 @@ void printAcc(){
 void printGyro(){
     tft180_show_string(0, 48, "gyroX->Y");
     tft180_show_string(0, 64, "gyroY->Z");
-    tft180_show_string(0, 80, "gyroZ->Y");
+    tft180_show_string(0, 80, "gyroZ->X");
 
     // tft180_show_int(43, 48, imu660ra_gyro_x, 6);
     // tft180_show_int(43, 64, imu660ra_gyro_y, 6);
@@ -70,8 +70,8 @@ void printAngVelPID(PIDValue *angVelPIDx, PIDValue *angVelPIDy, PIDValue *angVel
     tft180_show_int(30, 48, angVelPIDz->measurement, 4);
 
     tft180_show_int(50, 16, angVelPIDx->deltaOutput, 4);
-    tft180_show_int(50, 32, angVelPIDx->deltaOutput, 4);
-    tft180_show_int(50, 48, angVelPIDx->deltaOutput, 4);
+    tft180_show_int(50, 32, angVelPIDy->deltaOutput, 4);
+    tft180_show_int(50, 48, angVelPIDz->deltaOutput, 4);
 
 
 

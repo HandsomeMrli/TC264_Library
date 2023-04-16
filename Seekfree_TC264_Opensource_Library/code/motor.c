@@ -36,9 +36,9 @@ void initMotors(){
     __initPID(&angPIDx, 300, 0, 0, 0, 1000); //纯PD，到这一步也立不起来，因为预期直立角度yaw与实际直立角度有误差，导致轮子越转越快最终倒下
     __initPID(&angPIDy, 300, 0, 0, 0, 1000); // P大时会震荡一次后倒下，P小时会震荡多次后倒下，应该适中
     __initPID(&angPIDz, 300, 0, 0, 0, 1000);
-    __initPID(&angVelPIDx, 225, 30, 0, 0, 1000); // 纯PI，理论上能在某个位置立住几秒，但是收积分影响，调试时需要按Reset复位积分值
-    __initPID(&angVelPIDy, 225, 30, 0, 0, 1000);
-    __initPID(&angVelPIDz, 225, 30, 0, 0, 1000);
+    __initPID(&angVelPIDx, 60, 0, 5, 0, 1000); // 纯PI，理论上能在某个位置立住几秒，但是收积分影响，调试时需要按Reset复位积分值
+    __initPID(&angVelPIDy, 60, 0, 5, 0, 1000);
+    __initPID(&angVelPIDz, 60, 0, 5, 0, 1000);
 
 
     // 初始化方向引脚
@@ -121,7 +121,7 @@ void updateMotors(
     // angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
     // 在不考虑上一层PID环的情况下,我们期望车身直立平衡,angPIDx与angPIDy的target均为0,angPIDz的target随意.
-    angPIDx.target = 0; angPIDx.measurement = rollX; __updatePID(&angPIDx);
+    angPIDx.target = 2.2; angPIDx.measurement = rollX; __updatePID(&angPIDx);
     angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
     angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
 
@@ -149,12 +149,9 @@ void updateMotors(
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身不动,因此angVelPID的target均为0.
-    // angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
-    // angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    // angVelPIDz.target = -angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
-    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);  
+    angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
     angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
+    angVelPIDz.target = -angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
 
 
     /* 通过角速度环输出,决定PWM
