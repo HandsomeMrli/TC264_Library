@@ -251,6 +251,7 @@ void modeFlagOperate(uint8 modeFlag, uint8 value){
             uartSendMode = value - '0';
             break;
         case 'b': // 改变显示屏显示内容模式
+            tft180_clear();
             screenMode = value - '0';
             break;
     }
@@ -337,8 +338,9 @@ int core0_main(void)
                 printEularAngle(&euler);
                 break;
             default:
-                break;
+                system_delay_ms(5); // 千万别删!无线串口read_buffer()相邻两次调用需要一定的延时,否则会收发失去同步/藏包.
         }
+        
         switch (uartSendMode){
             case 0:
                 wireless_uart_LingLi_send(
