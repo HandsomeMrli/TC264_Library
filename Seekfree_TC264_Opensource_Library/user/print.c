@@ -95,3 +95,27 @@ void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBot
     // tft180_show_int(44, 80, imu660ra_gyro_z, 6);
 }
 
+void printAllPIDCoef(Motor *motorLeft, Motor *motorRight, Motor *motorBottom){
+    tft180_show_string(32, 0, "PID Coef");
+    tft180_show_string(0, 16 , "wX"); tft180_show_int(20, 16 , angVelPIDx.pCoef, 4); tft180_show_int(54, 16 , angVelPIDx.iCoef, 4); tft180_show_int(88, 16 , angVelPIDx.dCoef, 4);
+    tft180_show_string(0, 32 , "wY"); tft180_show_int(20, 32 , angVelPIDy.pCoef, 4); tft180_show_int(54, 32 , angVelPIDy.iCoef, 4); tft180_show_int(88, 32 , angVelPIDy.dCoef, 4);
+    tft180_show_string(0, 48 , "wZ"); tft180_show_int(20, 48 , angVelPIDz.pCoef, 4); tft180_show_int(54, 48 , angVelPIDz.iCoef, 4); tft180_show_int(88, 48 , angVelPIDz.dCoef, 4);
+    tft180_show_string(0, 64 , "aX"); tft180_show_int(20, 64 , angPIDx.pCoef, 4); tft180_show_int(54, 64 , angPIDx.iCoef, 4); tft180_show_int(88, 64 , angPIDx.dCoef, 4);
+    tft180_show_string(0, 80 , "aY"); tft180_show_int(20, 80 , angPIDy.pCoef, 4); tft180_show_int(54, 80 , angPIDy.iCoef, 4); tft180_show_int(88, 80 , angPIDy.dCoef, 4);
+    tft180_show_string(0, 96 , "aZ"); tft180_show_int(20, 96 , angPIDz.pCoef, 4); tft180_show_int(54, 96 , angPIDz.iCoef, 4); tft180_show_int(88, 96 , angPIDz.dCoef, 4);
+    tft180_show_string(0, 112, "vL"); tft180_show_int(20, 112, velPIDl.pCoef, 4); tft180_show_int(54, 112, velPIDl.iCoef, 4); tft180_show_int(88, 112, velPIDl.dCoef, 4);
+    tft180_show_string(0, 128, "vR"); tft180_show_int(20, 128, velPIDy.pCoef, 4); tft180_show_int(54, 128, velPIDr.iCoef, 4); tft180_show_int(88, 128, velPIDr.dCoef, 4);
+    tft180_show_string(0, 144, "vY"); tft180_show_int(20, 144, velPIDy.pCoef, 4); tft180_show_int(54, 144, velPIDy.iCoef, 4); tft180_show_int(88, 144, velPIDy.dCoef, 4);
+
+    // tft180_show_int(74, 0, angVelPIDx.dCoef, 4);
+    // tft180_show_int(42, 0, angVelPIDx.pCoef, 4);
+    // tft180_show_int(80, 0, angVelPIDx.iCoef, 4);
+    // tft180_show_int(100, 0, angVelPIDx.dCoef, 4);
+    // tft180_show_int(16, 0, angVelPIDx.pCoef, 4);
+    // tft180_show_int(16, 0, angVelPIDx.pCoef, 4);
+    // tft180_show_int(16, 0, angVelPIDx.pCoef, 4);
+    // tft180_show_int(16, 0, angVelPIDx.pCoef, 4);
+    // tft180_show_int(16, 0, angVelPIDx.pCoef, 4);
+    // tft180_show_int(16, 0, angVelPIDx.pCoef, 4);
+    
+}

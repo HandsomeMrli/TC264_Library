@@ -71,7 +71,7 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 screenMode = 0;
+uint8 screenMode = 3;
 uint8 uartSendMode = 255;
 
 // 姿态解算相关变量
@@ -219,9 +219,9 @@ void variableOperate(uint8 variable, uint8 operation){
             if(operation=='0'){velPIDy.iCoef = 0;}
             break;
         case 'A':
-            if(operation=='+'){velPIDy.iCoef += 10;}
-            if(operation=='-'){velPIDy.iCoef -= 10;}
-            if(operation=='0'){velPIDy.iCoef = 0;}
+            if(operation=='+'){velPIDy.dCoef += 10;}
+            if(operation=='-'){velPIDy.dCoef -= 10;}
+            if(operation=='0'){velPIDy.dCoef = 0;}
             break;
 
         // motorLeft PWM
@@ -329,13 +329,7 @@ int core0_main(void)
                 printAngVelPID(&angVelPIDx, &angVelPIDy, &angVelPIDz);
                 break;
             case 3:
-                printAcc();
-                break;
-            case 4:
-                printGyro();
-                break;
-            case 5:
-                printEularAngle(&euler);
+                printAllPIDCoef(&motorLeft, &motorRight, &motorBottom);
                 break;
             default:
                 system_delay_ms(5); // 千万别删!无线串口read_buffer()相邻两次调用需要一定的延时,否则会收发失去同步/藏包.

@@ -8,6 +8,7 @@
         "atomic": "c",
         "utility": "c",
         "xmemory": "c",
-        "xstring": "c"
+        "xstring": "c",
+        "zf_common_headfile.h": "c"
     }
 }

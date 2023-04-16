@@ -40,10 +40,6 @@
 #include "print.h"
 #include "upperComputer.h"
 extern FusionAhrs ahrs;
-extern char uart_string_buffer[64];
-extern uint8 data_buffer[32];
-extern uint8 data_len;
-extern uint8 count;
 extern FusionEuler euler;
 // **************************** PIT中断函数 ****************************
 IFX_INTERRUPT(cc60_pit_ch0_isr, 0, CCU6_0_CH0_ISR_PRIORITY)
