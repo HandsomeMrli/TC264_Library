@@ -32,12 +32,13 @@ void initMotors(){
     __initPID(&velPIDl, 100, 0, 2, 0, 1000);
     __initPID(&velPIDr, 100, 0, 2, 0, 1000);
     __initPID(&velPIDy, 100, 0, 2, 0, 1000);
-    __initPID(&angPIDx, 1000, 0, 100, 0, 1000);
-    __initPID(&angPIDy, 1000, 0, 100, 0, 1000);
-    __initPID(&angPIDz, 1000, 0, 100, 0, 1000);
-    __initPID(&angVelPIDx, 500, 0, 0, 0, 1000);
-    __initPID(&angVelPIDy, 500, 0, 0, 0, 1000);
-    __initPID(&angVelPIDz, 500, 0, 0, 0, 1000);
+
+    __initPID(&angPIDx, 300, 0, 0, 0, 1000); //纯PD，到这一步也立不起来，因为预期直立角度yaw与实际直立角度有误差，导致轮子越转越快最终倒下
+    __initPID(&angPIDy, 300, 0, 0, 0, 1000); // P大时会震荡一次后倒下，P小时会震荡多次后倒下，应该适中
+    __initPID(&angPIDz, 300, 0, 0, 0, 1000);
+    __initPID(&angVelPIDx, 225, 30, 0, 0, 1000); // 纯PI，理论上能在某个位置立住几秒，但是收积分影响，调试时需要按Reset复位积分值
+    __initPID(&angVelPIDy, 225, 30, 0, 0, 1000);
+    __initPID(&angVelPIDz, 225, 30, 0, 0, 1000);
 
 
     // 初始化方向引脚
@@ -151,9 +152,11 @@ void updateMotors(
     // angVelPIDx.target = -angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
     // angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
     // angVelPIDz.target = -angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
-    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
+    angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);  
     angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
     angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
+
+
     /* 通过角速度环输出,决定PWM
         已知:
             当车身有角动量(+,0,0)时,gyroY->angVelX为正
