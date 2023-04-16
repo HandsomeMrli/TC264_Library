@@ -71,7 +71,7 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 screenMode = 255;
+uint8 screenMode = 0;
 uint8 uartSendMode = 255;
 
 // 姿态解算相关变量
