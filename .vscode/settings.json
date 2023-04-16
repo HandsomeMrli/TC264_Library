@@ -4,6 +4,10 @@
         "define.h": "c",
         "pid.h": "c",
         "uppercomputer.h": "c",
-        "print.h": "c"
+        "print.h": "c",
+        "atomic": "c",
+        "utility": "c",
+        "xmemory": "c",
+        "xstring": "c"
     }
 }

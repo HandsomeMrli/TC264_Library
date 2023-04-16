@@ -32,6 +32,7 @@ void initMotors(){
     __initPID(&velPIDl, 100, 0, 2, 0, 1000);
     __initPID(&velPIDr, 100, 0, 2, 0, 1000);
     __initPID(&velPIDy, 100, 0, 2, 0, 1000);
+
     __initPID(&angPIDx, 300, 0, 0, 0, 1000); //纯PD，到这一步也立不起来，因为预期直立角度yaw与实际直立角度有误差，导致轮子越转越快最终倒下
     __initPID(&angPIDy, 300, 0, 0, 0, 1000); // P大时会震荡一次后倒下，P小时会震荡多次后倒下，应该适中
     __initPID(&angPIDz, 300, 0, 0, 0, 1000);
@@ -145,7 +146,6 @@ void updateMotors(
                 我们期望角动量(0,0,-)转移到两个动量轮上,也就是说左轮(+,0,+)↓,右轮(-,0,+)↓
                 我们期望accVelPIDz的target↓,使得deltaoutput = target - measurement↓,左轮pwm↓,右轮pwm↓
                 ∴angVelPIDz.target -= angPIDz
-            // 遗憾的,以上分析与事实不符。实践至少证明X应该为+=。到底哪一步错了呢？不知道了。😭
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身不动,因此angVelPID的target均为0.
@@ -155,6 +155,7 @@ void updateMotors(
     angVelPIDx.target = 0; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);  
     angVelPIDy.target = 0; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
     angVelPIDz.target = 0; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);
+
 
     /* 通过角速度环输出,决定PWM
         已知:
