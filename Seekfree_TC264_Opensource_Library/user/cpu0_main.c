@@ -71,9 +71,8 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 screenMode = 0;
-uint8 uartSendMode = 0;
-uint8 mode = 6;
+uint8 screenMode = 255;
+uint8 uartSendMode = 255;
 
 // 姿态解算相关变量
 FusionEuler euler;
@@ -82,146 +81,146 @@ void variableOperate(uint8 variable, uint8 operation){
     switch (variable){
         // angVelPIDx
         case 'a':
-            if(operation=='+'){angVelPIDx.pCoef += 100;}
-            if(operation=='-'){angVelPIDx.pCoef -= 100;}
+            if(operation=='+'){angVelPIDx.pCoef += 10;}
+            if(operation=='-'){angVelPIDx.pCoef -= 10;}
             if(operation=='0'){angVelPIDx.pCoef = 0;}
             break;
         case 'b':
-            if(operation=='+'){angVelPIDx.iCoef += 100;}
-            if(operation=='-'){angVelPIDx.iCoef -= 100;}
+            if(operation=='+'){angVelPIDx.iCoef += 10;}
+            if(operation=='-'){angVelPIDx.iCoef -= 10;}
             if(operation=='0'){angVelPIDx.iCoef = 0;}
             break;
         case 'c':
-            if(operation=='+'){angVelPIDx.dCoef += 100;}
-            if(operation=='-'){angVelPIDx.dCoef -= 100;}
+            if(operation=='+'){angVelPIDx.dCoef += 10;}
+            if(operation=='-'){angVelPIDx.dCoef -= 10;}
             if(operation=='0'){angVelPIDx.dCoef = 0;}
             break;
         // angVelPIDy
         case 'd':
-            if(operation=='+'){angVelPIDy.pCoef += 100;}
-            if(operation=='-'){angVelPIDy.pCoef -= 100;}
+            if(operation=='+'){angVelPIDy.pCoef += 10;}
+            if(operation=='-'){angVelPIDy.pCoef -= 10;}
             if(operation=='0'){angVelPIDy.pCoef = 0;}
             break;
         case 'e':
-            if(operation=='+'){angVelPIDy.iCoef += 100;}
-            if(operation=='-'){angVelPIDy.iCoef -= 100;}
+            if(operation=='+'){angVelPIDy.iCoef += 10;}
+            if(operation=='-'){angVelPIDy.iCoef -= 10;}
             if(operation=='0'){angVelPIDy.iCoef = 0;}
             break;
         case 'f':
-            if(operation=='+'){angVelPIDy.dCoef += 100;}
-            if(operation=='-'){angVelPIDy.dCoef -= 100;}
+            if(operation=='+'){angVelPIDy.dCoef += 10;}
+            if(operation=='-'){angVelPIDy.dCoef -= 10;}
             if(operation=='0'){angVelPIDy.dCoef = 0;}
             break;
         // angVelPIDz
         case 'g':
-            if(operation=='+'){angVelPIDz.pCoef += 100;}
-            if(operation=='-'){angVelPIDz.pCoef -= 100;}
+            if(operation=='+'){angVelPIDz.pCoef += 10;}
+            if(operation=='-'){angVelPIDz.pCoef -= 10;}
             if(operation=='0'){angVelPIDz.pCoef = 0;}
             break;
         case 'h':
-            if(operation=='+'){angVelPIDz.iCoef += 100;}
-            if(operation=='-'){angVelPIDz.iCoef -= 100;}
+            if(operation=='+'){angVelPIDz.iCoef += 10;}
+            if(operation=='-'){angVelPIDz.iCoef -= 10;}
             if(operation=='0'){angVelPIDz.iCoef = 0;}
             break;
         case 'i':
-            if(operation=='+'){angVelPIDz.dCoef += 100;}
-            if(operation=='-'){angVelPIDz.dCoef -= 100;}
+            if(operation=='+'){angVelPIDz.dCoef += 10;}
+            if(operation=='-'){angVelPIDz.dCoef -= 10;}
             if(operation=='0'){angVelPIDz.dCoef = 0;}
             break;
         // angPIDx
         case 'j':
-            if(operation=='+'){angPIDx.pCoef += 100;}
-            if(operation=='-'){angPIDx.pCoef -= 100;}
+            if(operation=='+'){angPIDx.pCoef += 10;}
+            if(operation=='-'){angPIDx.pCoef -= 10;}
             if(operation=='0'){angPIDx.pCoef = 0;}
             break;
         case 'k':
-            if(operation=='+'){angPIDx.iCoef += 100;}
-            if(operation=='-'){angPIDx.iCoef -= 100;}
+            if(operation=='+'){angPIDx.iCoef += 10;}
+            if(operation=='-'){angPIDx.iCoef -= 10;}
             if(operation=='0'){angPIDx.iCoef = 0;}
             break;
         case 'l':
-            if(operation=='+'){angPIDx.dCoef += 100;}
-            if(operation=='-'){angPIDx.dCoef -= 100;}
+            if(operation=='+'){angPIDx.dCoef += 10;}
+            if(operation=='-'){angPIDx.dCoef -= 10;}
             if(operation=='0'){angPIDx.dCoef = 0;}
             break;
         // angPIDy
         case 'm':
-            if(operation=='+'){angPIDy.pCoef += 100;}
-            if(operation=='-'){angPIDy.pCoef -= 100;}
+            if(operation=='+'){angPIDy.pCoef += 10;}
+            if(operation=='-'){angPIDy.pCoef -= 10;}
             if(operation=='0'){angPIDy.pCoef = 0;}
             break;
         case 'n':
-            if(operation=='+'){angPIDy.iCoef += 100;}
-            if(operation=='-'){angPIDy.iCoef -= 100;}
+            if(operation=='+'){angPIDy.iCoef += 10;}
+            if(operation=='-'){angPIDy.iCoef -= 10;}
             if(operation=='0'){angPIDy.iCoef = 0;}
             break;
         case 'o':
-            if(operation=='+'){angPIDy.dCoef += 100;}
-            if(operation=='-'){angPIDy.dCoef -= 100;}
+            if(operation=='+'){angPIDy.dCoef += 10;}
+            if(operation=='-'){angPIDy.dCoef -= 10;}
             if(operation=='0'){angPIDy.dCoef = 0;}
             break;
         // angPIDz
         case 'p':
-            if(operation=='+'){angPIDz.pCoef += 100;}
-            if(operation=='-'){angPIDz.pCoef -= 100;}
+            if(operation=='+'){angPIDz.pCoef += 10;}
+            if(operation=='-'){angPIDz.pCoef -= 10;}
             if(operation=='0'){angPIDz.pCoef = 0;}
             break;
         case 'q':
-            if(operation=='+'){angPIDz.iCoef += 100;}
-            if(operation=='-'){angPIDz.iCoef -= 100;}
+            if(operation=='+'){angPIDz.iCoef += 10;}
+            if(operation=='-'){angPIDz.iCoef -= 10;}
             if(operation=='0'){angPIDz.iCoef = 0;}
             break;
         case 'r':
-            if(operation=='+'){angPIDz.dCoef += 100;}
-            if(operation=='-'){angPIDz.dCoef -= 100;}
+            if(operation=='+'){angPIDz.dCoef += 10;}
+            if(operation=='-'){angPIDz.dCoef -= 10;}
             if(operation=='0'){angPIDz.dCoef = 0;}
             break;
         // velPIDl
         case 's':
-            if(operation=='+'){velPIDl.pCoef += 100;}
-            if(operation=='-'){velPIDl.pCoef -= 100;}
+            if(operation=='+'){velPIDl.pCoef += 10;}
+            if(operation=='-'){velPIDl.pCoef -= 10;}
             if(operation=='0'){velPIDl.pCoef = 0;}
             break;
         case 't':
-            if(operation=='+'){velPIDl.iCoef += 100;}
-            if(operation=='-'){velPIDl.iCoef -= 100;}
+            if(operation=='+'){velPIDl.iCoef += 10;}
+            if(operation=='-'){velPIDl.iCoef -= 10;}
             if(operation=='0'){velPIDl.iCoef = 0;}
             break;
         case 'u':
-            if(operation=='+'){velPIDl.dCoef += 100;}
-            if(operation=='-'){velPIDl.dCoef -= 100;}
+            if(operation=='+'){velPIDl.dCoef += 10;}
+            if(operation=='-'){velPIDl.dCoef -= 10;}
             if(operation=='0'){velPIDl.dCoef = 0;}
             break;
         // velPIDr
         case 'v':
-            if(operation=='+'){velPIDr.pCoef += 100;}
-            if(operation=='-'){velPIDr.pCoef -= 100;}
+            if(operation=='+'){velPIDr.pCoef += 10;}
+            if(operation=='-'){velPIDr.pCoef -= 10;}
             if(operation=='0'){velPIDr.pCoef = 0;}
             break;
         case 'w':
-            if(operation=='+'){velPIDr.iCoef += 100;}
-            if(operation=='-'){velPIDr.iCoef -= 100;}
+            if(operation=='+'){velPIDr.iCoef += 10;}
+            if(operation=='-'){velPIDr.iCoef -= 10;}
             if(operation=='0'){velPIDr.iCoef = 0;}
             break;
         case 'x':
-            if(operation=='+'){velPIDr.dCoef += 100;}
-            if(operation=='-'){velPIDr.dCoef -= 100;}
+            if(operation=='+'){velPIDr.dCoef += 10;}
+            if(operation=='-'){velPIDr.dCoef -= 10;}
             if(operation=='0'){velPIDr.dCoef = 0;}
             break;
         // velPIDy
         case 'y':
-            if(operation=='+'){velPIDy.pCoef += 100;}
-            if(operation=='-'){velPIDy.pCoef -= 100;}
+            if(operation=='+'){velPIDy.pCoef += 10;}
+            if(operation=='-'){velPIDy.pCoef -= 10;}
             if(operation=='0'){velPIDy.pCoef = 0;}
             break;
         case 'z':
-            if(operation=='+'){velPIDy.iCoef += 100;}
-            if(operation=='-'){velPIDy.iCoef -= 100;}
+            if(operation=='+'){velPIDy.iCoef += 10;}
+            if(operation=='-'){velPIDy.iCoef -= 10;}
             if(operation=='0'){velPIDy.iCoef = 0;}
             break;
         case 'A':
-            if(operation=='+'){velPIDy.iCoef += 100;}
-            if(operation=='-'){velPIDy.iCoef -= 100;}
+            if(operation=='+'){velPIDy.iCoef += 10;}
+            if(operation=='-'){velPIDy.iCoef -= 10;}
             if(operation=='0'){velPIDy.iCoef = 0;}
             break;
 
@@ -293,8 +292,6 @@ int core0_main(void)
     FusionAhrsInitialise(&ahrs);
 
     initMotors();
-
-    mode = 3;
     
     pit_ms_init(CCU60_CH1, 10);
     
@@ -310,12 +307,15 @@ int core0_main(void)
         // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_4_PIN); 
 
-        data_len = (uint8)wireless_uart_read_buff(data_buffer, 32);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
+        data_len = (uint8)wireless_uart_read_buff(data_buffer, 185);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
+        if(data_len > 0){
+            wireless_uart_send_string("Receive: ");
+            wireless_uart_send_buff(data_buffer, data_len);
+        }
         if(data_len >= 3){
             uartCommandHandler(data_buffer);
-            wireless_uart_send_buff(data_buffer, data_len);                     // 将收到的消息发送回去
-            memset(data_buffer, 0, 32);
         }
+        memset(data_buffer, 0, 32);
 
         switch (screenMode){ 
             case 0:
