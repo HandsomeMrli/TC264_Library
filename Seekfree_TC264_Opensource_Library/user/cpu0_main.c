@@ -71,7 +71,7 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 screenMode = 3;
+uint8 screenMode = 1;
 uint8 uartSendMode = 255;
 
 // 姿态解算相关变量
@@ -239,6 +239,12 @@ void variableOperate(uint8 variable, uint8 operation){
             if(operation=='0'){setMotor(&motorRight, ASSIGN, 0);}
             if(operation=='a'){setMotor(&motorRight, OPPOSE, 0);}
             break;
+        
+        case 'D':
+            if(operation=='+'){setMotor(&motorBottom, PLUS, 1000);}
+            if(operation=='-'){setMotor(&motorBottom, MINUS, 1000);}
+            if(operation=='0'){setMotor(&motorBottom, ASSIGN, 0);}
+            if(operation=='a'){setMotor(&motorBottom, OPPOSE, 0);}
 
         default:
             break;
@@ -328,7 +334,7 @@ int core0_main(void)
             case 2:
                 printAngVelPID(&angVelPIDx, &angVelPIDy, &angVelPIDz);
                 break;
-            case 3:
+            case 3: // 显示所有PID参数
                 printAllPIDCoef(&motorLeft, &motorRight, &motorBottom);
                 break;
             default:

@@ -79,20 +79,18 @@ void printAngVelPID(PIDValue *angVelPIDx, PIDValue *angVelPIDy, PIDValue *angVel
 }
 
 void printMotorSpeed(int16 motorLeftSpeed, int16 motorRightSpeed, int16 motorBottomSpeed){
-    tft180_show_string(0, 0, "motorL");  
-    tft180_show_string(0, 16, "motorR"); 
-    tft180_show_string(0, 32, "motorB"); 
-    // tft180_show_string(0, 48, "gyroX");
-    // tft180_show_string(0, 64, "gyroY");
-    // tft180_show_string(0, 80, "gyroZ");
+    tft180_show_string(0, 0, "Motor_Speed_PWM");
+    tft180_show_string(0, 16, "Left");
+    tft180_show_string(0, 32, "Right");
+    tft180_show_string(0, 48, "Bottom");
+    
+    tft180_show_int(40, 16, motorLeftSpeed, 4);   
+    tft180_show_int(40, 32, motorRightSpeed, 4); 
+    tft180_show_int(40, 48, motorBottomSpeed, 4);
 
-    tft180_show_int(50, 0, motorLeftSpeed, 6);  
-    tft180_show_int(50, 16, motorRightSpeed, 6); 
-    tft180_show_int(50, 32, motorBottomSpeed, 6);
-    // tft180_show_int(44, 32, imu660ra_acc_z, 6); 
-    // tft180_show_int(44, 48, imu660ra_gyro_x, 6);
-    // tft180_show_int(44, 64, imu660ra_gyro_y, 6);
-    // tft180_show_int(44, 80, imu660ra_gyro_z, 6);
+    tft180_show_int(74, 16, motorLeft.pwm, 5);
+    tft180_show_int(74, 32, motorRight.pwm, 5);
+    tft180_show_int(74, 48, motorBottom.pwm, 5);
 }
 
 void printAllPIDCoef(Motor *motorLeft, Motor *motorRight, Motor *motorBottom){
