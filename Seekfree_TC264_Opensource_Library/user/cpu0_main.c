@@ -71,7 +71,7 @@ uint8 count = 0;
 FusionAhrs ahrs;
 
 // 拨码开关更改模式
-uint8 screenMode = 1;
+uint8 screenMode = 4;
 uint8 uartSendMode = 2;
 
 // 姿态解算相关变量
@@ -335,7 +335,10 @@ int core0_main(void)
                 printAngVelPID(&angVelPIDx, &angVelPIDy, &angVelPIDz);
                 break;
             case 3: // 显示所有PID参数
-                printAllPIDCoef(&motorLeft, &motorRight, &motorBottom);
+                printAllPIDCoef();
+                break;
+            case 4:
+                printAllPIDOutput();
                 break;
             default:
                 system_delay_ms(5); // 千万别删!无线串口read_buffer()相邻两次调用需要一定的延时,否则会收发失去同步/藏包.
