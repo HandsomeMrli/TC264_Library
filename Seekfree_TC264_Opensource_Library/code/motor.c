@@ -105,25 +105,26 @@ void updateMotors(
         int32 rollX, int32 pitchY, int32 yawZ,
         int32 angVelX, int32 angVelY, int32 angVelZ){
 
-    // // 速度环更新
-    // velPIDl.target = 0; velPIDl.measurement = motorLeftSpeed; __updatePID(&velPIDl);
-    // velPIDr.target = 0; velPIDr.measurement = motorRightSpeed; __updatePID(&velPIDr);
-    // velPIDy.target = cameraSpeedTarget; velPIDy.measurement = motorBottomSpeed; __updatePID(&velPIDy);
+    /* 通过三轮测速值,决定角度环target
+        分析: 假设现在车身直立.
+            左轮: 假设此时左轮匀速正转.现在左轮转速为+,想让左轮静止.当左轮尝试反转时,给车身的反作用角动量为(+,0,+),会导致rollX测量值↓,yawZ测量值↑.
+                ∴ rollX.target += 左轮转速; yawZ.target -= 左轮转速;
+            右轮: 假设此时右轮匀速正转.现在右轮转速为+,想让右轮静止.当右轮尝试反转时,给车身的反作用角动量为(-,0,+),会导致rollX测量值↑,yawZ测量值↑
+                ∴ rollX.target -= 右轮转速; yawZ.target -= 右轮转速;
+            底轮: (设底轮DIR为正时向+X跑)
+                  假设此时底轮匀速正转,现在底轮转速为+,想让底轮静止.当底轮尝试反转时,给车身的反作用角动量为(0,+,0),会导致pitchY测量值↓
+                ∴ pitchY.target += 底轮转速
     
-    // // 角度环更新
-    // angPIDx.target = velPIDl.deltaOutput + velPIDr.deltaOutput; angPIDx.measurement = pitchX; __updatePID(&angPIDx); // TODO:左右两轮的deltaOutput是相加还是相减?
-    // angPIDy.target = velPIDy.deltaOutput; angPIDy.measurement = rollY; __updatePID(&angPIDy);
-    // angPIDz.target = cameraTurnTarget;    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    */
 
-    // 角速度环更新
-    // angVelPIDx.target = angPIDx.deltaOutput; angVelPIDx.measurement = angVelX; __updatePID(&angVelPIDx);   
-    // angVelPIDy.target = angPIDy.deltaOutput; angVelPIDy.measurement = angVelY; __updatePID(&angVelPIDy);   
-    // angVelPIDz.target = angPIDz.deltaOutput; angVelPIDz.measurement = angVelZ; __updatePID(&angVelPIDz);   
 
     // 在不考虑上一层PID环的情况下,我们期望车身直立平衡,angPIDx与angPIDy的target均为0,angPIDz的target随意.
-    angPIDx.target = 2.2; angPIDx.measurement = rollX; __updatePID(&angPIDx);
-    angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
-    angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    angPIDx.target = 2.2f + motorLeftSpeed - motorRightSpeed; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
+    angPIDy.target = 0.0f + motorBottomSpeed;                 angPIDy.measurement = pitchY; __updatePID(&angPIDy);
+    angPIDz.target = 0.0f - motorLeftSpeed - motorRightSpeed; angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    // angPIDx.target = 2.2; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
+    // angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
+    // angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
 
     /* 通过角度环输出, 决定角速度环target
         已知:
