@@ -102,7 +102,7 @@ void printAllPIDCoef(Motor *motorLeft, Motor *motorRight, Motor *motorBottom){
     tft180_show_string(0, 80 , "aY"); tft180_show_int(20, 80 , angPIDy.pCoef, 4); tft180_show_int(54, 80 , angPIDy.iCoef, 4); tft180_show_int(88, 80 , angPIDy.dCoef, 4);
     tft180_show_string(0, 96 , "aZ"); tft180_show_int(20, 96 , angPIDz.pCoef, 4); tft180_show_int(54, 96 , angPIDz.iCoef, 4); tft180_show_int(88, 96 , angPIDz.dCoef, 4);
     tft180_show_string(0, 112, "vL"); tft180_show_int(20, 112, velPIDl.pCoef, 4); tft180_show_int(54, 112, velPIDl.iCoef, 4); tft180_show_int(88, 112, velPIDl.dCoef, 4);
-    tft180_show_string(0, 128, "vR"); tft180_show_int(20, 128, velPIDy.pCoef, 4); tft180_show_int(54, 128, velPIDr.iCoef, 4); tft180_show_int(88, 128, velPIDr.dCoef, 4);
+    tft180_show_string(0, 128, "vR"); tft180_show_int(20, 128, velPIDr.pCoef, 4); tft180_show_int(54, 128, velPIDr.iCoef, 4); tft180_show_int(88, 128, velPIDr.dCoef, 4);
     tft180_show_string(0, 144, "vY"); tft180_show_int(20, 144, velPIDy.pCoef, 4); tft180_show_int(54, 144, velPIDy.iCoef, 4); tft180_show_int(88, 144, velPIDy.dCoef, 4);
 
     // tft180_show_int(74, 0, angVelPIDx.dCoef, 4);

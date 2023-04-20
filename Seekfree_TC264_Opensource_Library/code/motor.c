@@ -105,6 +105,10 @@ void updateMotors(
         int32 rollX, int32 pitchY, int32 yawZ,
         int32 angVelX, int32 angVelY, int32 angVelZ){
 
+    velPIDl.target = 0; velPIDl.measurement = motorLeftSpeed;   __updatePID(&velPIDl);
+    velPIDr.target = 0; velPIDr.measurement = motorRightSpeed;  __updatePID(&velPIDr);
+    velPIDy.target = 0; velPIDy.measurement = motorBottomSpeed; __updatePID(&velPIDy);
+
     /* 通过三轮测速值,决定角度环target
         分析: 假设现在车身直立.
             左轮: 假设此时左轮匀速正转.现在左轮转速为+,想让左轮静止.当左轮尝试反转时,给车身的反作用角动量为(+,0,+),会导致rollX测量值↓,yawZ测量值↑.
@@ -117,11 +121,10 @@ void updateMotors(
     
     */
 
-
     // 在不考虑上一层PID环的情况下,我们期望车身直立平衡,angPIDx与angPIDy的target均为0,angPIDz的target随意.
-    angPIDx.target = 2.2f + motorLeftSpeed - motorRightSpeed; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
-    angPIDy.target = 0.0f + motorBottomSpeed;                 angPIDy.measurement = pitchY; __updatePID(&angPIDy);
-    angPIDz.target = 0.0f - motorLeftSpeed - motorRightSpeed; angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    angPIDx.target = 3.5f + velPIDl.deltaOutput - velPIDr.deltaOutput; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
+    angPIDy.target = 0.0f + velPIDy.deltaOutput;                       angPIDy.measurement = pitchY; __updatePID(&angPIDy);
+    angPIDz.target = 0.0f - velPIDl.deltaOutput - velPIDr.deltaOutput; angPIDz.measurement = yawZ; __updatePID(&angPIDz);
     // angPIDx.target = 2.2; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
     // angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
     // angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
