@@ -286,10 +286,10 @@ int core0_main(void)
 
     gpio_init(BELL_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
 
-    wireless_uart_init();
-    wireless_uart_send_byte('\r');
-    wireless_uart_send_byte('\n');
-    wireless_uart_send_string("Wireless uart init successful.\r\n");
+    // wireless_uart_init();
+    // wireless_uart_send_byte('\r');
+    // wireless_uart_send_byte('\n');
+    // wireless_uart_send_string("Wireless uart init successful.\r\n");
 
 
     tft180_init();
@@ -314,15 +314,15 @@ int core0_main(void)
         // mode = gpio_get_level(SW_3_PIN); mode <<= 1;
         // mode = gpio_get_level(SW_4_PIN); 
 
-        data_len = (uint8)wireless_uart_read_buff(data_buffer, 185);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
-        if(data_len > 0){
-            wireless_uart_send_string("Receive: ");
-            wireless_uart_send_buff(data_buffer, data_len);
-        }
-        if(data_len >= 3){
-            uartCommandHandler(data_buffer);
-        }
-        memset(data_buffer, 0, 32);
+        // data_len = (uint8)wireless_uart_read_buff(data_buffer, 185);             // 查看是否有消息 默认缓冲区是 WIRELESS_UART_BUFFER_SIZE 总共 64 字节
+        // if(data_len > 0){
+        //     wireless_uart_send_string("Receive: ");
+        //     wireless_uart_send_buff(data_buffer, data_len);
+        // }
+        // if(data_len >= 3){
+        //     uartCommandHandler(data_buffer);
+        // }
+        // memset(data_buffer, 0, 32);
 
         switch (screenMode){ 
             case 0:
@@ -341,36 +341,36 @@ int core0_main(void)
                 system_delay_ms(5); // 千万别删!无线串口read_buffer()相邻两次调用需要一定的延时,否则会收发失去同步/藏包.
         }
         
-        switch (uartSendMode){
-            case 0:
-                wireless_uart_LingLi_send(
-                        imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
-                        imu660ra_acc_x, imu660ra_acc_y, imu660ra_acc_z, 0,
-                        euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
-                );
-                break;
-            case 1:
-                wireless_uart_LingLi_send(
-                        motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0,
-                        velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
-                        0, 0, 0, 0
-                );
-                break;
-            case 2: // 调试角速度环
-                wireless_uart_LingLi_send(
-                        imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
-                        angPIDx.deltaOutput, angPIDy.deltaOutput, angPIDz.deltaOutput, 0,
-                        angVelPIDx.deltaOutput, angVelPIDy.deltaOutput, angVelPIDz.deltaOutput, 0
-                );
-                break;
-            case 3:
-                wireless_uart_LingLi_send(
-                        angVelPIDx.target, angVelPIDx.measurement, angVelPIDx.deltaOutput, 0,
-                        angVelPIDy.target, angVelPIDy.measurement, angVelPIDy.deltaOutput, 0,
-                        angVelPIDz.target, angVelPIDz.measurement, angVelPIDz.deltaOutput, 0
-                );
-                break;
-        }
+        // switch (uartSendMode){
+        //     case 0:
+        //         wireless_uart_LingLi_send(
+        //                 imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
+        //                 imu660ra_acc_x, imu660ra_acc_y, imu660ra_acc_z, 0,
+        //                 euler.angle.yaw, euler.angle.roll, euler.angle.pitch, 0
+        //         );
+        //         break;
+        //     case 1:
+        //         wireless_uart_LingLi_send(
+        //                 motorLeft.pwm, motorRight.pwm, motorBottom.pwm, 0,
+        //                 velPIDl.measurement, velPIDr.measurement, velPIDy.measurement, 0,
+        //                 0, 0, 0, 0
+        //         );
+        //         break;
+        //     case 2: // 调试角速度环
+        //         wireless_uart_LingLi_send(
+        //                 imu660ra_gyro_x, imu660ra_gyro_y, imu660ra_gyro_z, 0,
+        //                 angPIDx.deltaOutput, angPIDy.deltaOutput, angPIDz.deltaOutput, 0,
+        //                 angVelPIDx.deltaOutput, angVelPIDy.deltaOutput, angVelPIDz.deltaOutput, 0
+        //         );
+        //         break;
+        //     case 3:
+        //         wireless_uart_LingLi_send(
+        //                 angVelPIDx.target, angVelPIDx.measurement, angVelPIDx.deltaOutput, 0,
+        //                 angVelPIDy.target, angVelPIDy.measurement, angVelPIDy.deltaOutput, 0,
+        //                 angVelPIDz.target, angVelPIDz.measurement, angVelPIDz.deltaOutput, 0
+        //         );
+        //         break;
+        // }
         
 
         // 此处编写需要循环执行的代码
