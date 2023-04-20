@@ -29,9 +29,9 @@ void initMotors(){
     __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 10, 3, 1, 0, 300);
 
     // 初始化PID
-    __initPID(&velPIDl, 0, 0, 0, 0, 1000);
-    __initPID(&velPIDr, 0, 0, 0, 0, 1000);
-    __initPID(&velPIDy, 0, 0, 0, 0, 1000);
+    __initPID(&velPIDl, 75, 0, 0, 0, 1000);
+    __initPID(&velPIDr, 75, 0, 0, 0, 1000);
+    __initPID(&velPIDy, 75, 0, 0, 0, 1000);
 
     __initPID(&angPIDx, 110, 0, 50, 0, 1000); //纯PD，到这一步也立不起来，因为预期直立角度yaw与实际直立角度有误差，导致轮子越转越快最终倒下
     __initPID(&angPIDy, 0, 0, 0, 0, 1000); // P大时会震荡一次后倒下，P小时会震荡多次后倒下，应该适中
@@ -111,20 +111,19 @@ void updateMotors(
 
     /* 通过三轮测速值,决定角度环target
         分析: 假设现在车身直立.
-            左轮: 假设此时左轮匀速正转.现在左轮转速为+,想让左轮静止.当左轮尝试反转时,给车身的反作用角动量为(+,0,+),会导致rollX测量值↓,yawZ测量值↑.
-                ∴ rollX.target += 左轮转速; yawZ.target -= 左轮转速;
+            左轮: 假设此时左轮匀速正转.现在左轮转速为+,左轮速度环的输出target-measurement为负,想让左轮静止.当左轮尝试反转时,给车身的反作用角动量为(+,0,+),会导致rollX测量值↓,yawZ测量值↑.
+                ∴ rollX.target -= 左轮转速; yawZ.target += 左轮转速;
             右轮: 假设此时右轮匀速正转.现在右轮转速为+,想让右轮静止.当右轮尝试反转时,给车身的反作用角动量为(-,0,+),会导致rollX测量值↑,yawZ测量值↑
-                ∴ rollX.target -= 右轮转速; yawZ.target -= 右轮转速;
+                ∴ rollX.target += 右轮转速; yawZ.target += 右轮转速;
             底轮: (设底轮DIR为正时向+X跑)
                   假设此时底轮匀速正转,现在底轮转速为+,想让底轮静止.当底轮尝试反转时,给车身的反作用角动量为(0,+,0),会导致pitchY测量值↓
-                ∴ pitchY.target += 底轮转速
-    
+                ∴ pitchY.target -= 底轮转速
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身直立平衡,angPIDx与angPIDy的target均为0,angPIDz的target随意.
-    angPIDx.target = 3.5f + velPIDl.deltaOutput - velPIDr.deltaOutput; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
-    angPIDy.target = 0.0f + velPIDy.deltaOutput;                       angPIDy.measurement = pitchY; __updatePID(&angPIDy);
-    angPIDz.target = 0.0f - velPIDl.deltaOutput - velPIDr.deltaOutput; angPIDz.measurement = yawZ; __updatePID(&angPIDz);
+    angPIDx.target = 2.5f + (float)(-velPIDl.deltaOutput + velPIDr.deltaOutput) / 100; angPIDx.measurement = rollX; __updatePosPID(&angPIDx); // 手动修正误差
+    angPIDy.target = 0.0f + (float)(-velPIDy.deltaOutput                      ) / 100; angPIDy.measurement = pitchY; __updatePosPID(&angPIDy);
+    angPIDz.target = 0.0f + (float)(+velPIDl.deltaOutput + velPIDr.deltaOutput) / 100; angPIDz.measurement = yawZ; __updatePosPID(&angPIDz);
     // angPIDx.target = 2.2; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
     // angPIDy.target = 0; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
     // angPIDz.target = (int)(0);    angPIDz.measurement = yawZ; __updatePID(&angPIDz);
