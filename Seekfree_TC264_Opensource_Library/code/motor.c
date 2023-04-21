@@ -23,22 +23,22 @@ void initMotors(){
         WHEEL_2: 方向引脚为正时,角动量=(-,0,+),原测速为负,经过人为纠正变为正,导致roll减小
     */
 
-    // 初始化电机的DIR与PWM引脚   
+    // 初始化电机的DIR与PWM引脚
     __initMotor(&motorLeft, 17000, 0, WHEEL_1_PWM_PIN, WHEEL_1_DIR_PIN, 10, 3, 1, 0, 300);
     __initMotor(&motorRight, 17000, 0, WHEEL_2_PWM_PIN, WHEEL_2_DIR_PIN, 10, 3, 1, 0, 300);
     __initMotor(&motorBottom, 17000, 0, WHEEL_3_PWM_PIN, WHEEL_3_DIR_PIN, 10, 3, 1, 0, 300);
 
     // 初始化PID
-    __initPID(&velPIDl, 10, 0, 0, 0, 1000);
-    __initPID(&velPIDr, 10, 0, 0, 0, 1000);
-    __initPID(&velPIDy, 10, 0, 0, 0, 1000);
+    __initPID(&velPIDl, 0, 0, 0, 0, 1000);
+    __initPID(&velPIDr, 0, 0, 0, 0, 1000);
+    __initPID(&velPIDy, 0, 0, 0, 0, 1000);
 
-    __initPID(&angPIDx, 100, 0, 50, 0, 1000); //纯PD，到这一步也立不起来，因为预期直立角度yaw与实际直立角度有误差，导致轮子越转越快最终倒下
-    __initPID(&angPIDy, 0, 0, 0, 0, 1000); // P大时会震荡一次后倒下，P小时会震荡多次后倒下，应该适中
-    __initPID(&angPIDz, 0, 0, 0, 0, 1000);
-    __initPID(&angVelPIDx, 180, 20, 0, 0, 1000); // 纯PI，理论上能在某个位置立住几秒，但是收积分影响，调试时需要按Reset复位积分值
-    __initPID(&angVelPIDy, 0, 0, 0, 0, 1000);
-    __initPID(&angVelPIDz, 0, 0, 0, 0, 1000);
+    __initPID(&angPIDx, 400, 0, 20, 0, 50); //纯PD，到这一步也立不起来，因为预期直立角度yaw与实际直立角度有误差，导致轮子越转越快最终倒下
+    __initPID(&angPIDy, 0, 0, 0, 0, 7000); // P大时会震荡一次后倒下，P小时会震荡多次后倒下，应该适中
+    __initPID(&angPIDz, 0, 0, 0, 0, 7000);
+    __initPID(&angVelPIDx, 185*0.80, 2*0.80, 0, 0, 7000); //纯PI，理论上能在某个位置立住几秒，但是收积分影响，调试时需要按Reset复位积分值
+    __initPID(&angVelPIDy, 0, 0, 0, 0, 7000);
+    __initPID(&angVelPIDz, 0, 0, 0, 0, 7000);
 
 
     // 初始化方向引脚
@@ -121,7 +121,7 @@ void updateMotors(
     */
 
     // 在不考虑上一层PID环的情况下,我们期望车身直立平衡,angPIDx与angPIDy的target均为0,angPIDz的target随意.
-    angPIDx.target = 2.8f + (float)(-velPIDl.deltaOutput + velPIDr.deltaOutput) / 100; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
+    angPIDx.target = 2.2f + (float)(-velPIDl.deltaOutput + velPIDr.deltaOutput) / 100; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
     angPIDy.target = 0.0f + (float)(-velPIDy.deltaOutput                      ) / 100; angPIDy.measurement = pitchY; __updatePID(&angPIDy);
     angPIDz.target = 0.0f + (float)(+velPIDl.deltaOutput + velPIDr.deltaOutput) / 100; angPIDz.measurement = yawZ; __updatePID(&angPIDz);
     // angPIDx.target = 2.2; angPIDx.measurement = rollX; __updatePID(&angPIDx); // 手动修正误差
@@ -164,10 +164,10 @@ void updateMotors(
             当车身有角动量(0,0,+)时,gyroX->angVelZ为负
         分析:
             X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为负. 此时measurement↓,angVelPIDx输出值target-measurement增大
-                我们期望左轮pwm↓,角动量=(-,0,-),反作用角动量=(+,0,+),可以抵消X方向角动量. 
+                我们期望左轮pwm↓,角动量=(-,0,-),反作用角动量=(+,0,+),可以抵消X方向角动量.
                 ∴pwmL -= angVelPIDx
             X: 当roll↑时,角动量为(-,0,0),gyroY->angVelX为负. 此时measurement↓,angVelPIDx输出值target-measurement增大
-                我们期望右轮pwm↑,角动量=(-,0,+),反作用角动量=(+,0,-),可以抵消X方向角动量. 
+                我们期望右轮pwm↑,角动量=(-,0,+),反作用角动量=(+,0,-),可以抵消X方向角动量.
                 ∴pwmR += angVelPIDx
             Y: 当pitch↑时,角动量为(0,-,0),gyroZ->angVelY为正. 此时measurement↑,angvelPIDy输出值target-measurement减小
                 ......
